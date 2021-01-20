@@ -28,6 +28,9 @@ namespace Application.Models
             this.PostsReceived = new HashSet<Post>();
 
             this.Questions = new HashSet<UserQuestion>();
+
+            this.FriendshipRequests = new HashSet<Friendship>();
+            this.FriendshipResponses = new HashSet<Friendship>();
         }
 
         [Required, MaxLength(50)]
@@ -77,5 +80,10 @@ namespace Application.Models
         public virtual ICollection<Comment> CommentsReceived { get; set; }
 
         public virtual ICollection<UserQuestion> Questions { get; set; }
+
+        [InverseProperty("Requester")]
+        public virtual ICollection<Friendship> FriendshipRequests { get; set; }
+        [InverseProperty("Responder")]
+        public virtual ICollection<Friendship> FriendshipResponses { get; set; }
     }
 }
