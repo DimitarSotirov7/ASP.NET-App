@@ -3,6 +3,8 @@ using Application.Models.Q_A_Game;
 using Application.Models.UserStuffs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.Models
 {
@@ -28,36 +30,50 @@ namespace Application.Models
             this.Questions = new HashSet<UserQuestion>();
         }
 
+        [Required, MaxLength(50)]
         public string FirstName { get; set; }
 
+        [MaxLength(50)]
         public string LastName { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 
         public DateTime Joined { get; set; }
 
+        [Required, MaxLength(50)]
         public string Username { get; set; }
 
+        [Required, MaxLength(50)]
         public string Password { get; set; }
 
         public string PasswordHint { get; set; }
 
-        public int ImageId { get; set; }
+        public int? ImageId { get; set; }
         public virtual Image Image { get; set; }
 
+        [InverseProperty("FromUser")]
         public virtual ICollection<Message> OwnMessages { get; set; }
+        [InverseProperty("ToUser")]
         public virtual ICollection<Message> MessagesReceived { get; set; }
 
+        [InverseProperty("FromUser")]
         public virtual ICollection<Follow> Folloing { get; set; }
+        [InverseProperty("ToUser")]
         public virtual ICollection<Follow> Followers { get; set; }
 
+        [InverseProperty("FromUser")]
         public virtual ICollection<Post> OwnPosts { get; set; }
+        [InverseProperty("ToUser")]
         public virtual ICollection<Post> PostsReceived { get; set; }
-        
+
+        [InverseProperty("FromUser")]
         public virtual ICollection<Like> OwnLikes { get; set; }
+        [InverseProperty("ToUser")]
         public virtual ICollection<Like> LikesReceived { get; set; }
 
+        [InverseProperty("FromUser")]
         public virtual ICollection<Comment> OwnComments { get; set; }
+        [InverseProperty("ToUser")]
         public virtual ICollection<Comment> CommentsReceived { get; set; }
 
         public virtual ICollection<UserQuestion> Questions { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Application.Models.Common;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models.UserStuffs
 {
@@ -11,6 +12,7 @@ namespace Application.Models.UserStuffs
             this.Comments = new HashSet<Comment>();
         }
 
+        [Required, MaxLength(500)]
         public string Context { get; set; }
 
         public int? ImageId { get; set; }

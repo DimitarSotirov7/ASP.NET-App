@@ -1,5 +1,6 @@
 ﻿using Application.Models.Common;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models.Q_A_Game
 {
@@ -10,6 +11,7 @@ namespace Application.Models.Q_A_Game
             this.Users = new HashSet<UserQuestion>();
         }
 
+        [Required, MaxLength(250)]
         public string Context { get; set; }
 
         public bool IsCorrect { get; set; }

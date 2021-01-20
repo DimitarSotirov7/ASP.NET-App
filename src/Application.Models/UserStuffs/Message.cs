@@ -1,7 +1,10 @@
-﻿namespace Application.Models.UserStuffs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Application.Models.UserStuffs
 {
     public class Message
     {
+        [Required, MaxLength(250)]
         public string Context { get; set; }
 
         public int FromUserId { get; set; }

@@ -1,9 +1,11 @@
 ﻿using Application.Models.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models.UserStuffs
 {
     public class Comment : BaseModel
     {
+        [Required, MaxLength(250)]
         public string Context { get; set; }
 
         public int FromUserId { get; set; }

@@ -36,5 +36,11 @@ namespace Application.Data
                 opt.UseSqlServer("Server=.;Database=ApplicationDb;Integrated Security=true;");
             }
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserQuestion>()
+                .HasKey(x => new { x.UserId, x.QuestionId });
+        }
     }
 }
