@@ -1,4 +1,5 @@
 ﻿using Application.Models;
+using Application.Models.Q_A_Game;
 using Application.Models.UserStuffs;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,10 @@ namespace Application.Data
         public DbSet<Like> Likes { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Post> Posts { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<UserQuestion> UsersQuestions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder opt)
         {
