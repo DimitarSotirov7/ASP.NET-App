@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Models;
+using Application.Models.UserStuffs;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Data
 {
@@ -12,6 +14,15 @@ namespace Application.Data
             :base(opt)
         {
         }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Follow> Follows { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder opt)
         {

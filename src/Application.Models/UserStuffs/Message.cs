@@ -1,4 +1,4 @@
-﻿namespace Application.Models
+﻿namespace Application.Models.UserStuffs
 {
     public class Message
     {

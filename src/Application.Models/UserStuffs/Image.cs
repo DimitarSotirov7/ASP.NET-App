@@ -1,6 +1,6 @@
 ﻿using Application.Models.Common;
 
-namespace Application.Models
+namespace Application.Models.UserStuffs
 {
     public class Image : BaseModel
     {
