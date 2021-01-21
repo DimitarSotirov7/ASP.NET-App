@@ -6,6 +6,8 @@ namespace Application.Services.Contracts
     {
         public string CreateMessage(Message message);
 
+        public string SetSeenMessageById(int id);
+
         public Message GetMessageById(int id);
 
         public Message GetMessageByCreatorUsername(string creatorUsername);

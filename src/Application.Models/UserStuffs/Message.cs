@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Application.Models.Common;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models.UserStuffs
 {
-    public class Message
+    public class Message : BaseModel
     {
         [Required, MaxLength(250)]
         public string Context { get; set; }

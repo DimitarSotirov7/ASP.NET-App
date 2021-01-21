@@ -24,6 +24,7 @@ namespace Application.Data
         public DbSet<Like> Likes { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Friendship> Friendships { get; set; }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Question> Questions { get; set; }
