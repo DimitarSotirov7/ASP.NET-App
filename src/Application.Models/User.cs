@@ -21,7 +21,7 @@ namespace Application.Models
             this.OwnMessages = new HashSet<Message>();
             this.MessagesReceived = new HashSet<Message>();
 
-            this.Folloing = new HashSet<Follow>();
+            this.Followings = new HashSet<Follow>();
             this.Followers = new HashSet<Follow>();
 
             this.OwnPosts = new HashSet<Post>();
@@ -60,7 +60,7 @@ namespace Application.Models
         public virtual ICollection<Message> MessagesReceived { get; set; }
 
         [InverseProperty("FromUser")]
-        public virtual ICollection<Follow> Folloing { get; set; }
+        public virtual ICollection<Follow> Followings { get; set; }
         [InverseProperty("ToUser")]
         public virtual ICollection<Follow> Followers { get; set; }
 
