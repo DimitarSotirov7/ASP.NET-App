@@ -18,6 +18,6 @@ namespace Application.Models.UserStuffs
         public int? ImageId { get; set; }
         public virtual Image Image { get; set; }
 
-        public virtual DateTime CommentOn { get; set; }
+        public virtual DateTime CommentedOn { get; set; }
     }
 }
