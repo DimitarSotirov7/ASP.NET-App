@@ -1,4 +1,5 @@
 ﻿using Application.Models.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,6 +24,8 @@ namespace Application.Models.UserStuffs
 
         public int? ToUserId { get; set; }
         public virtual User ToUser { get; set; }
+
+        public virtual DateTime PostOn { get; set; }
 
         public virtual ICollection<Like> Likes { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models.UserStuffs
 {
@@ -15,5 +16,9 @@ namespace Application.Models.UserStuffs
 
         public int? ImageId { get; set; }
         public virtual Image Image { get; set; }
+
+        public bool Seen { get; set; }
+
+        public virtual DateTime SentOn { get; set; }
     }
 }

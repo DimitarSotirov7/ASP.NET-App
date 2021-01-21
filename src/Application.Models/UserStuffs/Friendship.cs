@@ -7,5 +7,7 @@
 
         public int ResponderId { get; set; }
         public virtual User Responder { get; set; }
+
+        public bool IsAccepted { get; set; }
     }
 }
