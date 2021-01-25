@@ -8,8 +8,6 @@ namespace Application.Services
 {
     public class PostsService : IPostsService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public PostsService(ApplicationDbContext db)
@@ -17,13 +15,13 @@ namespace Application.Services
             this.db = db;
         }
 
-        public string CreatePost(Post post)
+        public bool CreatePost(Post post)
         {
             bool requiredInfo = post != null && post.Context != null;
 
             if (!requiredInfo)
             {
-                return null;
+                return false;
             }
 
             Post postToCreate = new Post 
@@ -38,7 +36,7 @@ namespace Application.Services
             db.Posts.Add(postToCreate);
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
         public Post GetPostByCreatorUsername(string creatorUsername)

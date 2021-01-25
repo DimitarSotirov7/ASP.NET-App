@@ -13,7 +13,7 @@ namespace Application.Services.Contracts
 
         public User GetUserById(int id);
 
-        public string CreateUser(User user);
+        public bool CreateUser(User user);
 
         public ICollection<Message> GetAllOwnMessagesByUserId(int userId);
         public ICollection<Message> GetAllMessagesReceivedByUserId(int userId);

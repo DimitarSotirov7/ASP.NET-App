@@ -7,8 +7,6 @@ namespace Application.Services
 {
     public class FriendshipsService : IFriendshipsService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public FriendshipsService(ApplicationDbContext db)
@@ -16,14 +14,14 @@ namespace Application.Services
             this.db = db;
         }
 
-        public string AcceptFriendship(int requesterId, int responderId)
+        public bool AcceptFriendship(int requesterId, int responderId)
         {
             var requester = db.Users.FirstOrDefault(x => x.Id == requesterId);
             var responder = db.Users.FirstOrDefault(x => x.Id == responderId);
 
             if (requester == null || responder == null)
             {
-                return null;
+                return false;
             }
 
             var friendship = db.Friendships
@@ -31,11 +29,19 @@ namespace Application.Services
             friendship.IsAccepted = true;
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
-        public string CreateFriendship(int requesterId, int responderId)
+        public bool CreateFriendship(int requesterId, int responderId)
         {
+            var requester = db.Users.FirstOrDefault(x => x.Id == requesterId);
+            var responder = db.Users.FirstOrDefault(x => x.Id == responderId);
+
+            if (requester == null || responder == null)
+            {
+                return false;
+            }
+
             Friendship friendship = new Friendship
             {
                 RequesterId = db.Users.FirstOrDefault(x => x.Id == requesterId).Id,
@@ -46,17 +52,17 @@ namespace Application.Services
             db.Friendships.Add(friendship);
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
-        public string RemoveFriendship(int requesterId, int responderId)
+        public bool RemoveFriendship(int requesterId, int responderId)
         {
             var requester = db.Users.FirstOrDefault(x => x.Id == requesterId);
             var responder = db.Users.FirstOrDefault(x => x.Id == responderId);
 
             if (requester == null || responder == null)
             {
-                return null;
+                return false;
             }
 
             var friendship = db.Friendships
@@ -64,7 +70,7 @@ namespace Application.Services
             friendship.IsAccepted = false;
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
     }
 }

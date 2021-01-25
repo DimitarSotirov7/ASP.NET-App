@@ -4,7 +4,7 @@ namespace Application.Services.Contracts
 {
     public interface ICommentsService
     {
-        public string CreateComment(Comment comment);
+        public bool CreateComment(Comment comment);
 
         public Comment GetCommentById(int id);
 

@@ -4,7 +4,7 @@ namespace Application.Services.Contracts
 {
     public interface IFollowsService
     {
-        public string CreateFollow(Follow follow);
+        public bool CreateFollow(Follow follow);
 
         public Follow GetFollowById(int id);
 

@@ -7,8 +7,6 @@ namespace Application.Services
 {
     public class LikesService : ILikesService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public LikesService(ApplicationDbContext db)
@@ -16,11 +14,11 @@ namespace Application.Services
             this.db = db;
         }
 
-        public string CreateLike(Like like)
+        public bool CreateLike(Like like)
         {
             if (like != null)
             {
-                return null;
+                return false;
             }
 
             Like likeToCreate = new Like 
@@ -32,7 +30,7 @@ namespace Application.Services
             db.Likes.Add(likeToCreate);
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
         public Like GetLikeByCreatorUsername(string creatorUsername)

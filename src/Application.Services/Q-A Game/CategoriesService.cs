@@ -8,8 +8,6 @@ namespace Application.Services.Q_A_Game
 {
     public class CategoriesService : ICategoriesService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public CategoriesService(ApplicationDbContext db)

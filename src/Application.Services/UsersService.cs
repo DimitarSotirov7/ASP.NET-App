@@ -11,8 +11,6 @@ namespace Application.Services
 {
     public class UsersService : IUsersService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public UsersService(ApplicationDbContext db)
@@ -20,7 +18,7 @@ namespace Application.Services
             this.db = db;
         }
 
-        public string CreateUser(User user)
+        public bool CreateUser(User user)
         {
             bool requiredInfo = user != null &&
                 user.FirstName != null &&
@@ -29,7 +27,7 @@ namespace Application.Services
 
             if (!requiredInfo)
             {
-                return null;
+                return false;
             }
 
             User userToCreate = new User
@@ -47,7 +45,7 @@ namespace Application.Services
             db.Users.Add(userToCreate);
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
         public User GetUserById(int id)

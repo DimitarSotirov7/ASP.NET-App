@@ -4,7 +4,7 @@ namespace Application.Services.Contracts
 {
     public interface ILikesService
     {
-        public string CreateLike(Like like);
+        public bool CreateLike(Like like);
 
         public Like GetLikeById(int id);
 

@@ -6,7 +6,7 @@ namespace Application.Services.Q_A_Game.Contracts
 {
     public interface IQuestionsService
     {
-        public string CreateQuestion(Question question);
+        public bool CreateQuestion(Question question);
 
         public Question GetQuestionById(int id);
 

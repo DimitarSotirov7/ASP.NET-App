@@ -4,7 +4,7 @@ namespace Application.Services.Contracts
 {
     public interface IPostsService
     {
-        public string CreatePost(Post post);
+        public bool CreatePost(Post post);
 
         public Post GetPostById(int id);
         

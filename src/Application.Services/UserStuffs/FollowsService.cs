@@ -7,8 +7,6 @@ namespace Application.Services
 {
     public class FollowsService : IFollowsService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public FollowsService(ApplicationDbContext db)
@@ -16,13 +14,13 @@ namespace Application.Services
             this.db = db;
         }
 
-        public string CreateFollow(Follow follow)
+        public bool CreateFollow(Follow follow)
         {
             bool requiredInfo = follow != null;
 
             if (!requiredInfo)
             {
-                return null;
+                return false;
             }
 
             Follow followToCreate = new Follow
@@ -34,7 +32,7 @@ namespace Application.Services
             db.Follows.Add(followToCreate);
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
         public Follow GetFollowByCreatorUsername(string creatorUsername)

@@ -8,8 +8,6 @@ namespace Application.Services
 {
     public class CommentsService : ICommentsService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public CommentsService(ApplicationDbContext db)
@@ -17,13 +15,13 @@ namespace Application.Services
             this.db = db;
         }
 
-        public string CreateComment(Comment comment)
+        public bool CreateComment(Comment comment)
         {
             bool requiredInfo = comment != null && comment.Context != null;
 
             if (!requiredInfo)
             {
-                return null;
+                return false;
             }
 
             Comment commentToCreate = new Comment
@@ -38,7 +36,7 @@ namespace Application.Services
             db.Comments.Add(commentToCreate);
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
         public Comment GetCommentByCreatorUsername(string creatorUsername)

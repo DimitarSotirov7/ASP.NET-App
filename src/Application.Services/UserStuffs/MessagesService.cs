@@ -8,8 +8,6 @@ namespace Application.Services
 {
     public class MessagesService : IMessagesService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public MessagesService(ApplicationDbContext db)
@@ -17,13 +15,13 @@ namespace Application.Services
             this.db = db;
         }
 
-        public string CreateMessage(Message message)
+        public bool CreateMessage(Message message)
         {
             bool requiredInfo = message != null & message.Context != null;
 
             if (requiredInfo)
             {
-                return null;
+                return false;
             }
 
             Message messageToCreate = new Message
@@ -39,7 +37,7 @@ namespace Application.Services
             db.Messages.Add(messageToCreate);
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
         public Message GetMessageByCreatorUsername(string creatorUsername)
@@ -57,13 +55,19 @@ namespace Application.Services
             return db.Messages.FirstOrDefault(x => x.ToUser.Username == receiverUsername);
         }
 
-        public string SetSeenMessageById(int id)
+        public bool SetSeenMessageById(int id)
         {
             var message = db.Messages.FirstOrDefault(x => x.Id == id);
+
+            if (message == null)
+            {
+                return false;
+            }
+
             message.Seen = true;
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
     }
 }

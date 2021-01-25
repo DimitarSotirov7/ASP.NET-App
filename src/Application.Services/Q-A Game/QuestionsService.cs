@@ -9,8 +9,6 @@ namespace Application.Services.Q_A_Game
 {
     public class QuestionsService : IQuestionsService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public QuestionsService(ApplicationDbContext db)
@@ -18,19 +16,19 @@ namespace Application.Services.Q_A_Game
             this.db = db;
         }
 
-        public string CreateQuestion(Question question)
+        public bool CreateQuestion(Question question)
         {
             bool requireInfo = question != null && question.Context != null;
 
             if (!requireInfo)
             {
-                return null;
+                return false;
             }
 
             db.Questions.Add(question);
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
         public Question GetQuestionById(int id)

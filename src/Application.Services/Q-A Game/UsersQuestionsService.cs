@@ -7,8 +7,6 @@ namespace Application.Services.Q_A_Game
 {
     public class UsersQuestionsService : IUsersQuestionsService
     {
-        private const string SuccessfullMessage = "Done!";
-
         private ApplicationDbContext db;
 
         public UsersQuestionsService(ApplicationDbContext db)
@@ -16,14 +14,14 @@ namespace Application.Services.Q_A_Game
             this.db = db;
         }
 
-        public string CreateUserQuestion(int userId, int questionId, bool isCorrect)
+        public bool CreateUserQuestion(int userId, int questionId, bool isCorrect)
         {
             var user = db.Users.FirstOrDefault(x => x.Id == userId);
             var question = db.Questions.FirstOrDefault(x => x.Id == questionId);
 
             if (user == null || question == null)
             {
-                return null;
+                return false;
             }
 
             var userQuestion = new UserQuestion 
@@ -36,7 +34,7 @@ namespace Application.Services.Q_A_Game
             db.UsersQuestions.Add(userQuestion);
             db.SaveChanges();
 
-            return SuccessfullMessage;
+            return true;
         }
 
         public bool GetAnswerByUserAndQuestionId(int userId, int questionId)
