@@ -14,8 +14,6 @@ namespace Application.Models.Q_A_Game
         [Required, MaxLength(250)]
         public string Context { get; set; }
 
-        public bool IsCorrect { get; set; }
-
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
