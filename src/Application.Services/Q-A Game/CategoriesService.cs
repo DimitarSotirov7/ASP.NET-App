@@ -15,9 +15,12 @@ namespace Application.Services.Q_A_Game
             this.db = db;
         }
 
-        public ICollection<Question> GetAllQuestionsByCategoryId(int id)
+        public ICollection<Question> GetAllAnsweredQuestionsByCategoryId(int id)
         {
-            return db.Categories.FirstOrDefault(x => x.Id == id).Questions;
+            return db.UsersQuestions
+                .Where(x => x.Question.CategoryId == id)
+                .Select(x => x.Question)
+                .ToList(); 
         }
 
         public Category GetCategoryWithMostAnsweredQuestions()

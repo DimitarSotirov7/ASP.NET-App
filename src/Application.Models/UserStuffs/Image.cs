@@ -6,6 +6,6 @@ namespace Application.Models.UserStuffs
     {
         public string ImageUrl { get; set; }
 
-        public byte?[] ImageFile { get; set; }
+        public byte[] ImageFile { get; set; }
     }
 }

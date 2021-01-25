@@ -8,6 +8,10 @@ namespace Application.Services.Contracts
 
         public bool AcceptFriendship(int requesterId, int responderId);
 
+        public bool BlockFriendship(int requesterId, int responderId);
+
+        public bool UnBlockFriendship(int requesterId, int responderId);
+
         public bool RemoveFriendship(int requesterId, int responderId);
     }
 }

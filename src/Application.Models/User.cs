@@ -17,7 +17,7 @@ namespace Application.Models
 
             this.OwnComments = new HashSet<Comment>();
             this.CommentsReceived = new HashSet<Comment>();
-            
+
             this.OwnMessages = new HashSet<Message>();
             this.MessagesReceived = new HashSet<Message>();
 

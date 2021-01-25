@@ -5,7 +5,7 @@ namespace Application.Services.Q_A_Game.Contracts
 {
     public interface ICategoriesService
     {
-        public ICollection<Question> GetAllQuestionsByCategoryId(int id);
+        public ICollection<Question> GetAllAnsweredQuestionsByCategoryId(int id);
 
         public Category GetCategoryWithMostAnsweredQuestions();
     }
