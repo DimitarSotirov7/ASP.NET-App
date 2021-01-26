@@ -6,7 +6,7 @@ namespace Application.Models.UserStuffs
 {
     public class Message : BaseModel
     {
-        [Required, MaxLength(250)]
+        [MaxLength(250)]
         public string Context { get; set; }
 
         public int FromUserId { get; set; }

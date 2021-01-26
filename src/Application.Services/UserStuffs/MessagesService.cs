@@ -17,9 +17,9 @@ namespace Application.Services
 
         public bool CreateMessage(Message message)
         {
-            bool requiredInfo = message != null & message.Context != null;
+            bool invalid = message == null || (message.Context == null && message.ImageId == null && message.Image == null);
 
-            if (requiredInfo)
+            if (invalid)
             {
                 return false;
             }

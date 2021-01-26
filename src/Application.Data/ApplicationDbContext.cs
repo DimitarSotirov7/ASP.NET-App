@@ -57,6 +57,14 @@ namespace Application.Data
             modelBuilder.Entity<User>(model =>
             {
                 model
+                   .HasIndex(u => u.Username)
+                   .IsUnique();
+
+                model
+                   .HasIndex(u => u.Password)
+                   .IsUnique();
+
+                model
                   .HasMany(x => x.FriendshipRequests)
                   .WithOne(x => x.Requester)
                   .OnDelete(DeleteBehavior.Restrict);

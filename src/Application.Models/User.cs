@@ -31,6 +31,8 @@ namespace Application.Models
 
             this.FriendshipRequests = new HashSet<Friendship>();
             this.FriendshipResponses = new HashSet<Friendship>();
+
+            this.OtherImages = new HashSet<Image>();
         }
 
         [Required, MaxLength(50)]
@@ -51,8 +53,13 @@ namespace Application.Models
 
         public string PasswordHint { get; set; }
 
-        public int? ImageId { get; set; }
-        public virtual Image Image { get; set; }
+        public int? ProfileImageId { get; set; }
+        public virtual Image ProfileImage { get; set; }
+
+        public int? CoverImageId { get; set; }
+        public virtual Image CoverImage { get; set; }
+
+        public virtual ICollection<Image> OtherImages { get; set; }
 
         [InverseProperty("FromUser")]
         public virtual ICollection<Message> OwnMessages { get; set; }
