@@ -16,36 +16,33 @@ namespace Application.Services
 
         public bool CreateLike(Like like)
         {
-            if (like != null)
+            if (this.InvalidLike(like))
             {
                 return false;
             }
 
-            Like likeToCreate = new Like 
-            {
-                FromUserId = like.FromUserId,
-                ToUserId = like.ToUserId
-            };
-
-            db.Likes.Add(likeToCreate);
+            db.Likes.Add(like);
             db.SaveChanges();
 
             return true;
         }
 
-        public Like GetLikeByCreatorUsername(string creatorUsername)
+        public int GetLikesByImageId(int imageId)
         {
-            return db.Likes.FirstOrDefault(x => x.FromUser.Username == creatorUsername);
+            return db.Images.Where(x => x.Id == imageId).Sum(x => x.Likes.Count);
         }
 
-        public Like GetLikeById(int id)
+        public int GetLikesByPostId(int postId)
         {
-            return db.Likes.FirstOrDefault(x => x.Id == id);
+            return db.Posts.Where(x => x.Id == postId).Sum(x => x.Likes.Count);
         }
 
-        public Like GetLikeByReceiverUsername(string receiverUsername)
+        private bool InvalidLike(Like like)
         {
-            return db.Likes.FirstOrDefault(x => x.ToUser.Username == receiverUsername);
+            var fromUser = db.Users.FirstOrDefault(x => x.Id == like.FromUserId);
+            var toUser = db.Users.FirstOrDefault(x => x.Id == like.ToUserId);
+
+            return like == null || (fromUser == null || toUser == null);
         }
     }
 }

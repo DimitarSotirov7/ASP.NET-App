@@ -1,4 +1,5 @@
 ﻿using Application.Models.UserStuffs;
+using System.Collections.Generic;
 
 namespace Application.Services.Contracts
 {
@@ -6,12 +7,8 @@ namespace Application.Services.Contracts
     {
         public bool CreateMessage(Message message);
 
-        public bool SetSeenMessageById(int id);
+        public bool SetSeenMessageByUsers(int fromUserId, int toUserId);
 
-        public Message GetMessageById(int id);
-
-        public Message GetMessageByCreatorUsername(string creatorUsername);
-
-        public Message GetMessageByReceiverUsername(string receiverUsername);
+        public ICollection<Message> GetMessagesByUserIds(int fromUserId, int toUserId, int messagesCount);
     }
 }

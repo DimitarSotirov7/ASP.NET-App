@@ -1,6 +1,9 @@
 ﻿using Application.Data;
+using Application.Mapping.PostDTOModels;
 using Application.Models.UserStuffs;
 using Application.Services.Contracts;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using System;
 using System.Linq;
 
@@ -9,49 +12,50 @@ namespace Application.Services
     public class PostsService : IPostsService
     {
         private ApplicationDbContext db;
+        private MapperConfiguration config;
 
-        public PostsService(ApplicationDbContext db)
+        public PostsService(ApplicationDbContext db, MapperConfiguration config)
         {
             this.db = db;
+            this.config = config;
         }
 
         public bool CreatePost(Post post)
         {
-            bool requiredInfo = post != null && post.Context != null;
-
-            if (!requiredInfo)
+            if (this.InvalidPost(post))
             {
                 return false;
             }
 
-            Post postToCreate = new Post 
-            {
-                Context = post.Context,
-                ImageId = post.ImageId ?? null,
-                FromUserId = post.FromUserId,
-                ToUserId = post.ToUserId ?? null,
-                PostOn = DateTime.Now
-            };
+            post.PostOn = DateTime.Now;
 
-            db.Posts.Add(postToCreate);
+            db.Posts.Add(post);
             db.SaveChanges();
 
             return true;
         }
 
-        public Post GetPostByCreatorUsername(string creatorUsername)
+        public PostCommentsDTO GetPostCommentsById(int id)
         {
-            return db.Posts.FirstOrDefault(x => x.FromUser.Username == creatorUsername);
+            return db.Posts
+                .Where(x => x.Id == id)
+                .ProjectTo<PostCommentsDTO>(this.config)
+                .FirstOrDefault();
         }
 
-        public Post GetPostById(int id)
+        public PostInfoDTO GetPostInfoById(int id)
         {
-            return db.Posts.FirstOrDefault(x => x.Id == id);
+            return db.Posts
+                .Where(x => x.Id == id)
+                .ProjectTo<PostInfoDTO>(this.config)
+                .FirstOrDefault();
         }
 
-        public Post GetPostByReceiverUsername(string receiverUsername)
+        private bool InvalidPost(Post post)
         {
-            return db.Posts.FirstOrDefault(x => x.ToUser.Username == receiverUsername);
+            var fromUser = db.Users.FirstOrDefault(x => x.Id == post.FromUserId);
+
+            return post == null || (post.Context == null || fromUser == null);
         }
     }
 }

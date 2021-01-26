@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using Application.Mapping.UserDTOModels;
+using Application.Models;
 using Application.Models.Q_A_Game;
 using Application.Models.UserStuffs;
 using System;
@@ -9,28 +10,19 @@ namespace Application.Services.Contracts
 {
     public interface IUsersService
     {
-        public User GetUserByUsername(string username);
-
-        public User GetUserById(int id);
-
         public bool CreateUser(User user);
 
-        public ICollection<Message> GetAllOwnMessagesByUserId(int userId);
-        public ICollection<Message> GetAllMessagesReceivedByUserId(int userId);
+        public int GetUserIdByUsername(string username);
 
-        public ICollection<Follow> GetAllFollowingsByUserId(int userId);
-        public ICollection<Follow> GetAllFollowersByUserId(int userId);
+        public string GetUserFullNameById(int id);
 
-        public ICollection<Post> GetAllOwnPostsByUserId(int userId);
-        public ICollection<Post> GetAllPostsReceivedByUserId(int userId);
+        public UserInfoDTO GetUserInfoById(int id);
 
-        public ICollection<Like> GetAllOwnLikesByUserId(int userId);
-        public ICollection<Like> GetAllLikesReceivedByUserId(int userId);
+        public UserImagesDTO GetUserImagesById(int id);
 
-        public ICollection<Comment> GetAllOwnCommentsByUserId(int userId);
-        public ICollection<Comment> GetAllCommentsReceivedByUserId(int userId);
-
-        public ICollection<UserQuestion> GetAllQuestionByUserId(int userId);
+        public UserAuthDTO GetUserAuthenticationById(int id);
+        
+        public ICollection<UserQuestion> GetAllQuestionByUserId(int id);
 
         public ICollection<Friendship> GetAllFriendshipRequestsByUserId(int userId);
         public ICollection<Friendship> GetAllFriendshipResponsesByUserId(int userId);

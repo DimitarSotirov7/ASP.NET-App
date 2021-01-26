@@ -14,7 +14,7 @@ namespace Application.Services.Q_A_Game
             this.db = db;
         }
 
-        public bool CreateUserQuestion(int userId, int questionId, bool isCorrect)
+        public bool CreateUserQuestion(int userId, int questionId, bool answer)
         {
             var user = db.Users.FirstOrDefault(x => x.Id == userId);
             var question = db.Questions.FirstOrDefault(x => x.Id == questionId);
@@ -28,19 +28,13 @@ namespace Application.Services.Q_A_Game
             {
                 UserId = userId,
                 QuestionId = questionId,
-                IsCorrect = isCorrect
+                Answer = answer
             };
 
             db.UsersQuestions.Add(userQuestion);
             db.SaveChanges();
 
             return true;
-        }
-
-        public bool GetAnswerByUserAndQuestionId(int userId, int questionId)
-        {
-            return db.UsersQuestions
-                .FirstOrDefault(x => x.UserId == userId && x.QuestionId == questionId).IsCorrect;
         }
     }
 }

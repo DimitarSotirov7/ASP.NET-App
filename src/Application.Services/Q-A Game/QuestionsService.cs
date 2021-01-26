@@ -18,9 +18,8 @@ namespace Application.Services.Q_A_Game
 
         public bool CreateQuestion(Question question)
         {
-            bool requireInfo = question != null && question.Context != null;
-
-            if (!requireInfo)
+            var category = db.Categories.Find(question.CategoryId);
+            if (question == null || question.Context == null || category == null)
             {
                 return false;
             }
@@ -31,14 +30,12 @@ namespace Application.Services.Q_A_Game
             return true;
         }
 
-        public Question GetQuestionById(int id)
+        public ICollection<string> GetQuestionContextsByCategoryId(int id)
         {
-            return db.Questions.FirstOrDefault(x => x.Id == id);
-        }
-
-        public ICollection<UserQuestion> GetUsersByQuestionId(int id)
-        {
-            return db.Questions.FirstOrDefault(x => x.Id == id).Users;
+            return db.Questions
+                .Where(x => x.CategoryId == id)
+                .Select(x => x.Context)
+                .ToList();
         }
     }
 }

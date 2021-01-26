@@ -1,7 +1,9 @@
 ﻿using Application.Data;
 using Application.Models.UserStuffs;
 using Application.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Application.Services
@@ -17,41 +19,43 @@ namespace Application.Services
 
         public bool CreateComment(Comment comment)
         {
-            bool requiredInfo = comment != null && comment.Context != null;
-
-            if (!requiredInfo)
+            if (this.InvalidComment(comment))
             {
                 return false;
             }
 
-            Comment commentToCreate = new Comment
-            {
-                Context = comment.Context,
-                FromUserId = comment.FromUserId,
-                ToUserId = comment.ToUserId,
-                ImageId = comment.ImageId ?? null,
-                CommentedOn = DateTime.Now
-            };
+            comment.CommentedOn = DateTime.Now;
 
-            db.Comments.Add(commentToCreate);
+            db.Comments.Add(comment);
             db.SaveChanges();
 
             return true;
         }
 
-        public Comment GetCommentByCreatorUsername(string creatorUsername)
+        public ICollection<Comment> GetCommentsByImageId(int imageId)
         {
-            return db.Comments.FirstOrDefault(x => x.FromUser.Username == creatorUsername);
+            return db.Images
+                .Include(x => x.Comments)
+                .FirstOrDefault(x => x.Id == imageId)
+                .Comments.OrderBy(x => x.CommentedOn).ToList();
         }
 
-        public Comment GetCommentById(int id)
+        public ICollection<Comment> GetCommentsByPostId(int postId)
         {
-            return db.Comments.FirstOrDefault(x => x.Id == id);
+            return db.Posts
+                .Include(x => x.Comments)
+                .FirstOrDefault(x => x.Id == postId)
+                .Comments.OrderBy(x => x.CommentedOn).ToList();
         }
 
-        public Comment GetCommentByReceiverUsername(string receiverUsername)
+        private bool InvalidComment(Comment comment)
         {
-            return db.Comments.FirstOrDefault(x => x.ToUser.Username == receiverUsername);
+            var fromUser = db.Users.FirstOrDefault(x => x.Id == comment.FromUserId);
+            var toUser = db.Users.FirstOrDefault(x => x.Id == comment.ToUserId);
+
+            return comment == null || 
+                (comment.Context == null && comment.Image == null && comment.ImageUrl == null) ||
+                (fromUser == null || toUser == null);
         }
     }
 }

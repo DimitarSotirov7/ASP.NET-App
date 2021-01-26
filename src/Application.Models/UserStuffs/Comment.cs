@@ -6,7 +6,7 @@ namespace Application.Models.UserStuffs
 {
     public class Comment : BaseModel
     {
-        [Required, MaxLength(250)]
+        [MaxLength(250)]
         public string Context { get; set; }
 
         public int FromUserId { get; set; }
@@ -17,6 +17,9 @@ namespace Application.Models.UserStuffs
 
         public int? ImageId { get; set; }
         public virtual Image Image { get; set; }
+
+        public int? ImageUrlId { get; set; }
+        public virtual Image ImageUrl { get; set; }
 
         public virtual DateTime CommentedOn { get; set; }
     }

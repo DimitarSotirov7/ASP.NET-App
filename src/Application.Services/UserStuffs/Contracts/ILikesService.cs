@@ -6,10 +6,8 @@ namespace Application.Services.Contracts
     {
         public bool CreateLike(Like like);
 
-        public Like GetLikeById(int id);
+        public int GetLikesByImageId(int imageId);
 
-        public Like GetLikeByCreatorUsername(string creatorUsername);
-
-        public Like GetLikeByReceiverUsername(string receiverUsername);
+        public int GetLikesByPostId(int postId);
     }
 }

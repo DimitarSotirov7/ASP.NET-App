@@ -1,4 +1,5 @@
-﻿using Application.Models.UserStuffs;
+﻿using Application.Mapping.PostDTOModels;
+using Application.Models.UserStuffs;
 
 namespace Application.Services.Contracts
 {
@@ -6,10 +7,8 @@ namespace Application.Services.Contracts
     {
         public bool CreatePost(Post post);
 
-        public Post GetPostById(int id);
-        
-        public Post GetPostByCreatorUsername(string creatorUsername);
+        public PostInfoDTO GetPostInfoById(int id);
 
-        public Post GetPostByReceiverUsername(string receiverUsername);
+        public PostCommentsDTO GetPostCommentsById(int id);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Models.UserStuffs;
+using System.Collections.Generic;
 
 namespace Application.Services.Contracts
 {
@@ -6,10 +7,8 @@ namespace Application.Services.Contracts
     {
         public bool CreateComment(Comment comment);
 
-        public Comment GetCommentById(int id);
+        public ICollection<Comment> GetCommentsByImageId(int imageId);
 
-        public Comment GetCommentByCreatorUsername(string creatorUsername);
-
-        public Comment GetCommentByReceiverUsername(string receiverUsername);
+        public ICollection<Comment> GetCommentsByPostId(int postId);
     }
 }

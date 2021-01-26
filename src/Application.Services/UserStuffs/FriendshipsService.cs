@@ -26,6 +26,12 @@ namespace Application.Services
 
             var friendship = db.Friendships
                 .FirstOrDefault(x => x.RequesterId == requesterId && x.ResponderId == responderId);
+
+            if (friendship == null)
+            {
+                return false;
+            }
+
             friendship.IsAccepted = true;
             db.SaveChanges();
 
@@ -43,8 +49,17 @@ namespace Application.Services
             }
 
             var friendship = db.Friendships
-                .FirstOrDefault(x => x.RequesterId == requesterId && x.ResponderId == responderId);
+                .FirstOrDefault(x => (x.RequesterId == requesterId || x.RequesterId == responderId) && 
+                (x.ResponderId == requesterId || x.ResponderId == responderId));
+
+            if (friendship == null)
+            {
+                return false;
+            }
+
+            friendship.IsAccepted = false;
             friendship.IsBlocked = true;
+            friendship.BlockedById = requesterId;
             db.SaveChanges();
 
             return true;
@@ -52,23 +67,26 @@ namespace Application.Services
 
         public bool CreateFriendship(int requesterId, int responderId)
         {
+            var existFriendShip = db.Friendships
+                .Any(x => x.RequesterId == requesterId && x.ResponderId == responderId);
+
+            if (existFriendShip)
+            {
+                return false;
+            }
+
             var requester = db.Users.FirstOrDefault(x => x.Id == requesterId);
             var responder = db.Users.FirstOrDefault(x => x.Id == responderId);
 
-            var existFriendShip = db.Friendships
-                .FirstOrDefault(x => x.RequesterId == requesterId && x.ResponderId == responderId);
-
-            if (requester == null || responder == null || existFriendShip != null)
+            if (requester == null || responder == null)
             {
                 return false;
             }
 
             Friendship friendship = new Friendship
             {
-                RequesterId = db.Users.FirstOrDefault(x => x.Id == requesterId).Id,
-                ResponderId = db.Users.FirstOrDefault(x => x.Id == responderId).Id,
-                IsAccepted = false,
-                IsBlocked = false
+                RequesterId = requesterId,
+                ResponderId = responderId
             };
 
             db.Friendships.Add(friendship);
@@ -88,9 +106,19 @@ namespace Application.Services
             }
 
             var friendship = db.Friendships
-                .FirstOrDefault(x => x.RequesterId == requesterId && x.ResponderId == responderId);
-            friendship.IsAccepted = false;
-            friendship.IsBlocked = false;
+               .FirstOrDefault(x => (x.RequesterId == requesterId || x.RequesterId == responderId) &&
+               (x.ResponderId == requesterId || x.ResponderId == responderId));
+
+            if (friendship == null)
+            {
+                return false;
+            }
+
+            friendship.Requester = null;
+            friendship.Responder = null;
+            friendship.BlockedBy = null;
+
+            db.Friendships.Remove(friendship);
             db.SaveChanges();
 
             return true;
@@ -107,9 +135,22 @@ namespace Application.Services
             }
 
             var friendship = db.Friendships
-                .FirstOrDefault(x => x.RequesterId == requesterId && x.ResponderId == responderId);
+                .FirstOrDefault(x => (x.RequesterId == requesterId || x.RequesterId == responderId) &&
+                (x.ResponderId == requesterId || x.ResponderId == responderId));
+
+            if (friendship == null)
+            {
+                return false;
+            }
+
+            if (friendship.BlockedById != requesterId)
+            {
+                return false;
+            }
+
             friendship.IsBlocked = false;
             friendship.IsAccepted = false;
+            friendship.BlockedById = null;
             db.SaveChanges();
 
             return true;

@@ -3,100 +3,61 @@ using Application.Models;
 using Application.Models.Q_A_Game;
 using Application.Models.UserStuffs;
 using Application.Services.Contracts;
+using Application.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper.QueryableExtensions;
+using Application.Mapping.UserDTOModels;
+using AutoMapper;
 
 namespace Application.Services
 {
     public class UsersService : IUsersService
     {
-        private ApplicationDbContext db;
+        private const string DefaultProfileImage = "https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg";
+        private const string DefaultCoverImage = "https://www.proactivechannel.com/Files/BrandImages/Default.jpg";
 
-        public UsersService(ApplicationDbContext db)
+        private ApplicationDbContext db;
+        private MapperConfiguration config;
+
+        public UsersService(ApplicationDbContext db, MapperConfiguration config)
         {
             this.db = db;
+            this.config = config;
         }
 
         public bool CreateUser(User user)
         {
-            bool requiredInfo = user != null &&
-                user.FirstName != null &&
-                user.Username != null &&
-                user.Password != null;
+            bool invalid = user == null ||
+                (user.FirstName == null || user.Username == null || user.Password == null);
 
-            if (!requiredInfo)
+            if (invalid)
             {
                 return false;
             }
 
-            User userToCreate = new User
+            user.ProfileImage = user.ProfileImage ?? new Image 
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName ?? null,
-                DateOfBirth = user.DateOfBirth ?? null,
-                Joined = DateTime.Now,
-                Username = user.Username,
-                Password = user.Password,
-                PasswordHint = user.PasswordHint ?? null,
-                ImageId = user.ImageId ?? null
+                ImageUrl = DefaultProfileImage,
+                UploadedOn = DateTime.Now
             };
 
-            db.Users.Add(userToCreate);
+            user.CoverImage = user.CoverImage ?? new Image
+            {
+                ImageUrl = DefaultCoverImage,
+                UploadedOn = DateTime.Now
+            };
+
+            db.Users.Add(user);
             db.SaveChanges();
 
             return true;
         }
 
-        public User GetUserById(int id)
-        {
-            return db.Users.FirstOrDefault(x => x.Id == id);
-        }
-
-        public User GetUserByUsername(string username)
-        {
-            return db.Users.FirstOrDefault(x => x.Username == username);
-        }
-
-        public ICollection<Comment> GetAllCommentsReceivedByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.CommentsReceived;
-        }
-
-        public ICollection<Follow> GetAllFollowersByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.Followers;
-        }
-
-        public ICollection<Follow> GetAllFollowingsByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.Followings;
-        }
-
         public ICollection<Friendship> GetAllFriendshipRequestsByUserId(int userId)
         {
-            var user = GetUserFromId(userId);
+            var user = db.Users.Find(userId);
 
             if (user == null)
             {
@@ -108,7 +69,7 @@ namespace Application.Services
 
         public ICollection<Friendship> GetAllFriendshipResponsesByUserId(int userId)
         {
-            var user = GetUserFromId(userId);
+            var user = db.Users.Find(userId);
 
             if (user == null)
             {
@@ -118,93 +79,9 @@ namespace Application.Services
             return user.FriendshipResponses;
         }
 
-        public ICollection<Like> GetAllLikesReceivedByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.LikesReceived;
-        }
-
-        public ICollection<Message> GetAllMessagesReceivedByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.MessagesReceived;
-        }
-
-        public ICollection<Comment> GetAllOwnCommentsByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.OwnComments;
-        }
-
-        public ICollection<Like> GetAllOwnLikesByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.OwnLikes;
-        }
-
-        public ICollection<Message> GetAllOwnMessagesByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.OwnMessages;
-        }
-
-        public ICollection<Post> GetAllOwnPostsByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.OwnPosts;
-        }
-
-        public ICollection<Post> GetAllPostsReceivedByUserId(int userId)
-        {
-            var user = GetUserFromId(userId);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user.PostsReceived;
-        }
-
         public ICollection<UserQuestion> GetAllQuestionByUserId(int userId)
         {
-            var user = GetUserFromId(userId);
+            var user = db.Users.Find(userId);
 
             if (user == null)
             {
@@ -214,9 +91,44 @@ namespace Application.Services
             return user.Questions;
         }
 
-        private User GetUserFromId(int userId)
+        public UserAuthDTO GetUserAuthenticationById(int id)
         {
-            return db.Users.FirstOrDefault(x => x.Id == userId);
+            return db.Users
+                .Where(x => x.Id == id)
+                .ProjectTo<UserAuthDTO>(this.config)
+                .FirstOrDefault();
+        }
+
+        public string GetUserFullNameById(int id)
+        {
+            return db.Users
+                .Where(x => x.Id == id)
+                .ProjectTo<UserFullNameDTO>(this.config)
+                .FirstOrDefault().FullName;
+        }
+
+        public int GetUserIdByUsername(string username)
+        {
+            return db.Users
+                .Where(x => x.Username == username)
+                .ProjectTo<UserIdDTO>(this.config)
+                .FirstOrDefault().Id;
+        }
+
+        public UserImagesDTO GetUserImagesById(int id)
+        {
+            return db.Users
+                .Where(x => x.Id == id)
+                .ProjectTo<UserImagesDTO>(this.config)
+                .FirstOrDefault();
+        }
+
+        public UserInfoDTO GetUserInfoById(int id)
+        {
+            return db.Users
+                .Where(x => x.Id == id)
+                .ProjectTo<UserInfoDTO>(this.config)
+                .FirstOrDefault();
         }
     }
 }

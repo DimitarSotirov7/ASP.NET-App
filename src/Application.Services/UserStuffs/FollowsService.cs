@@ -1,6 +1,8 @@
 ﻿using Application.Data;
 using Application.Models.UserStuffs;
 using Application.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Application.Services
@@ -16,38 +18,33 @@ namespace Application.Services
 
         public bool CreateFollow(Follow follow)
         {
-            bool requiredInfo = follow != null;
-
-            if (!requiredInfo)
+            if (this.InvalidFollow(follow))
             {
                 return false;
             }
 
-            Follow followToCreate = new Follow
-            {
-                FromUserId = follow.FromUserId,
-                ToUserId = follow.ToUserId,
-            };
-
-            db.Follows.Add(followToCreate);
+            db.Follows.Add(follow);
             db.SaveChanges();
 
             return true;
         }
 
-        public Follow GetFollowByCreatorUsername(string creatorUsername)
+        public ICollection<Follow> GetFollowersByUserId(int userId)
         {
-            return db.Follows.FirstOrDefault(x => x.FromUser.Username == creatorUsername);
+            return db.Users.Include(x => x.Followers).FirstOrDefault(x => x.Id == userId).Followers;
         }
 
-        public Follow GetFollowById(int id)
+        public ICollection<Follow> GetFollowingsByUserId(int userId)
         {
-            return db.Follows.FirstOrDefault(x => x.Id == id);
+            return db.Users.Include(x => x.Followings).FirstOrDefault(x => x.Id == userId).Followings;
         }
 
-        public Follow GetFollowByReceiverUsername(string receiverUsername)
+        private bool InvalidFollow(Follow follow)
         {
-            return db.Follows.FirstOrDefault(x => x.ToUser.Username == receiverUsername);
+            var fromUser = db.Users.FirstOrDefault(x => x.Id == follow.FromUserId);
+            var toUser = db.Users.FirstOrDefault(x => x.Id == follow.ToUserId);
+
+            return follow == null || (fromUser == null || toUser == null);
         }
     }
 }

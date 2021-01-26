@@ -8,8 +8,6 @@ namespace Application.Services.Q_A_Game.Contracts
     {
         public bool CreateQuestion(Question question);
 
-        public Question GetQuestionById(int id);
-
-        public ICollection<UserQuestion> GetUsersByQuestionId(int id);
+        public ICollection<string> GetQuestionContextsByCategoryId(int id);
     }
 }

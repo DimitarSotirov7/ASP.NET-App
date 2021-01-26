@@ -1,4 +1,5 @@
 ﻿using Application.Models.UserStuffs;
+using System.Collections.Generic;
 
 namespace Application.Services.Contracts
 {
@@ -6,10 +7,8 @@ namespace Application.Services.Contracts
     {
         public bool CreateFollow(Follow follow);
 
-        public Follow GetFollowById(int id);
+        public ICollection<Follow> GetFollowingsByUserId(int userId);
 
-        public Follow GetFollowByCreatorUsername(string creatorUsername);
-
-        public Follow GetFollowByReceiverUsername(string receiverUsername);
+        public ICollection<Follow> GetFollowersByUserId(int userId);
     }
 }

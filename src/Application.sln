@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Services", "App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.ConsoleUI", "Application.ConsoleUI\Application.ConsoleUI.csproj", "{9CFA5994-500E-42D0-98AA-728C08C706B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Mapping", "Application.Mapping\Application.Mapping.csproj", "{6991EC17-9AB9-4205-A310-F8304C6B78A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{9CFA5994-500E-42D0-98AA-728C08C706B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CFA5994-500E-42D0-98AA-728C08C706B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CFA5994-500E-42D0-98AA-728C08C706B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6991EC17-9AB9-4205-A310-F8304C6B78A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6991EC17-9AB9-4205-A310-F8304C6B78A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6991EC17-9AB9-4205-A310-F8304C6B78A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6991EC17-9AB9-4205-A310-F8304C6B78A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

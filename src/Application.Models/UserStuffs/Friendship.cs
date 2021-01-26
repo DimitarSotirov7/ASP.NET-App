@@ -13,5 +13,8 @@ namespace Application.Models.UserStuffs
         public bool IsAccepted { get; set; }
 
         public bool IsBlocked { get; set; }
+
+        public int? BlockedById { get; set; }
+        public virtual User BlockedBy { get; set; }
     }
 }
