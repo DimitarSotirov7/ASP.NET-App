@@ -52,6 +52,9 @@ namespace Application.Data
 
                 x.HasOne(p => p.Responder)
                 .WithMany().OnDelete(DeleteBehavior.Restrict);
+
+                x.HasOne(p => p.BlockedBy)
+                .WithMany().OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<User>(model =>
