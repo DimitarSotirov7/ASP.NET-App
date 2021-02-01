@@ -22,11 +22,6 @@ namespace Application.Services
 
         public bool CreateMessage(Message message)
         {
-            if (this.InvalidMessage(message))
-            {
-                return false;
-            }
-
             message.SentOn = DateTime.UtcNow;
 
             db.Messages.Add(message);
@@ -56,15 +51,6 @@ namespace Application.Services
             db.SaveChanges();
 
             return true;
-        }
-
-        private bool InvalidMessage(Message message)
-        {
-            var fromUser = db.Users.FirstOrDefault(x => x.Id == message.FromUserId);
-            var toUser = db.Users.FirstOrDefault(x => x.Id == message.ToUserId);
-
-            return message == null || (message.Context == null && message.ImageId == null && message.Image == null) ||
-                (fromUser == null && toUser == null);
         }
     }
 }

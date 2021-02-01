@@ -21,5 +21,11 @@ namespace Application.Services.Contracts
         public ICollection<Friendship> GetAllFriendshipRequestsByUserId(int userId);
 
         public ICollection<Friendship> GetAllFriendshipResponsesByUserId(int userId);
+
+        public bool IsUserValid(string username, string password);
+
+        public bool IsUsernameAvaliable(string username);
+        
+        public bool IsEmailAvaliable(string email);
     }
 }

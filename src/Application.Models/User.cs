@@ -48,7 +48,10 @@ namespace Application.Models
         [Required, MaxLength(50)]
         public string Username { get; set; }
 
-        [Required, MaxLength(50)]
+        [Required, MaxLength(100)]
+        public string Email { get; set; }
+
+        [Required]
         public string Password { get; set; }
 
         public string PasswordHint { get; set; }

@@ -16,11 +16,6 @@ namespace Application.Services
 
         public bool CreateLike(Like like)
         {
-            if (this.InvalidLike(like))
-            {
-                return false;
-            }
-
             db.Likes.Add(like);
             db.SaveChanges();
 
@@ -35,14 +30,6 @@ namespace Application.Services
         public int GetLikesByPostId(int postId)
         {
             return db.Posts.Where(x => x.Id == postId).Sum(x => x.Likes.Count);
-        }
-
-        private bool InvalidLike(Like like)
-        {
-            var fromUser = db.Users.FirstOrDefault(x => x.Id == like.FromUserId);
-            var toUser = db.Users.FirstOrDefault(x => x.Id == like.ToUserId);
-
-            return like == null || (fromUser == null || toUser == null);
         }
     }
 }

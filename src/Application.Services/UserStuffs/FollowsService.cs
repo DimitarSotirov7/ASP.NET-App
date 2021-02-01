@@ -18,11 +18,6 @@ namespace Application.Services
 
         public bool CreateFollow(Follow follow)
         {
-            if (this.InvalidFollow(follow))
-            {
-                return false;
-            }
-
             db.Follows.Add(follow);
             db.SaveChanges();
 
@@ -37,14 +32,6 @@ namespace Application.Services
         public ICollection<Follow> GetFollowingsByUserId(int userId)
         {
             return db.Users.Include(x => x.Followings).FirstOrDefault(x => x.Id == userId).Followings;
-        }
-
-        private bool InvalidFollow(Follow follow)
-        {
-            var fromUser = db.Users.FirstOrDefault(x => x.Id == follow.FromUserId);
-            var toUser = db.Users.FirstOrDefault(x => x.Id == follow.ToUserId);
-
-            return follow == null || (fromUser == null || toUser == null);
         }
     }
 }

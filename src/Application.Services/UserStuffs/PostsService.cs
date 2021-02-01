@@ -22,11 +22,6 @@ namespace Application.Services
 
         public bool CreatePost(Post post)
         {
-            if (this.InvalidPost(post))
-            {
-                return false;
-            }
-
             post.PostOn = DateTime.UtcNow;
 
             db.Posts.Add(post);
@@ -49,13 +44,6 @@ namespace Application.Services
                 .Where(x => x.Id == id)
                 .ProjectTo<GetPostCommentsDTO>(this.config)
                 .FirstOrDefault();
-        }
-
-        private bool InvalidPost(Post post)
-        {
-            var fromUser = db.Users.FirstOrDefault(x => x.Id == post.FromUserId);
-
-            return post == null || (post.Context == null || fromUser == null);
         }
     }
 }

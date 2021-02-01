@@ -10,6 +10,9 @@ using System.Linq;
 using AutoMapper.QueryableExtensions;
 using Application.Mapping.UserDTOModels;
 using AutoMapper;
+using System.Text;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace Application.Services
 {
@@ -27,15 +30,9 @@ namespace Application.Services
             this.config = config;
         }
 
-        public bool CreateUser(User user)
+        public async Task CreateUser(User user)
         {
-            bool invalid = user == null ||
-                (user.FirstName == null || user.Username == null || user.Password == null);
-
-            if (invalid)
-            {
-                return false;
-            }
+            user.Password = Hash(user.Password);
 
             user.ProfileImage = user.ProfileImage ?? new Image 
             {
@@ -50,9 +47,7 @@ namespace Application.Services
             };
 
             db.Users.Add(user);
-            db.SaveChanges();
-
-            return true;
+            await db.SaveChangesAsync();
         }
 
         public GetUserDTO GetUserById(int userId)
@@ -102,6 +97,36 @@ namespace Application.Services
             }
 
             return user.Questions;
+        }
+
+        public bool IsUserValid(string username, string password)
+        {
+            return db.Users.Any(x => x.Username == username && x.Password == Hash(password));
+        }
+
+        public bool IsUsernameAvaliable(string username)
+        {
+            return db.Users.All(x => x.Username != username);
+        }
+
+        public bool IsEmailAvaliable(string email)
+        {
+            return db.Users.All(x => x.Email != email);
+        }
+
+        private static string Hash(string input)
+        {
+            var bytes = Encoding.UTF8.GetBytes(input);
+            using (var hash = SHA512.Create())
+            {
+                var hashedInputBytes = hash.ComputeHash(bytes);
+                // Convert to text
+                // StringBuilder Capacity is 128, because 512 bits / 8 bits in byte * 2 symbols for byte 
+                var hashedInputStringBuilder = new StringBuilder(128);
+                foreach (var b in hashedInputBytes)
+                    hashedInputStringBuilder.Append(b.ToString("X2"));
+                return hashedInputStringBuilder.ToString();
+            }
         }
     }
 }

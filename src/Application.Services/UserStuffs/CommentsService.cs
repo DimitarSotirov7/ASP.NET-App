@@ -19,11 +19,6 @@ namespace Application.Services
 
         public bool CreateComment(Comment comment)
         {
-            if (this.InvalidComment(comment))
-            {
-                return false;
-            }
-
             comment.CommentedOn = DateTime.UtcNow;
 
             db.Comments.Add(comment);
@@ -46,16 +41,6 @@ namespace Application.Services
                 .Include(x => x.Comments)
                 .FirstOrDefault(x => x.Id == postId)
                 .Comments.OrderBy(x => x.CommentedOn).ToList();
-        }
-
-        private bool InvalidComment(Comment comment)
-        {
-            var fromUser = db.Users.FirstOrDefault(x => x.Id == comment.FromUserId);
-            var toUser = db.Users.FirstOrDefault(x => x.Id == comment.ToUserId);
-
-            return comment == null || 
-                (comment.Context == null && comment.Image == null && comment.ImageUrl == null) ||
-                (fromUser == null || toUser == null);
         }
     }
 }
