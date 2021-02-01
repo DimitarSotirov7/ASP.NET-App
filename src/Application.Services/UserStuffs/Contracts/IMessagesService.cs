@@ -9,6 +9,6 @@ namespace Application.Services.Contracts
 
         public bool SetSeenMessageByUsers(int fromUserId, int toUserId);
 
-        public ICollection<Message> GetMessagesByUserIds(int fromUserId, int toUserId, int messagesCount);
+        public ICollection<Message> GetMessagesByUserIds(int firstUserId, int secondUserId, int messagesCount);
     }
 }

@@ -40,19 +40,32 @@ namespace Application.Services
             user.ProfileImage = user.ProfileImage ?? new Image 
             {
                 ImageUrl = DefaultProfileImage,
-                UploadedOn = DateTime.Now
+                UploadedOn = DateTime.UtcNow
             };
 
             user.CoverImage = user.CoverImage ?? new Image
             {
                 ImageUrl = DefaultCoverImage,
-                UploadedOn = DateTime.Now
+                UploadedOn = DateTime.UtcNow
             };
 
             db.Users.Add(user);
             db.SaveChanges();
 
             return true;
+        }
+
+        public GetUserDTO GetUserById(int userId)
+        {
+            return db.Users.Where(x => x.Id == userId).ProjectTo<GetUserDTO>(this.config).FirstOrDefault();
+        }
+
+        public int GetUserIdByUsername(string username)
+        {
+            return db.Users
+                .Where(x => x.Username == username)
+                .ProjectTo<GetUserIdDTO>(this.config)
+                .FirstOrDefault().Id;
         }
 
         public ICollection<Friendship> GetAllFriendshipRequestsByUserId(int userId)
@@ -89,46 +102,6 @@ namespace Application.Services
             }
 
             return user.Questions;
-        }
-
-        public UserAuthDTO GetUserAuthenticationById(int id)
-        {
-            return db.Users
-                .Where(x => x.Id == id)
-                .ProjectTo<UserAuthDTO>(this.config)
-                .FirstOrDefault();
-        }
-
-        public string GetUserFullNameById(int id)
-        {
-            return db.Users
-                .Where(x => x.Id == id)
-                .ProjectTo<UserFullNameDTO>(this.config)
-                .FirstOrDefault().FullName;
-        }
-
-        public int GetUserIdByUsername(string username)
-        {
-            return db.Users
-                .Where(x => x.Username == username)
-                .ProjectTo<UserIdDTO>(this.config)
-                .FirstOrDefault().Id;
-        }
-
-        public UserImagesDTO GetUserImagesById(int id)
-        {
-            return db.Users
-                .Where(x => x.Id == id)
-                .ProjectTo<UserImagesDTO>(this.config)
-                .FirstOrDefault();
-        }
-
-        public UserInfoDTO GetUserInfoById(int id)
-        {
-            return db.Users
-                .Where(x => x.Id == id)
-                .ProjectTo<UserInfoDTO>(this.config)
-                .FirstOrDefault();
         }
     }
 }

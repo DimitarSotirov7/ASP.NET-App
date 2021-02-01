@@ -24,7 +24,7 @@ namespace Application.Services
                 return false;
             }
 
-            comment.CommentedOn = DateTime.Now;
+            comment.CommentedOn = DateTime.UtcNow;
 
             db.Comments.Add(comment);
             db.SaveChanges();

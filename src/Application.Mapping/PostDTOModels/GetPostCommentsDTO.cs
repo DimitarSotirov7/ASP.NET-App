@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Application.Mapping.PostDTOModels
 {
-    public class PostCommentsDTO
+    public class GetPostCommentsDTO
     {
         public virtual ICollection<Comment> Comments { get; set; }
     }

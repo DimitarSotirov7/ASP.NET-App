@@ -1,5 +1,4 @@
 ﻿using Application.Data;
-using Application.Mapping.MessageDTOModels;
 using Application.Models.UserStuffs;
 using Application.Services.Contracts;
 using AutoMapper;
@@ -28,7 +27,7 @@ namespace Application.Services
                 return false;
             }
 
-            message.SentOn = DateTime.Now;
+            message.SentOn = DateTime.UtcNow;
 
             db.Messages.Add(message);
             db.SaveChanges();
@@ -36,12 +35,12 @@ namespace Application.Services
             return true;
         }
 
-        public ICollection<Message> GetMessagesByUserIds(int fromUserId, int toUserId, int messagesCount)
+        public ICollection<Message> GetMessagesByUserIds(int firstUserId, int secondUserId, int messagesCount)
         {
             return db.Messages
-                 .Where(x => x.FromUserId == fromUserId && x.ToUserId == toUserId)
-                 .ProjectTo<MessagesByUserIdsDTO>(this.config)
-                 .FirstOrDefault().Messages;
+                 .Where(x => (x.FromUserId == firstUserId || x.FromUserId == secondUserId) && 
+                 (x.ToUserId == firstUserId || x.ToUserId == secondUserId))
+                 .ToList();
         }
 
         public bool SetSeenMessageByUsers(int fromUserId, int toUserId)

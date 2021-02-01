@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Application.Models\Application.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MessageDTOModels\" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
 ﻿using Application.Models;
+using Application.Models.Films_Game;
 using Application.Models.Q_A_Game;
 using Application.Models.UserStuffs;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,11 @@ namespace Application.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<UserQuestion> UsersQuestions { get; set; }
 
+        public DbSet<Film> Films { get; set; }
+        public DbSet<FilmQuestion> FilmQustions { get; set; }
+        public DbSet<FilmAnswer> FilmAnswers { get; set; }
+        public DbSet<UserFilmQuestion> UserFilmQuestions { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder opt)
         {
             if (!opt.IsConfigured)
@@ -43,17 +49,17 @@ namespace Application.Data
             modelBuilder.Entity<UserQuestion>()
                 .HasKey(x => new { x.UserId, x.QuestionId });
 
-            modelBuilder.Entity<Friendship>(x =>
+            modelBuilder.Entity<Friendship>(model =>
             {
-                x.HasKey(x => new { x.RequesterId, x.ResponderId });
+                model.HasKey(x => new { x.RequesterId, x.ResponderId });
 
-                x.HasOne(p => p.Requester)
+                model.HasOne(p => p.Requester)
                 .WithMany().OnDelete(DeleteBehavior.Restrict);
 
-                x.HasOne(p => p.Responder)
+                model.HasOne(p => p.Responder)
                 .WithMany().OnDelete(DeleteBehavior.Restrict);
 
-                x.HasOne(p => p.BlockedBy)
+                model.HasOne(p => p.BlockedBy)
                 .WithMany().OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -127,6 +133,9 @@ namespace Application.Data
                   .WithOne(x => x.ToUser)
                   .OnDelete(DeleteBehavior.Restrict);
             });
+
+            modelBuilder.Entity<UserFilmQuestion>()
+               .HasKey(x => new { x.UserId, x.QuestionId });
         }
     }
 }

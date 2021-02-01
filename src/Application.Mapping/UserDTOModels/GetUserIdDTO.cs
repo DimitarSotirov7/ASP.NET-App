@@ -1,6 +1,6 @@
 ﻿namespace Application.Mapping.UserDTOModels
 {
-    public class UserIdDTO
+    public class GetUserIdDTO
     {
         public int Id { get; set; }
     }

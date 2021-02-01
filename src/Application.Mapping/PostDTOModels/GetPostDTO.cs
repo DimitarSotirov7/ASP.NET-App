@@ -1,12 +1,12 @@
-﻿namespace Application.Mapping.PostDTOModels
+﻿using Application.Models.UserStuffs;
+
+namespace Application.Mapping.PostDTOModels
 {
-    public class PostInfoDTO
+    public class GetPostDTO
     {
         public string Context { get; set; }
 
-        public string ImageUrl { get; set; }
-
-        public byte[] ImageFile { get; set; }
+        public Image Image { get; set; }
 
         public int FromUserId { get; set; }
 

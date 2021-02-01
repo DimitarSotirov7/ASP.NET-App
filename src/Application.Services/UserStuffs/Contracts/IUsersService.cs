@@ -14,17 +14,12 @@ namespace Application.Services.Contracts
 
         public int GetUserIdByUsername(string username);
 
-        public string GetUserFullNameById(int id);
-
-        public UserInfoDTO GetUserInfoById(int id);
-
-        public UserImagesDTO GetUserImagesById(int id);
-
-        public UserAuthDTO GetUserAuthenticationById(int id);
+        public GetUserDTO GetUserById(int userId);
         
         public ICollection<UserQuestion> GetAllQuestionByUserId(int id);
 
         public ICollection<Friendship> GetAllFriendshipRequestsByUserId(int userId);
+
         public ICollection<Friendship> GetAllFriendshipResponsesByUserId(int userId);
     }
 }

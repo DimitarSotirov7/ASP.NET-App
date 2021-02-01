@@ -7,8 +7,8 @@ namespace Application.Services.Contracts
     {
         public bool CreatePost(Post post);
 
-        public PostInfoDTO GetPostInfoById(int id);
+        public GetPostDTO GetPostById(int id);
 
-        public PostCommentsDTO GetPostCommentsById(int id);
+        public GetPostCommentsDTO GetPostCommentsById(int id);
     }
 }

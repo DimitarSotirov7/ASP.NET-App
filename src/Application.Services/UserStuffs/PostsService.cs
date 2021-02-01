@@ -27,7 +27,7 @@ namespace Application.Services
                 return false;
             }
 
-            post.PostOn = DateTime.Now;
+            post.PostOn = DateTime.UtcNow;
 
             db.Posts.Add(post);
             db.SaveChanges();
@@ -35,19 +35,19 @@ namespace Application.Services
             return true;
         }
 
-        public PostCommentsDTO GetPostCommentsById(int id)
+        public GetPostDTO GetPostById(int id)
         {
             return db.Posts
                 .Where(x => x.Id == id)
-                .ProjectTo<PostCommentsDTO>(this.config)
+                .ProjectTo<GetPostDTO>(this.config)
                 .FirstOrDefault();
         }
 
-        public PostInfoDTO GetPostInfoById(int id)
+        public GetPostCommentsDTO GetPostCommentsById(int id)
         {
             return db.Posts
                 .Where(x => x.Id == id)
-                .ProjectTo<PostInfoDTO>(this.config)
+                .ProjectTo<GetPostCommentsDTO>(this.config)
                 .FirstOrDefault();
         }
 

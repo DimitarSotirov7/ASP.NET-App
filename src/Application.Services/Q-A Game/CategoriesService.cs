@@ -22,7 +22,7 @@ namespace Application.Services.Q_A_Game
 
         public ICollection<Question> GetAnsweredQuestionContextsByCategoryId(int id)
         {
-            return config.UsersQuestions
+            return db.UsersQuestions
                 .Where(x => x.Question.CategoryId == id && x.User != null)
                 .Select(x => x.Question)
                 .ToList(); 
