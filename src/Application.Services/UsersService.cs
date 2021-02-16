@@ -24,26 +24,33 @@ namespace Application.Services
         private ApplicationDbContext db;
         private MapperConfiguration config;
 
-        public UsersService(ApplicationDbContext db, MapperConfiguration config)
+        public UsersService(ApplicationDbContext db, Mapping.Mapper mapper)
         {
             this.db = db;
-            this.config = config;
+            this.config = mapper.ConfigUser();
         }
 
-        public async Task CreateUser(User user)
+        public async Task CreateUser(string email, string username, string password, string passwordHint, string firstName, string lastName, DateTime dateOfBirth)
         {
-            user.Password = Hash(user.Password);
-
-            user.ProfileImage = user.ProfileImage ?? new Image 
+            User user = new User 
             {
-                ImageUrl = DefaultProfileImage,
-                UploadedOn = DateTime.UtcNow
-            };
-
-            user.CoverImage = user.CoverImage ?? new Image
-            {
-                ImageUrl = DefaultCoverImage,
-                UploadedOn = DateTime.UtcNow
+                Email = email,
+                Username = username,
+                Password = Hash(password),
+                PasswordHint = passwordHint,
+                FirstName = firstName,
+                LastName = lastName,
+                DateOfBirth = dateOfBirth,
+                ProfileImage = new Image 
+                {
+                    ImageUrl = DefaultProfileImage,
+                    UploadedOn = DateTime.UtcNow
+                },
+                CoverImage = new Image
+                {
+                    ImageUrl = DefaultCoverImage,
+                    UploadedOn = DateTime.UtcNow
+                },
             };
 
             db.Users.Add(user);

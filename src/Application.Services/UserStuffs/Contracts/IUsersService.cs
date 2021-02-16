@@ -5,12 +5,13 @@ using Application.Models.UserStuffs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Application.Services.Contracts
 {
     public interface IUsersService
     {
-        public bool CreateUser(User user);
+        public Task CreateUser(string email, string username, string password, string passwordHint, string firstName, string lastName, DateTime dateOfBirth);
 
         public int GetUserIdByUsername(string username);
 

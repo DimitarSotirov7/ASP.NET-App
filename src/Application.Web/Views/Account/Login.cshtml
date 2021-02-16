@@ -1,0 +1,32 @@
+﻿@using Application.Web.ViewModels;
+@model LoginInputModel
+
+<div class="col-lg-6 offset-lg-3">
+    <h class="row justify-content-center">Log in</h>
+</div>
+
+
+<form method="post" class="col-lg-6 offset-lg-3">
+    <div class="row justify-content-center">
+
+        <div class="col-md-12">
+            <label asp-for="Username"></label>
+            <input asp-for="Username" name="username" class="form-control" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" name="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Sign In</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
