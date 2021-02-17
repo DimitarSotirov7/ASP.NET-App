@@ -1,20 +1,25 @@
 ﻿using Application.Models.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.Models.UserStuffs
 {
-    public class Image : BaseModel
+    public class Image
     {
         public Image()
         {
+            this.Id = Guid.NewGuid().ToString();
+            this.UploadedOn = DateTime.UtcNow;
+
             this.Likes = new HashSet<Like>();
             this.Comments = new HashSet<Comment>();
         }
 
-        public string ImageUrl { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Id { get; set; }
 
-        public byte[] ImageFile { get; set; }
+        public bool IsDeleted { get; set; }
 
         public DateTime UploadedOn { get; set; }
 

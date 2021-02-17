@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Data;
+using System;
 
 namespace Application.DatabaseManipulation
 {
@@ -6,7 +7,8 @@ namespace Application.DatabaseManipulation
     {
         static void Main(string[] args)
         {
-            
+            var db = new ApplicationDbContext();
+            db.Database.EnsureDeleted();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Application.Services.Q_A_Game
             return true;
         }
 
-        public ICollection<string> GetQuestionContextsByCategoryId(int id)
+        public ICollection<string> GetQuestionContextsByCategoryId(string id)
         {
             return db.Questions
                 .Where(x => x.CategoryId == id)

@@ -7,8 +7,8 @@ namespace Application.Services.Contracts
     {
         public bool CreateMessage(Message message);
 
-        public bool SetSeenMessageByUsers(int fromUserId, int toUserId);
+        public bool SetSeenMessageByUsers(string fromUserId, string toUserId);
 
-        public ICollection<Message> GetMessagesByUserIds(int firstUserId, int secondUserId, int messagesCount);
+        public ICollection<Message> GetMessagesByUserIds(string firstUserId, string secondUserId, int messagesCount);
     }
 }

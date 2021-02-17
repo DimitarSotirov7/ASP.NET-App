@@ -2,7 +2,7 @@
 
 namespace Application.Models.UserStuffs
 {
-    public class Like : BaseModel
+    public class Like : BaseModel<int>
     {
         public int FromUserId { get; set; }
         public virtual User FromUser { get; set; }

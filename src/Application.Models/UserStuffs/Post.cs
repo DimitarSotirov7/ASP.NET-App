@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models.UserStuffs
 {
-    public class Post : BaseModel
+    public class Post : BaseModel<int>
     {
         public Post()
         {

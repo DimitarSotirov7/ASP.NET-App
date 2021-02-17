@@ -1,6 +1,7 @@
 ﻿using Application.Services.Contracts;
 using Application.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Application.Web.Controllers
 {
@@ -32,7 +33,7 @@ namespace Application.Web.Controllers
             {
                 return this.View();
             }
-
+            
             return this.Redirect("/");
         }
 
@@ -42,17 +43,17 @@ namespace Application.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(RegisterInputModel input)
+        public async Task<IActionResult> Register(RegisterInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.View();
             }
 
-            this.usersService
-                .CreateUser(input.Email, input.Username, input.Password, input.PasswordHint, input.FirstName, input.LastName, input.DateOfBirth);
+            await this.usersService
+                .CreateUserAsync(input.Email, input.Username, input.Password, input.PasswordHint, input.FirstName, input.LastName, input.DateOfBirth);
 
-            return this.Redirect("/Account/Login");
+            return this.RedirectToAction("/Account/Login");
         }
     }
 }

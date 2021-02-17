@@ -4,14 +4,14 @@ namespace Application.Services.Contracts
 {
     public interface IFriendshipsService
     {
-        public bool CreateFriendship(int requesterId, int responderId);
+        public bool CreateFriendship(string requesterId, string responderId);
 
-        public bool AcceptFriendship(int requesterId, int responderId);
+        public bool AcceptFriendship(string requesterId, string responderId);
 
-        public bool BlockFriendship(int requesterId, int responderId);
+        public bool BlockFriendship(string requesterId, string responderId);
 
-        public bool UnBlockFriendship(int requesterId, int responderId);
+        public bool UnBlockFriendship(string requesterId, string responderId);
 
-        public bool RemoveFriendship(int requesterId, int responderId);
+        public bool RemoveFriendship(string requesterId, string responderId);
     }
 }

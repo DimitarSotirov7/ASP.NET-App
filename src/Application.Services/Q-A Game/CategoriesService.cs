@@ -20,7 +20,7 @@ namespace Application.Services.Q_A_Game
             this.config = config;
         }
 
-        public ICollection<Question> GetAnsweredQuestionContextsByCategoryId(int id)
+        public ICollection<Question> GetAnsweredQuestionContextsByCategoryId(string id)
         {
             return db.UsersQuestions
                 .Where(x => x.Question.CategoryId == id && x.User != null)

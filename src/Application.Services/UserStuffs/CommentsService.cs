@@ -27,7 +27,7 @@ namespace Application.Services
             return true;
         }
 
-        public ICollection<Comment> GetCommentsByImageId(int imageId)
+        public ICollection<Comment> GetCommentsByImageId(string imageId)
         {
             return db.Images
                 .Include(x => x.Comments)

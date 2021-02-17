@@ -14,7 +14,7 @@ namespace Application.Services
             this.db = db;
         }
 
-        public bool AcceptFriendship(int requesterId, int responderId)
+        public bool AcceptFriendship(string requesterId, string responderId)
         {
             var requester = db.Users.FirstOrDefault(x => x.Id == requesterId);
             var responder = db.Users.FirstOrDefault(x => x.Id == responderId);
@@ -38,7 +38,7 @@ namespace Application.Services
             return true;
         }
 
-        public bool BlockFriendship(int requesterId, int responderId)
+        public bool BlockFriendship(string requesterId, string responderId)
         {
             var requester = db.Users.FirstOrDefault(x => x.Id == requesterId);
             var responder = db.Users.FirstOrDefault(x => x.Id == responderId);
@@ -65,7 +65,7 @@ namespace Application.Services
             return true;
         }
 
-        public bool CreateFriendship(int requesterId, int responderId)
+        public bool CreateFriendship(string requesterId, string responderId)
         {
             var existFriendShip = db.Friendships
                 .Any(x => x.RequesterId == requesterId && x.ResponderId == responderId);
@@ -95,7 +95,7 @@ namespace Application.Services
             return true;
         }
 
-        public bool RemoveFriendship(int requesterId, int responderId)
+        public bool RemoveFriendship(string requesterId, string responderId)
         {
             var requester = db.Users.FirstOrDefault(x => x.Id == requesterId);
             var responder = db.Users.FirstOrDefault(x => x.Id == responderId);
@@ -124,7 +124,7 @@ namespace Application.Services
             return true;
         }
 
-        public bool UnBlockFriendship(int requesterId, int responderId)
+        public bool UnBlockFriendship(string requesterId, string responderId)
         {
             var requester = db.Users.FirstOrDefault(x => x.Id == requesterId);
             var responder = db.Users.FirstOrDefault(x => x.Id == responderId);

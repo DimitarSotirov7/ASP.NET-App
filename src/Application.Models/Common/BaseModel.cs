@@ -1,8 +1,8 @@
 ﻿namespace Application.Models.Common
 {
-    public class BaseModel
+    public class BaseModel<T>
     {
-        public int Id { get; set; }
+        public T Id { get; set; }
 
         public bool IsDeleted { get; set; }
     }

@@ -1,26 +1,31 @@
-﻿using Application.Web.Models;
+﻿using Application.Services.Contracts;
+using Application.Web.Models;
+using Application.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Application.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUsersService usersService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUsersService usersService)
         {
             _logger = logger;
+            this.usersService = usersService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var usersCount = new UsersCountViewModel
+            {
+                Count = this.usersService.GetUsersCount()
+            };
+
+            return View(usersCount);
         }
 
         public IActionResult Privacy()

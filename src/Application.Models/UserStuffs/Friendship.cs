@@ -4,17 +4,17 @@ namespace Application.Models.UserStuffs
 {
     public class Friendship
     {
-        public int RequesterId { get; set; }
+        public string RequesterId { get; set; }
         public virtual User Requester { get; set; }
 
-        public int ResponderId { get; set; }
+        public string ResponderId { get; set; }
         public virtual User Responder { get; set; }
 
         public bool IsAccepted { get; set; }
 
         public bool IsBlocked { get; set; }
 
-        public int? BlockedById { get; set; }
+        public string BlockedById { get; set; }
         public virtual User BlockedBy { get; set; }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IUsersQuestionsService
     {
-        public bool CreateUserQuestion(int userId, int questionId, bool answer);
+        public bool CreateUserQuestion(string userId, string questionId, bool answer);
     }
 }

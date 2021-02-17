@@ -8,10 +8,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.Models
 {
-    public class User : BaseModel
+    public class User
     {
         public User()
         {
+            this.Id = Guid.NewGuid().ToString();
+
             this.OwnLikes = new HashSet<Like>();
             this.LikesReceived = new HashSet<Like>();
 
@@ -35,6 +37,11 @@ namespace Application.Models
             this.OtherImages = new HashSet<Image>();
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Id { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         [Required, MaxLength(50)]
         public string FirstName { get; set; }
 
@@ -56,10 +63,10 @@ namespace Application.Models
 
         public string PasswordHint { get; set; }
 
-        public int? ProfileImageId { get; set; }
+        public string ProfileImageId { get; set; }
         public virtual Image ProfileImage { get; set; }
 
-        public int? CoverImageId { get; set; }
+        public string CoverImageId { get; set; }
         public virtual Image CoverImage { get; set; }
 
         public virtual ICollection<Image> OtherImages { get; set; }

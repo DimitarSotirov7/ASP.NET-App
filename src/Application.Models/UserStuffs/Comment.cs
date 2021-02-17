@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models.UserStuffs
 {
-    public class Comment : BaseModel
+    public class Comment : BaseModel<int>
     {
         [MaxLength(250)]
         public string Context { get; set; }

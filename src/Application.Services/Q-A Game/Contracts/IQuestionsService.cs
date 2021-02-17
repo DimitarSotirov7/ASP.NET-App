@@ -8,6 +8,6 @@ namespace Application.Services.Q_A_Game.Contracts
     {
         public bool CreateQuestion(Question question);
 
-        public ICollection<string> GetQuestionContextsByCategoryId(int id);
+        public ICollection<string> GetQuestionContextsByCategoryId(string id);
     }
 }

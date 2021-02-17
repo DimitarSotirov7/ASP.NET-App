@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210203130605_InitalSetup")]
-    partial class InitalSetup
+    [Migration("20210217165449_Inital")]
+    partial class Inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,10 +23,8 @@ namespace Application.Data.Migrations
 
             modelBuilder.Entity("Application.Models.Films_Game.Film", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -41,10 +39,8 @@ namespace Application.Data.Migrations
 
             modelBuilder.Entity("Application.Models.Films_Game.FilmAnswer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Context")
                         .IsRequired()
@@ -60,19 +56,20 @@ namespace Application.Data.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
+                    b.Property<string>("QuestionId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("QuestionId1");
 
                     b.ToTable("FilmAnswers");
                 });
 
             modelBuilder.Entity("Application.Models.Films_Game.FilmQuestion", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Context")
                         .IsRequired()
@@ -89,17 +86,17 @@ namespace Application.Data.Migrations
 
             modelBuilder.Entity("Application.Models.Films_Game.UserFilmQuestion", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                    b.Property<string>("QuestionId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("AnswerIsCorrect")
                         .HasColumnType("bit");
 
-                    b.Property<int>("FilmId")
-                        .HasColumnType("int");
+                    b.Property<string>("FilmId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "QuestionId");
 
@@ -112,10 +109,8 @@ namespace Application.Data.Migrations
 
             modelBuilder.Entity("Application.Models.Q_A_Game.Category", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -132,13 +127,11 @@ namespace Application.Data.Migrations
 
             modelBuilder.Entity("Application.Models.Q_A_Game.Question", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Context")
                         .IsRequired()
@@ -157,11 +150,11 @@ namespace Application.Data.Migrations
 
             modelBuilder.Entity("Application.Models.Q_A_Game.UserQuestion", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                    b.Property<string>("QuestionId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Answer")
                         .HasColumnType("bit");
@@ -175,13 +168,11 @@ namespace Application.Data.Migrations
 
             modelBuilder.Entity("Application.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("CoverImageId")
-                        .HasColumnType("int");
+                    b.Property<string>("CoverImageId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
@@ -213,8 +204,8 @@ namespace Application.Data.Migrations
                     b.Property<string>("PasswordHint")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProfileImageId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProfileImageId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -253,8 +244,14 @@ namespace Application.Data.Migrations
                     b.Property<int>("FromUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FromUserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("ImageId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -265,15 +262,18 @@ namespace Application.Data.Migrations
                     b.Property<int>("ToUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ToUserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FromUserId");
+                    b.HasIndex("FromUserId1");
 
-                    b.HasIndex("ImageId");
+                    b.HasIndex("ImageId1");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("ToUserId");
+                    b.HasIndex("ToUserId1");
 
                     b.ToTable("Comments");
                 });
@@ -288,31 +288,37 @@ namespace Application.Data.Migrations
                     b.Property<int>("FromUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FromUserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("ToUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ToUserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FromUserId");
+                    b.HasIndex("FromUserId1");
 
-                    b.HasIndex("ToUserId");
+                    b.HasIndex("ToUserId1");
 
                     b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("Application.Models.UserStuffs.Friendship", b =>
                 {
-                    b.Property<int>("RequesterId")
-                        .HasColumnType("int");
+                    b.Property<string>("RequesterId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ResponderId")
-                        .HasColumnType("int");
+                    b.Property<string>("ResponderId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("BlockedById")
-                        .HasColumnType("int");
+                    b.Property<string>("BlockedById")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsAccepted")
                         .HasColumnType("bit");
@@ -331,16 +337,8 @@ namespace Application.Data.Migrations
 
             modelBuilder.Entity("Application.Models.UserStuffs.Image", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<byte[]>("ImageFile")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -348,8 +346,8 @@ namespace Application.Data.Migrations
                     b.Property<DateTime>("UploadedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -368,8 +366,11 @@ namespace Application.Data.Migrations
                     b.Property<int>("FromUserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
+                    b.Property<string>("FromUserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ImageId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -380,15 +381,18 @@ namespace Application.Data.Migrations
                     b.Property<int>("ToUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ToUserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FromUserId");
+                    b.HasIndex("FromUserId1");
 
                     b.HasIndex("ImageId");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("ToUserId");
+                    b.HasIndex("ToUserId1");
 
                     b.ToTable("Likes");
                 });
@@ -404,11 +408,14 @@ namespace Application.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("FromUserId")
-                        .HasColumnType("int");
+                    b.Property<string>("FromUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("ImageId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -419,14 +426,14 @@ namespace Application.Data.Migrations
                     b.Property<DateTime>("SentOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ToUserId")
-                        .HasColumnType("int");
+                    b.Property<string>("ToUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FromUserId");
 
-                    b.HasIndex("ImageId");
+                    b.HasIndex("ImageId1");
 
                     b.HasIndex("ToUserId");
 
@@ -448,8 +455,14 @@ namespace Application.Data.Migrations
                     b.Property<int>("FromUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FromUserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("ImageId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -460,13 +473,16 @@ namespace Application.Data.Migrations
                     b.Property<int?>("ToUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ToUserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FromUserId");
+                    b.HasIndex("FromUserId1");
 
-                    b.HasIndex("ImageId");
+                    b.HasIndex("ImageId1");
 
-                    b.HasIndex("ToUserId");
+                    b.HasIndex("ToUserId1");
 
                     b.ToTable("Posts");
                 });
@@ -475,9 +491,7 @@ namespace Application.Data.Migrations
                 {
                     b.HasOne("Application.Models.Films_Game.FilmQuestion", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuestionId1");
 
                     b.Navigation("Question");
                 });
@@ -486,9 +500,7 @@ namespace Application.Data.Migrations
                 {
                     b.HasOne("Application.Models.Films_Game.Film", "Film")
                         .WithMany()
-                        .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FilmId");
 
                     b.HasOne("Application.Models.Films_Game.FilmQuestion", "Question")
                         .WithMany()
@@ -513,9 +525,7 @@ namespace Application.Data.Migrations
                 {
                     b.HasOne("Application.Models.Q_A_Game.Category", "Category")
                         .WithMany("Questions")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
@@ -558,13 +568,12 @@ namespace Application.Data.Migrations
                 {
                     b.HasOne("Application.Models.User", "FromUser")
                         .WithMany("OwnComments")
-                        .HasForeignKey("FromUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FromUserId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Application.Models.UserStuffs.Image", "Image")
                         .WithMany("Comments")
-                        .HasForeignKey("ImageId");
+                        .HasForeignKey("ImageId1");
 
                     b.HasOne("Application.Models.UserStuffs.Post", null)
                         .WithMany("Comments")
@@ -572,9 +581,8 @@ namespace Application.Data.Migrations
 
                     b.HasOne("Application.Models.User", "ToUser")
                         .WithMany("CommentsReceived")
-                        .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ToUserId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("FromUser");
 
@@ -587,15 +595,13 @@ namespace Application.Data.Migrations
                 {
                     b.HasOne("Application.Models.User", "FromUser")
                         .WithMany("Followings")
-                        .HasForeignKey("FromUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FromUserId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Application.Models.User", "ToUser")
                         .WithMany("Followers")
-                        .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ToUserId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("FromUser");
 
@@ -639,9 +645,8 @@ namespace Application.Data.Migrations
                 {
                     b.HasOne("Application.Models.User", "FromUser")
                         .WithMany("OwnLikes")
-                        .HasForeignKey("FromUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FromUserId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Application.Models.UserStuffs.Image", null)
                         .WithMany("Likes")
@@ -653,9 +658,8 @@ namespace Application.Data.Migrations
 
                     b.HasOne("Application.Models.User", "ToUser")
                         .WithMany("LikesReceived")
-                        .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ToUserId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("FromUser");
 
@@ -667,18 +671,16 @@ namespace Application.Data.Migrations
                     b.HasOne("Application.Models.User", "FromUser")
                         .WithMany("OwnMessages")
                         .HasForeignKey("FromUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Application.Models.UserStuffs.Image", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageId");
+                        .HasForeignKey("ImageId1");
 
                     b.HasOne("Application.Models.User", "ToUser")
                         .WithMany("MessagesReceived")
                         .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("FromUser");
 
@@ -691,17 +693,16 @@ namespace Application.Data.Migrations
                 {
                     b.HasOne("Application.Models.User", "FromUser")
                         .WithMany("OwnPosts")
-                        .HasForeignKey("FromUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FromUserId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Application.Models.UserStuffs.Image", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageId");
+                        .HasForeignKey("ImageId1");
 
                     b.HasOne("Application.Models.User", "ToUser")
                         .WithMany("PostsReceived")
-                        .HasForeignKey("ToUserId")
+                        .HasForeignKey("ToUserId1")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("FromUser");

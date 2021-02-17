@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Application.Data.Migrations
 {
-    public partial class InitalSetup : Migration
+    public partial class Inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,7 @@ namespace Application.Data.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -25,8 +24,7 @@ namespace Application.Data.Migrations
                 name: "FilmQustions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Context = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -39,8 +37,7 @@ namespace Application.Data.Migrations
                 name: "Films",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -53,10 +50,9 @@ namespace Application.Data.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Context = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -67,17 +63,17 @@ namespace Application.Data.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "FilmAnswers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Context = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     QuestionId = table.Column<int>(type: "int", nullable: false),
+                    QuestionId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IsCorrect = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -85,20 +81,20 @@ namespace Application.Data.Migrations
                 {
                     table.PrimaryKey("PK_FilmAnswers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FilmAnswers_FilmQustions_QuestionId",
-                        column: x => x.QuestionId,
+                        name: "FK_FilmAnswers_FilmQustions_QuestionId1",
+                        column: x => x.QuestionId1,
                         principalTable: "FilmQustions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserFilmQuestions",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    QuestionId = table.Column<int>(type: "int", nullable: false),
-                    FilmId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    QuestionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FilmId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AnswerIsCorrect = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -115,7 +111,7 @@ namespace Application.Data.Migrations
                         column: x => x.FilmId,
                         principalTable: "Films",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -126,8 +122,11 @@ namespace Application.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Context = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     FromUserId = table.Column<int>(type: "int", nullable: false),
+                    FromUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ToUserId = table.Column<int>(type: "int", nullable: false),
+                    ToUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ImageId = table.Column<int>(type: "int", nullable: true),
+                    ImageId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CommentedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -144,8 +143,10 @@ namespace Application.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FromUserId = table.Column<int>(type: "int", nullable: false),
+                    FromUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ToUserId = table.Column<int>(type: "int", nullable: false),
-                    ImageId = table.Column<int>(type: "int", nullable: true),
+                    ToUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PostId = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -161,9 +162,10 @@ namespace Application.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Context = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    FromUserId = table.Column<int>(type: "int", nullable: false),
-                    ToUserId = table.Column<int>(type: "int", nullable: false),
+                    FromUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ToUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ImageId = table.Column<int>(type: "int", nullable: true),
+                    ImageId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Seen = table.Column<bool>(type: "bit", nullable: false),
                     SentOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -181,8 +183,11 @@ namespace Application.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Context = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     ImageId = table.Column<int>(type: "int", nullable: true),
+                    ImageId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     FromUserId = table.Column<int>(type: "int", nullable: false),
+                    FromUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ToUserId = table.Column<int>(type: "int", nullable: true),
+                    ToUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PostOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -195,8 +200,8 @@ namespace Application.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -205,9 +210,8 @@ namespace Application.Data.Migrations
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PasswordHint = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProfileImageId = table.Column<int>(type: "int", nullable: true),
-                    CoverImageId = table.Column<int>(type: "int", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    ProfileImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CoverImageId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,21 +225,23 @@ namespace Application.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FromUserId = table.Column<int>(type: "int", nullable: false),
+                    FromUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ToUserId = table.Column<int>(type: "int", nullable: false),
+                    ToUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Follows", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Follows_Users_FromUserId",
-                        column: x => x.FromUserId,
+                        name: "FK_Follows_Users_FromUserId1",
+                        column: x => x.FromUserId1,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Follows_Users_ToUserId",
-                        column: x => x.ToUserId,
+                        name: "FK_Follows_Users_ToUserId1",
+                        column: x => x.ToUserId1,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -245,11 +251,11 @@ namespace Application.Data.Migrations
                 name: "Friendships",
                 columns: table => new
                 {
-                    RequesterId = table.Column<int>(type: "int", nullable: false),
-                    ResponderId = table.Column<int>(type: "int", nullable: false),
+                    RequesterId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ResponderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsAccepted = table.Column<bool>(type: "bit", nullable: false),
                     IsBlocked = table.Column<bool>(type: "bit", nullable: false),
-                    BlockedById = table.Column<int>(type: "int", nullable: true)
+                    BlockedById = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -278,13 +284,10 @@ namespace Application.Data.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageFile = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UploadedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -301,8 +304,8 @@ namespace Application.Data.Migrations
                 name: "UsersQuestions",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    QuestionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Answer = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -323,14 +326,14 @@ namespace Application.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_FromUserId",
+                name: "IX_Comments_FromUserId1",
                 table: "Comments",
-                column: "FromUserId");
+                column: "FromUserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ImageId",
+                name: "IX_Comments_ImageId1",
                 table: "Comments",
-                column: "ImageId");
+                column: "ImageId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
@@ -338,24 +341,24 @@ namespace Application.Data.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ToUserId",
+                name: "IX_Comments_ToUserId1",
                 table: "Comments",
-                column: "ToUserId");
+                column: "ToUserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FilmAnswers_QuestionId",
+                name: "IX_FilmAnswers_QuestionId1",
                 table: "FilmAnswers",
-                column: "QuestionId");
+                column: "QuestionId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Follows_FromUserId",
+                name: "IX_Follows_FromUserId1",
                 table: "Follows",
-                column: "FromUserId");
+                column: "FromUserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Follows_ToUserId",
+                name: "IX_Follows_ToUserId1",
                 table: "Follows",
-                column: "ToUserId");
+                column: "ToUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Friendships_BlockedById",
@@ -373,9 +376,9 @@ namespace Application.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_FromUserId",
+                name: "IX_Likes_FromUserId1",
                 table: "Likes",
-                column: "FromUserId");
+                column: "FromUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Likes_ImageId",
@@ -388,9 +391,9 @@ namespace Application.Data.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_ToUserId",
+                name: "IX_Likes_ToUserId1",
                 table: "Likes",
-                column: "ToUserId");
+                column: "ToUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_FromUserId",
@@ -398,9 +401,9 @@ namespace Application.Data.Migrations
                 column: "FromUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_ImageId",
+                name: "IX_Messages_ImageId1",
                 table: "Messages",
-                column: "ImageId");
+                column: "ImageId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ToUserId",
@@ -408,19 +411,19 @@ namespace Application.Data.Migrations
                 column: "ToUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_FromUserId",
+                name: "IX_Posts_FromUserId1",
                 table: "Posts",
-                column: "FromUserId");
+                column: "FromUserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_ImageId",
+                name: "IX_Posts_ImageId1",
                 table: "Posts",
-                column: "ImageId");
+                column: "ImageId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_ToUserId",
+                name: "IX_Posts_ToUserId1",
                 table: "Posts",
-                column: "ToUserId");
+                column: "ToUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_CategoryId",
@@ -473,9 +476,9 @@ namespace Application.Data.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Comments_Images_ImageId",
+                name: "FK_Comments_Images_ImageId1",
                 table: "Comments",
-                column: "ImageId",
+                column: "ImageId1",
                 principalTable: "Images",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -489,17 +492,17 @@ namespace Application.Data.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Comments_Users_FromUserId",
+                name: "FK_Comments_Users_FromUserId1",
                 table: "Comments",
-                column: "FromUserId",
+                column: "FromUserId1",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Comments_Users_ToUserId",
+                name: "FK_Comments_Users_ToUserId1",
                 table: "Comments",
-                column: "ToUserId",
+                column: "ToUserId1",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -521,25 +524,25 @@ namespace Application.Data.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Likes_Users_FromUserId",
+                name: "FK_Likes_Users_FromUserId1",
                 table: "Likes",
-                column: "FromUserId",
+                column: "FromUserId1",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Likes_Users_ToUserId",
+                name: "FK_Likes_Users_ToUserId1",
                 table: "Likes",
-                column: "ToUserId",
+                column: "ToUserId1",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Messages_Images_ImageId",
+                name: "FK_Messages_Images_ImageId1",
                 table: "Messages",
-                column: "ImageId",
+                column: "ImageId1",
                 principalTable: "Images",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -561,25 +564,25 @@ namespace Application.Data.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Posts_Images_ImageId",
+                name: "FK_Posts_Images_ImageId1",
                 table: "Posts",
-                column: "ImageId",
+                column: "ImageId1",
                 principalTable: "Images",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Posts_Users_FromUserId",
+                name: "FK_Posts_Users_FromUserId1",
                 table: "Posts",
-                column: "FromUserId",
+                column: "FromUserId1",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Posts_Users_ToUserId",
+                name: "FK_Posts_Users_ToUserId1",
                 table: "Posts",
-                column: "ToUserId",
+                column: "ToUserId1",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);

@@ -18,9 +18,6 @@ namespace Application.Services
 {
     public class UsersService : IUsersService
     {
-        private const string DefaultProfileImage = "https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg";
-        private const string DefaultCoverImage = "https://www.proactivechannel.com/Files/BrandImages/Default.jpg";
-
         private ApplicationDbContext db;
         private MapperConfiguration config;
 
@@ -30,7 +27,7 @@ namespace Application.Services
             this.config = mapper.ConfigUser();
         }
 
-        public async Task CreateUser(string email, string username, string password, string passwordHint, string firstName, string lastName, DateTime dateOfBirth)
+        public async Task CreateUserAsync(string email, string username, string password, string passwordHint, string firstName, string lastName, DateTime dateOfBirth)
         {
             User user = new User 
             {
@@ -41,23 +38,15 @@ namespace Application.Services
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfBirth,
-                ProfileImage = new Image 
-                {
-                    ImageUrl = DefaultProfileImage,
-                    UploadedOn = DateTime.UtcNow
-                },
-                CoverImage = new Image
-                {
-                    ImageUrl = DefaultCoverImage,
-                    UploadedOn = DateTime.UtcNow
-                },
+                ProfileImage = new Image(),
+                CoverImage = new Image()
             };
 
             db.Users.Add(user);
             await db.SaveChangesAsync();
         }
 
-        public GetUserDTO GetUserById(int userId)
+        public GetUserDTO GetUserById(string userId)
         {
             return db.Users.Where(x => x.Id == userId).ProjectTo<GetUserDTO>(this.config).FirstOrDefault();
         }
@@ -70,7 +59,7 @@ namespace Application.Services
                 .FirstOrDefault().Id;
         }
 
-        public ICollection<Friendship> GetAllFriendshipRequestsByUserId(int userId)
+        public ICollection<Friendship> GetAllFriendshipRequestsByUserId(string userId)
         {
             var user = db.Users.Find(userId);
 
@@ -82,7 +71,7 @@ namespace Application.Services
             return user.FriendshipRequests;
         }
 
-        public ICollection<Friendship> GetAllFriendshipResponsesByUserId(int userId)
+        public ICollection<Friendship> GetAllFriendshipResponsesByUserId(string userId)
         {
             var user = db.Users.Find(userId);
 
@@ -94,7 +83,7 @@ namespace Application.Services
             return user.FriendshipResponses;
         }
 
-        public ICollection<UserQuestion> GetAllQuestionByUserId(int userId)
+        public ICollection<UserQuestion> GetAllQuestionByUserId(string userId)
         {
             var user = db.Users.Find(userId);
 
@@ -134,6 +123,11 @@ namespace Application.Services
                     hashedInputStringBuilder.Append(b.ToString("X2"));
                 return hashedInputStringBuilder.ToString();
             }
+        }
+
+        public int GetUsersCount()
+        {
+            return this.db.Users.Where(x => x.IsDeleted == false).Count();
         }
     }
 }

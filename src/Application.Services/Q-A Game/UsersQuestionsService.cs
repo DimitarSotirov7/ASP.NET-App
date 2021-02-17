@@ -14,7 +14,7 @@ namespace Application.Services.Q_A_Game
             this.db = db;
         }
 
-        public bool CreateUserQuestion(int userId, int questionId, bool answer)
+        public bool CreateUserQuestion(string userId, string questionId, bool answer)
         {
             var user = db.Users.FirstOrDefault(x => x.Id == userId);
             var question = db.Questions.FirstOrDefault(x => x.Id == questionId);

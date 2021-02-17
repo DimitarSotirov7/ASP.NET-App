@@ -22,7 +22,7 @@ namespace Application.Services
             return true;
         }
 
-        public int GetLikesByImageId(int imageId)
+        public int GetLikesByImageId(string imageId)
         {
             return db.Images.Where(x => x.Id == imageId).Sum(x => x.Likes.Count);
         }

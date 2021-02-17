@@ -6,7 +6,7 @@ namespace Application.Services.Contracts
     {
         public bool CreateLike(Like like);
 
-        public int GetLikesByImageId(int imageId);
+        public int GetLikesByImageId(string imageId);
 
         public int GetLikesByPostId(int postId);
     }

@@ -11,17 +11,19 @@ namespace Application.Services.Contracts
 {
     public interface IUsersService
     {
-        public Task CreateUser(string email, string username, string password, string passwordHint, string firstName, string lastName, DateTime dateOfBirth);
+        public Task CreateUserAsync(string email, string username, string password, string passwordHint, string firstName, string lastName, DateTime dateOfBirth);
+
+        public int GetUsersCount();
 
         public int GetUserIdByUsername(string username);
 
-        public GetUserDTO GetUserById(int userId);
+        public GetUserDTO GetUserById(string userId);
         
-        public ICollection<UserQuestion> GetAllQuestionByUserId(int id);
+        public ICollection<UserQuestion> GetAllQuestionByUserId(string id);
 
-        public ICollection<Friendship> GetAllFriendshipRequestsByUserId(int userId);
+        public ICollection<Friendship> GetAllFriendshipRequestsByUserId(string userId);
 
-        public ICollection<Friendship> GetAllFriendshipResponsesByUserId(int userId);
+        public ICollection<Friendship> GetAllFriendshipResponsesByUserId(string userId);
 
         public bool IsUserValid(string username, string password);
 

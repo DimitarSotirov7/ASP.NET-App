@@ -2,13 +2,13 @@
 {
     public class UserFilmQuestion
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public virtual User User { get; set; }
 
-        public int FilmId { get; set; }
+        public string FilmId { get; set; }
         public virtual Film Film { get; set; }
 
-        public int QuestionId { get; set; }
+        public string QuestionId { get; set; }
         public virtual FilmQuestion Question { get; set; }
 
         public bool AnswerIsCorrect { get; set; }

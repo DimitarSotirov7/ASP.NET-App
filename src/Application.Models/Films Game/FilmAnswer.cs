@@ -1,10 +1,16 @@
 ﻿using Application.Models.Common;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models.Films_Game
 {
-    public class FilmAnswer : BaseModel
+    public class FilmAnswer : BaseModel<string>
     {
+        public FilmAnswer()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [Required, MaxLength(250)]
         public string Context { get; set; }
 

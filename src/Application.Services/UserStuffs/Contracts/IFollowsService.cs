@@ -7,8 +7,8 @@ namespace Application.Services.Contracts
     {
         public bool CreateFollow(Follow follow);
 
-        public ICollection<Follow> GetFollowingsByUserId(int userId);
+        public ICollection<Follow> GetFollowingsByUserId(string userId);
 
-        public ICollection<Follow> GetFollowersByUserId(int userId);
+        public ICollection<Follow> GetFollowersByUserId(string userId);
     }
 }

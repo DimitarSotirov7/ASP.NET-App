@@ -24,12 +24,12 @@ namespace Application.Services
             return true;
         }
 
-        public ICollection<Follow> GetFollowersByUserId(int userId)
+        public ICollection<Follow> GetFollowersByUserId(string userId)
         {
             return db.Users.Include(x => x.Followers).FirstOrDefault(x => x.Id == userId).Followers;
         }
 
-        public ICollection<Follow> GetFollowingsByUserId(int userId)
+        public ICollection<Follow> GetFollowingsByUserId(string userId)
         {
             return db.Users.Include(x => x.Followings).FirstOrDefault(x => x.Id == userId).Followings;
         }

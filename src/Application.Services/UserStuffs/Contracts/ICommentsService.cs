@@ -7,7 +7,7 @@ namespace Application.Services.Contracts
     {
         public bool CreateComment(Comment comment);
 
-        public ICollection<Comment> GetCommentsByImageId(int imageId);
+        public ICollection<Comment> GetCommentsByImageId(string imageId);
 
         public ICollection<Comment> GetCommentsByPostId(int postId);
     }

@@ -30,15 +30,16 @@ namespace Application.Services
             return true;
         }
 
-        public ICollection<Message> GetMessagesByUserIds(int firstUserId, int secondUserId, int messagesCount)
+        public ICollection<Message> GetMessagesByUserIds(string firstUserId, string secondUserId, int messagesCount)
         {
             return db.Messages
                  .Where(x => (x.FromUserId == firstUserId || x.FromUserId == secondUserId) && 
                  (x.ToUserId == firstUserId || x.ToUserId == secondUserId))
+                 .Take(messagesCount)
                  .ToList();
         }
 
-        public bool SetSeenMessageByUsers(int fromUserId, int toUserId)
+        public bool SetSeenMessageByUsers(string fromUserId, string toUserId)
         {
             var message = db.Messages.FirstOrDefault(x => x.FromUserId == fromUserId && x.ToUserId == toUserId);
 

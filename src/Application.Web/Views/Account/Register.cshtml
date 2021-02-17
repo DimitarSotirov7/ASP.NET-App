@@ -1,9 +1,12 @@
-﻿@using Application.Web.ViewModels;
+﻿@{
+    ViewData["Title"] = "Register Page";
+}
+@using Application.Web.ViewModels;
 @model RegisterInputModel
 
-    <div class="col-lg-6 offset-lg-3">
-        <h class="row justify-content-center">Register</h>
-    </div>
+<div class="col-lg-6 offset-lg-3">
+    <h class="row justify-content-center">Register</h>
+</div>
 
 
 <form method="post" class="col-lg-6 offset-lg-3">
@@ -53,7 +56,7 @@
 
         <div class="col-md-12">
             <label asp-for="DateOfBirth"></label>
-            <input asp-for="DateOfBirth" name="dateOfBirth" class="form-control  />
+            <input asp-for="DateOfBirth" name="dateOfBirth" class="form-control   />
             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
         </div>
 
@@ -64,5 +67,5 @@
 </form>
 
 @section Scripts {
-<partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
 }
