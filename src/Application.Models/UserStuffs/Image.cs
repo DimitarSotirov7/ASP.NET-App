@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.Models.UserStuffs
 {
-    public class Image
+    public class Image : BaseModel<string>
     {
         public Image()
         {
@@ -15,11 +15,6 @@ namespace Application.Models.UserStuffs
             this.Likes = new HashSet<Like>();
             this.Comments = new HashSet<Comment>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public string Id { get; set; }
-
-        public bool IsDeleted { get; set; }
 
         public DateTime UploadedOn { get; set; }
 

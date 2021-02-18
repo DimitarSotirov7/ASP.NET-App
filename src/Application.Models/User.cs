@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Application.Models
 {
-    public class User
+    public class User : BaseModel<string>
     {
         public User()
         {
@@ -36,11 +36,6 @@ namespace Application.Models
 
             this.OtherImages = new HashSet<Image>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public string Id { get; set; }
-
-        public bool IsDeleted { get; set; }
 
         [Required, MaxLength(50)]
         public string FirstName { get; set; }

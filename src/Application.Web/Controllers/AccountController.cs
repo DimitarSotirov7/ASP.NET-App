@@ -53,7 +53,7 @@ namespace Application.Web.Controllers
             await this.usersService
                 .CreateUserAsync(input.Email, input.Username, input.Password, input.PasswordHint, input.FirstName, input.LastName, input.DateOfBirth);
 
-            return this.RedirectToAction("/Account/Login");
+            return this.RedirectToAction("Login");
         }
     }
 }
