@@ -14,9 +14,7 @@ namespace Application.Mapping
         {
             return new MapperConfiguration(cfg => 
             {
-                cfg.CreateMap<User, GetUserDTO>()
-                    .ForMember(x => x.DateOfBirth, opt => opt.MapFrom(x => x.DateOfBirth.Value.ToString("dd-MMM-yyyy")))
-                    .ForMember(x => x.Joined, opt => opt.MapFrom(x => x.Joined.ToString("dd-MMM-yyyy")));
+                cfg.CreateMap<User, GetUserDTO>();
 
                 cfg.CreateMap<User, GetUserIdDTO>();
             });

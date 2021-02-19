@@ -1,17 +1,20 @@
 ﻿using Application.Models.UserStuffs;
+using System;
 using System.Collections.Generic;
 
 namespace Application.Mapping.UserDTOModels
 {
     public class GetUserDTO
     {
+        public string Email { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public string DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
-        public string Joined { get; set; }
+        public DateTime Joined { get; set; }
 
         public string Username { get; set; }
 

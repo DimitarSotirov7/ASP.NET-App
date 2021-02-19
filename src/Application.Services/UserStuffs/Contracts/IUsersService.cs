@@ -17,6 +17,8 @@ namespace Application.Services.Contracts
 
         public int GetUserIdByUsername(string username);
 
+        public IEnumerable<GetUserDTO> GetAllUsers();
+
         public GetUserDTO GetUserById(string userId);
         
         public ICollection<UserQuestion> GetAllQuestionByUserId(string id);

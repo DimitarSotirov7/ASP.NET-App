@@ -20,12 +20,13 @@ namespace Application.Web.Controllers
 
         public IActionResult Index()
         {
-            var usersCount = new UsersCountViewModel
+            var homeView = new HomeViewModel
             {
-                Count = this.usersService.GetUsersCount()
+                UsersCount = this.usersService.GetUsersCount(),
+                IsLogged = this.User.Identity.IsAuthenticated
             };
 
-            return View(usersCount);
+            return View(homeView);
         }
 
         public IActionResult Privacy()

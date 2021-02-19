@@ -29,7 +29,7 @@ namespace Application.Services
 
         public async Task CreateUserAsync(string email, string username, string password, string passwordHint, string firstName, string lastName, DateTime dateOfBirth)
         {
-            User user = new User 
+            User user = new User
             {
                 Email = email,
                 Username = username,
@@ -39,7 +39,8 @@ namespace Application.Services
                 LastName = lastName,
                 DateOfBirth = dateOfBirth,
                 ProfileImage = new Image(),
-                CoverImage = new Image()
+                CoverImage = new Image(),
+                Joined = DateTime.UtcNow
             };
 
             db.Users.Add(user);
@@ -128,6 +129,11 @@ namespace Application.Services
         public int GetUsersCount()
         {
             return this.db.Users.Where(x => x.IsDeleted == false).Count();
+        }
+
+        public IEnumerable<GetUserDTO> GetAllUsers()
+        {
+            return this.db.Users.ProjectTo<GetUserDTO>(this.config).ToList();
         }
     }
 }

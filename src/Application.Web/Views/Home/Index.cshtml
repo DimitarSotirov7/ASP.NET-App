@@ -2,9 +2,17 @@
     ViewData["Title"] = "Home Page";
 }
 @using Application.Web.ViewModels;
-@model UsersCountViewModel
+@model HomeViewModel
 
 <div class="text-center">
     <h1 class="display-4">Welcome to my app</h1>
-    <p>There are @Model.Count users registered</a>.</p>
+    <p>There are @Model.UsersCount users registered.</p>
+    @if (@Model.IsLogged)
+    {
+        <p>User is logged.</p>
+    }
+    else
+    {
+        <p>User is NOT logged.</p>
+    }
 </div>
