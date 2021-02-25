@@ -1,5 +1,6 @@
 ﻿namespace Application.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -23,12 +24,13 @@
 
         public async Task CreatePostAsync(PostInputModel input)
         {
+            // var toUserId = this.usersRepo.AllAsNoTracking().FirstOrDefault(x => x.UserName == input.ToUserName).Id;
             var post = new Post()
             {
                 Content = input.Content,
                 ImageId = input.ImageId,
                 FromUserId = input.FromUserId,
-                ToUserId = this.usersRepo.AllAsNoTracking().FirstOrDefault(x => x.UserName == input.ToUserName).Id,
+                ToUserId = null,
             };
 
             await this.postsRepo.AddAsync(post);
@@ -46,6 +48,7 @@
                     FromUserName = this.usersRepo.AllAsNoTracking().FirstOrDefault(u => u.Id == x.FromUserId).UserName,
                     ToUserName = this.usersRepo.AllAsNoTracking().FirstOrDefault(u => u.Id == x.ToUserId).UserName,
                     ImageId = x.ImageId,
+                    Time = DateTime.UtcNow - x.CreatedOn,
                 })
                 .ToList();
         }

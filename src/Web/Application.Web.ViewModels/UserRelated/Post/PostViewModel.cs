@@ -1,4 +1,6 @@
-﻿namespace Application.Web.ViewModels.UserRelated
+﻿using System;
+
+namespace Application.Web.ViewModels.UserRelated
 {
     public class PostViewModel
     {
@@ -9,5 +11,7 @@
         public string FromUserName { get; set; }
 
         public string ToUserName { get; set; }
+
+        public TimeSpan Time { get; set; }
     }
 }

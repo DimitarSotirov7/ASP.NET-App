@@ -10,7 +10,26 @@
     {
         <div class="col-lg-6 offset-md-3 border">
             <div class="text-sm-center">@post.Content</div>
-            <div class="text-sm-right">by @post.FromUserName</div>
+            @{ 
+                string time = String.Empty;
+                if (@post.Time.Days >= 1)
+                {
+                    time = @post.Time.Days > 1 ? $"{@post.Time.Days} days ago" : $"a day ago";
+                }
+                else if (@post.Time.Hours >= 1)
+                {
+                    time = @post.Time.Hours > 1 ? $"{@post.Time.Hours} hours ago" : $"an hour ago";
+                }
+                else if (@post.Time.Minutes >= 1)
+                {
+                    time = @post.Time.Minutes > 1 ? $"{@post.Time.Minutes} minutes ago" : $"a minute ago";
+                }
+                else
+                {
+                    time = @post.Time.Seconds > 1 ? $"{@post.Time.Seconds} seconds ago" : $"a second ago";
+                }
+            }
+        <div class="text-sm-right">by @post.FromUserName - @time</div>
         </div>
     }
 </div>

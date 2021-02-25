@@ -65,7 +65,7 @@
                     PasswordHint = this.Input.PasswordHint,
                     FirstName = this.Input.FirstName,
                     LastName = this.Input.LastName,
-                    Gender = GenderType.Male,
+                    Gender = this.Input.Gender,
                     Address = new Address()
                     {
                         City = this.Input.City,
