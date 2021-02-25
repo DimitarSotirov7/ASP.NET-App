@@ -1,9 +1,21 @@
 ﻿@using Application.Common
+@using Application.Web.ViewModels.Home
+@model HomeViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
+@if (this.User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
+        <p>There are @Model.UsersCount users in the app.</p>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
+        <p>Join us.</p>
+    </div>
+}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>

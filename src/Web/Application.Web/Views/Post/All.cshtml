@@ -1,0 +1,16 @@
+﻿@using Application.Web.ViewModels.UserRelated
+@model AllLatestPostsViewModel
+@{
+    this.ViewData["Title"] = "Posts";
+}
+
+<div class="row">
+    <h1 class="col-lg-6 offset-md-3 text-sm-center">All Posts</h1>
+    @foreach (var post in Model.Posts)
+    {
+        <div class="col-lg-6 offset-md-3 border">
+            <div class="text-sm-center">@post.Content</div>
+            <div class="text-sm-right">by @post.FromUserName</div>
+        </div>
+    }
+</div>

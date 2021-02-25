@@ -1,16 +1,28 @@
 ﻿namespace Application.Web.Controllers
 {
     using System.Diagnostics;
-
+    using Application.Services.Contracts;
     using Application.Web.ViewModels;
-
+    using Application.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
+        private readonly IUsersService usersService;
+
+        public HomeController(IUsersService usersService)
+        {
+            this.usersService = usersService;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var homeViewModel = new HomeViewModel()
+            {
+                UsersCount = this.usersService.GetUsersCount(),
+            };
+
+            return this.View(homeViewModel);
         }
 
         public IActionResult Privacy()

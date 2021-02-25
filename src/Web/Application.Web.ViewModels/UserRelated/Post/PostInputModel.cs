@@ -1,16 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Application.Web.ViewModels.UserRelated
+﻿namespace Application.Web.ViewModels.UserRelated
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class PostInputModel
     {
         public string Content { get; set; }
 
         public string ImageId { get; set; }
 
-        [Required]
         public string FromUserId { get; set; }
 
-        public string ToUserId { get; set; }
+        public string ToUserName { get; set; }
     }
 }

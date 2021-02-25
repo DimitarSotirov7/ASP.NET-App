@@ -12,7 +12,9 @@
 
         public int GetUsersCount();
 
-        public string GetUserIdByUsernameAndPassword(string username, string password);
+        public string GetUserIdByUsernameAndPassword(string username, string password = null);
+
+        public string GetUserUsernameById(string id);
 
         public ICollection<Friendship> GetAllFriendshipRequestsByUserId(string userId);
 

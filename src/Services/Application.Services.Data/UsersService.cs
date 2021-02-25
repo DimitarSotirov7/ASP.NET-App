@@ -38,8 +38,14 @@
             await this.usersRepo.SaveChangesAsync();
         }
 
-        public string GetUserIdByUsernameAndPassword(string username, string password)
+        public string GetUserIdByUsernameAndPassword(string username, string password = null)
         {
+            if (password == null)
+            {
+                return this.usersRepo.AllAsNoTracking()
+                    .FirstOrDefault(x => x.UserName == username).Id;
+            }
+
             return this.usersRepo.AllAsNoTracking()
                 .FirstOrDefault(x => x.UserName == username && x.PasswordHash == Hash(password)).Id;
         }
@@ -73,17 +79,26 @@
             return this.usersRepo.AllAsNoTracking().Count();
         }
 
+        public string GetUserUsernameById(string id)
+        {
+            return this.usersRepo.AllAsNoTracking().FirstOrDefault(x => x.Id == id).UserName;
+        }
+
         private static string Hash(string input)
         {
             var bytes = Encoding.UTF8.GetBytes(input);
             using (var hash = SHA512.Create())
             {
                 var hashedInputBytes = hash.ComputeHash(bytes);
+
                 // Convert to text
-                // StringBuilder Capacity is 128, because 512 bits / 8 bits in byte * 2 symbols for byte 
+                // StringBuilder Capacity is 128, because 512 bits / 8 bits in byte * 2 symbols for byte
                 var hashedInputStringBuilder = new StringBuilder(128);
                 foreach (var b in hashedInputBytes)
+                {
                     hashedInputStringBuilder.Append(b.ToString("X2"));
+                }
+
                 return hashedInputStringBuilder.ToString();
             }
         }
