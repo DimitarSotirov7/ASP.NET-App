@@ -208,7 +208,7 @@ namespace Application.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Context")
+                    b.Property<string>("Content")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -405,7 +405,7 @@ namespace Application.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Context")
+                    b.Property<string>("Content")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -453,7 +453,7 @@ namespace Application.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Context")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");

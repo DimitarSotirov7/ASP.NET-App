@@ -54,7 +54,15 @@
                 option.Lockout.MaxFailedAccessAttempts = 5;
                 option.Lockout.DefaultLockoutTimeSpan = new System.TimeSpan(0, 5, 0);
             })
-             .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+             .AddRoles<ApplicationRole>()
+             .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                // TODO: GET ID and Secret and control claims received
+                options.AppId = this.configuration["Authentication:Facebook:AppId"];
+                options.AppSecret = this.configuration["Authentication:Facebook:AppSecret"];
+            });
 
             services.Configure<CookiePolicyOptions>(
                 options =>

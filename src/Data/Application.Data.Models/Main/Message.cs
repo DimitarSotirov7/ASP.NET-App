@@ -14,7 +14,7 @@
         }
 
         [MaxLength(250)]
-        public string Context { get; set; }
+        public string Content { get; set; }
 
         public string FromUserId { get; set; }
 

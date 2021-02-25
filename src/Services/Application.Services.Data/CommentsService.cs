@@ -28,7 +28,7 @@
         {
             var comment = new Comment()
             {
-                Context = input.Context,
+                Content = input.Content,
                 FromUserId = input.FromUserId,
                 ToUserId = input.ToUserId,
             };

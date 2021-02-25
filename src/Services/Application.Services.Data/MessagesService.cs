@@ -22,7 +22,7 @@
         {
             var message = new Message()
             {
-                Context = input.Context,
+                Content = input.Content,
                 FromUserId = input.FromUserId,
                 ToUserId = input.ToUserId,
             };

@@ -21,7 +21,7 @@
         {
             var post = new Post()
             {
-                Context = input.Context,
+                Content = input.Content,
                 ImageId = input.ImageId,
                 FromUserId = input.FromUserId,
                 ToUserId = input.ToUserId,

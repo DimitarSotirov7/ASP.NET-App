@@ -17,7 +17,7 @@
 
         [Required]
         [MaxLength(500)]
-        public string Context { get; set; }
+        public string Content { get; set; }
 
         public string ImageId { get; set; }
 

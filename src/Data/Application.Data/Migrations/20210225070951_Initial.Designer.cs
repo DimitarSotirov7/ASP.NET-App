@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210224151731_Initial")]
+    [Migration("20210225070951_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -210,7 +210,7 @@ namespace Application.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Context")
+                    b.Property<string>("Content")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -407,7 +407,7 @@ namespace Application.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Context")
+                    b.Property<string>("Content")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -455,7 +455,7 @@ namespace Application.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Context")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");

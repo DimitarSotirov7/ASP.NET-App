@@ -286,7 +286,7 @@ namespace Application.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Context = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     FromUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ToUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -325,7 +325,7 @@ namespace Application.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Context = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     ImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     FromUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ToUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -363,7 +363,7 @@ namespace Application.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Context = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     FromUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ToUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
