@@ -40,6 +40,7 @@
         public ICollection<PostViewModel> GetAllLatestPosts(int count)
         {
             return this.postsRepo.AllAsNoTracking()
+                .Where(x => x.ToUserId == null)
                 .OrderByDescending(x => x.CreatedOn)
                 .Take(count)
                 .Select(x => new PostViewModel()

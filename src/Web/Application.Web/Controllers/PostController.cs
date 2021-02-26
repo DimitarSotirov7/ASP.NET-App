@@ -1,10 +1,13 @@
 ﻿namespace Application.Web.Views.Home
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using Application.Data.Models;
     using Application.Services.Contracts;
     using Application.Web.ViewModels.UserRelated;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
@@ -12,11 +15,13 @@
     {
         private readonly IPostsService postsService;
         private readonly IUsersService usersService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public PostController(IPostsService postsService, IUsersService usersService)
+        public PostController(IPostsService postsService, IUsersService usersService, UserManager<ApplicationUser> userManager)
         {
             this.postsService = postsService;
             this.usersService = usersService;
+            this.userManager = userManager;
         }
 
         public IActionResult All()
@@ -44,7 +49,7 @@
                 return this.View(postInputModel);
             }
 
-            input.FromUserId = this.usersService.GetUserIdByUsernameAndPassword(this.User.Identity.Name);
+            input.FromUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             await this.postsService.CreatePostAsync(input);
 
             return this.RedirectToAction("All");

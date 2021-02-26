@@ -5,5 +5,7 @@
         public const string SystemName = "Application";
 
         public const string AdministratorRoleName = "Administrator";
+
+        public const string User = "User";
     }
 }

@@ -15,6 +15,8 @@
             this.Comments = new HashSet<Comment>();
         }
 
+        public string ImageUrl { get; set; }
+
         public virtual ICollection<Like> Likes { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

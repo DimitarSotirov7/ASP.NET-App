@@ -4,32 +4,89 @@
     this.ViewData["Title"] = "Posts";
 }
 
+<h1 class="col-lg-6 offset-md-3 text-sm-center card-header">@this.ViewData["Title"]</h1>
+<hr />
+
 <div class="row">
-    <h1 class="col-lg-6 offset-md-3 text-sm-center">All Posts</h1>
     @foreach (var post in Model.Posts)
     {
-        <div class="col-lg-6 offset-md-3 border">
-            <div class="text-sm-center">@post.Content</div>
-            @{ 
-                string time = String.Empty;
-                if (@post.Time.Days >= 1)
-                {
-                    time = @post.Time.Days > 1 ? $"{@post.Time.Days} days ago" : $"a day ago";
-                }
-                else if (@post.Time.Hours >= 1)
-                {
-                    time = @post.Time.Hours > 1 ? $"{@post.Time.Hours} hours ago" : $"an hour ago";
-                }
-                else if (@post.Time.Minutes >= 1)
-                {
-                    time = @post.Time.Minutes > 1 ? $"{@post.Time.Minutes} minutes ago" : $"a minute ago";
-                }
-                else
-                {
-                    time = @post.Time.Seconds > 1 ? $"{@post.Time.Seconds} seconds ago" : $"a second ago";
-                }
-            }
-        <div class="text-sm-right">by @post.FromUserName - @time</div>
+        string time = String.Empty;
+        if (@post.Time.Days >= 30)
+        {
+            time = @post.Time.Days > 1 ? $"{@post.Time.Days / 30} months ago" : $"a month ago";
+        }
+        if (@post.Time.Days >= 1)
+        {
+            time = @post.Time.Days > 1 ? $"{@post.Time.Days} days ago" : $"a day ago";
+        }
+        else if (@post.Time.Hours >= 1)
+        {
+            time = @post.Time.Hours > 1 ? $"{@post.Time.Hours} hours ago" : $"an hour ago";
+        }
+        else if (@post.Time.Minutes >= 1)
+        {
+            time = @post.Time.Minutes > 1 ? $"{@post.Time.Minutes} minutes ago" : $"a minute ago";
+        }
+        else
+        {
+            time = @post.Time.Seconds > 1 ? $"{@post.Time.Seconds} seconds ago" : $"a second ago";
+        }
+
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <div class="post-content">
+                        @*<img src="https://via.placeholder.com/400x150/FFB6C1/000000" alt="post-image" class="img-responsive post-image">*@
+                        <div class="post-container">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-md pull-left">
+                            <div class="post-detail">
+                                <div class="user-info">
+                                    <h5><a href="timeline.html" class="profile-link">@post.FromUserName</a> <span class="following">following</span></h5>
+                                    <p class="text-muted">Published @time</p>
+                                </div>
+                                <div class="reaction">
+                                    <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 13</a>
+                                    <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-text">
+                                    <p>@post.Content<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-comment">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="profile-photo-sm">
+                                    <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i>Comment</p>
+                                </div>
+                                <div class="post-comment">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
+                                    <input type="text" class="form-control" placeholder="Post a comment">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     }
 </div>
+
+<hr />
+
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item active">
+            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+        </li>
+    </ul>
+</nav>
+
+<link href="~/css/postView.css" rel="stylesheet" />
