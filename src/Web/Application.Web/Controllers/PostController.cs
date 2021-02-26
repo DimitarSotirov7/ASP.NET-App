@@ -24,10 +24,18 @@
             this.userManager = userManager;
         }
 
-        public IActionResult All()
+        public IActionResult All(int id = 1)
         {
-            var allLatestPosts = this.postsService.GetAllLatestPosts(10);
-            var posts = new AllLatestPostsViewModel() { Posts = allLatestPosts };
+            int postsPerPage = 5;
+
+            var allLatestPosts = this.postsService.GetAllLatestPosts(id, postsPerPage);
+            var posts = new AllLatestPostsViewModel()
+            {
+                Posts = allLatestPosts,
+                CurrentPage = id,
+                PostsPerPage = postsPerPage,
+                PostsCount = this.postsService.GetCount(),
+            };
 
             return this.View(posts);
         }

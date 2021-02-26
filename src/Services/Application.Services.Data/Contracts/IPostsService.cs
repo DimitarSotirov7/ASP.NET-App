@@ -10,6 +10,8 @@
     {
         public Task CreatePostAsync(PostInputModel input);
 
-        public ICollection<PostViewModel> GetAllLatestPosts(int count);
+        public ICollection<PostViewModel> GetAllLatestPosts(int countInPage, int currentPage);
+
+        public int GetCount();
     }
 }

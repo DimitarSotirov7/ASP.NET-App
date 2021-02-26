@@ -1,8 +1,12 @@
-﻿using System;
-
-namespace Application.Web.ViewModels.UserRelated
+﻿namespace Application.Web.ViewModels.UserRelated
 {
-    public class PostViewModel
+    using System;
+
+    using Application.Models.Main;
+    using Application.Services.Mapping;
+    using AutoMapper;
+
+    public class PostViewModel : IMapFrom<Post>, IHaveCustomMappings
     {
         public string Content { get; set; }
 
@@ -13,5 +17,14 @@ namespace Application.Web.ViewModels.UserRelated
         public string ToUserName { get; set; }
 
         public TimeSpan Time { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Post, PostViewModel>()
+                .ForMember(x => x.Time, opt => opt.MapFrom(x => DateTime.UtcNow - x.CreatedOn));
+
+            configuration.CreateMap<Post, PostViewModel>()
+                .ForMember(x => x.FromUserName, opt => opt.MapFrom(x => x.FromUser.UserName));
+        }
     }
 }

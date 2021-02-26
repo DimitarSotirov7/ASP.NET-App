@@ -9,6 +9,7 @@
     using Application.Data.Models;
     using Application.Models.Main;
     using Application.Services.Contracts;
+    using Application.Services.Mapping;
     using Application.Web.ViewModels.UserRelated;
 
     public class PostsService : IPostsService
@@ -37,21 +38,21 @@
             await this.postsRepo.SaveChangesAsync();
         }
 
-        public ICollection<PostViewModel> GetAllLatestPosts(int count)
+        public ICollection<PostViewModel> GetAllLatestPosts(int currentPage, int countInPage = 10)
         {
+            var countsToSkip = (currentPage - 1) * countInPage;
+
             return this.postsRepo.AllAsNoTracking()
                 .Where(x => x.ToUserId == null)
                 .OrderByDescending(x => x.CreatedOn)
-                .Take(count)
-                .Select(x => new PostViewModel()
-                {
-                    Content = x.Content,
-                    FromUserName = this.usersRepo.AllAsNoTracking().FirstOrDefault(u => u.Id == x.FromUserId).UserName,
-                    ToUserName = this.usersRepo.AllAsNoTracking().FirstOrDefault(u => u.Id == x.ToUserId).UserName,
-                    ImageId = x.ImageId,
-                    Time = DateTime.UtcNow - x.CreatedOn,
-                })
+                .Skip(countsToSkip).Take(countInPage)
+                .To<PostViewModel>()
                 .ToList();
+        }
+
+        public int GetCount()
+        {
+            return this.postsRepo.AllAsNoTracking().Count();
         }
     }
 }

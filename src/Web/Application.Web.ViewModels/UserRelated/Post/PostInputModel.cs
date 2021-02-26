@@ -1,8 +1,10 @@
 ﻿namespace Application.Web.ViewModels.UserRelated
 {
-    using System.ComponentModel.DataAnnotations;
+    using Application.Models.Main;
+    using Application.Services.Mapping;
+    using AutoMapper;
 
-    public class PostInputModel
+    public class PostInputModel : IMapTo<Post>
     {
         public string Content { get; set; }
 
@@ -10,6 +12,6 @@
 
         public string FromUserId { get; set; }
 
-        public string ToUserName { get; set; }
+        public string ToUserId { get; set; }
     }
 }
