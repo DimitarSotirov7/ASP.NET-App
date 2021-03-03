@@ -1,0 +1,32 @@
+﻿@model PagingViewModel
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text> }">
+            <a class="page-link" asp-action="All" asp-route-id="@Model.PreviousPageNumber" tabindex="-1">Previous</a>
+        </li>
+        @if (Model.HasPreviousPage)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="All" asp-route-id="1">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" asp-action="All" asp-route-id="@Model.PreviousPageNumber">@Model.PreviousPageNumber</a>
+            </li>
+        }
+        <li class="page-item active">
+            <a class="page-link" href="#">@Model.CurrentPage <span class="sr-only">(current)</span></a>
+        </li>
+        @if (Model.HasNextPage)
+        {
+            <li class="page-item ">
+                <a class="page-link" asp-action="All" asp-route-id="@Model.NextPageNumber">@Model.NextPageNumber</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link" asp-action="All" asp-route-id="@Model.PagesCount">Last</a>
+            </li>
+        }
+        <li class="page-item  @if (!Model.HasNextPage) { <text>disabled</text> }">
+            <a class="page-link" asp-action="All" asp-route-id="@Model.NextPageNumber">Next</a>
+        </li>
+    </ul>
+</nav>

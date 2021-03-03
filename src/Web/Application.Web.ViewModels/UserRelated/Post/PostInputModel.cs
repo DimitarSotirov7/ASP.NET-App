@@ -2,13 +2,16 @@
 {
     using Application.Models.Main;
     using Application.Services.Mapping;
-    using AutoMapper;
+    using Microsoft.AspNetCore.Http;
+    using System.Collections.Generic;
 
     public class PostInputModel : IMapTo<Post>
     {
         public string Content { get; set; }
 
-        public string ImageId { get; set; }
+        public string ImageUrl { get; set; }
+
+        public ICollection<IFormFile> LocalImages { get; set; }
 
         public string FromUserId { get; set; }
 

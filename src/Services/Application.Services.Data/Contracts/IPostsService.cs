@@ -8,7 +8,7 @@
 
     public interface IPostsService
     {
-        public Task CreatePostAsync(PostInputModel input);
+        public Task CreatePostAsync(PostInputModel input, string imagePath);
 
         public ICollection<PostViewModel> GetAllLatestPosts(int countInPage, int currentPage);
 

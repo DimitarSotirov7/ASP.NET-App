@@ -17,6 +17,8 @@
 
         public string ImageUrl { get; set; }
 
+        public string Extension { get; set; }
+
         public virtual ICollection<Like> Likes { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

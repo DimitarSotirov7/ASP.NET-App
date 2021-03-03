@@ -13,15 +13,14 @@
         {
             this.Likes = new HashSet<Like>();
             this.Comments = new HashSet<Comment>();
+            this.Images = new HashSet<Image>();
         }
 
         [Required]
         [MaxLength(500)]
         public string Content { get; set; }
 
-        public string ImageId { get; set; }
-
-        public virtual Image Image { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
 
         public string FromUserId { get; set; }
 

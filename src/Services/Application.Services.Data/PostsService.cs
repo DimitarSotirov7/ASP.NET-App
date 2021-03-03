@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@
 
     public class PostsService : IPostsService
     {
+        private readonly string[] allowedImageExtensions = new[] { "jpg", "png", "gif" };
         private readonly IDeletableEntityRepository<Post> postsRepo;
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepo;
 
@@ -23,16 +25,54 @@
             this.usersRepo = usersRepo;
         }
 
-        public async Task CreatePostAsync(PostInputModel input)
+        public async Task CreatePostAsync(PostInputModel input, string imagePath)
         {
             // var toUserId = this.usersRepo.AllAsNoTracking().FirstOrDefault(x => x.UserName == input.ToUserName).Id;
             var post = new Post()
             {
                 Content = input.Content,
-                ImageId = input.ImageId,
                 FromUserId = input.FromUserId,
                 ToUserId = null,
             };
+
+            if (input.ImageUrl != null)
+            {
+                post.Images.Add(new Image
+                {
+                    ImageUrl = input.ImageUrl,
+                });
+            }
+
+            // Validate extension
+            if (input.LocalImages.Any())
+            {
+                Directory.CreateDirectory(imagePath);
+                foreach (var localImages in input.LocalImages)
+                {
+                    var imageExtension = Path.GetExtension(localImages.FileName).TrimStart('.');
+
+                    // TODO: throw exseption if extension is not valid
+                    if (!this.allowedImageExtensions.Contains(imageExtension))
+                    {
+                        continue;
+                    }
+
+                    // Create image in post
+                    var image = new Image
+                    {
+                        Extension = imageExtension,
+                    };
+
+                    post.Images.Add(image);
+
+                    // Save physically
+                    var fileDirectoty = $"{imagePath}/{image.Id}.{image.Extension}";
+                    using (Stream fileStream = new FileStream(fileDirectoty, FileMode.Create))
+                    {
+                        await input.LocalImages.FirstOrDefault().CopyToAsync(fileStream);
+                    }
+                }
+            }
 
             await this.postsRepo.AddAsync(post);
             await this.postsRepo.SaveChangesAsync();

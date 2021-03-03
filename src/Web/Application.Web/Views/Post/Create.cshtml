@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-lg-6 offset-md-3">
         <section>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <hr />
                 <div class="form-group">
                     <label asp-for="@Model.Content"></label>
@@ -15,8 +15,19 @@
                     <span asp-validation-for="@Model.Content" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="@Model.LocalImages"></label>
+                    <input asp-for="@Model.LocalImages" class="form-control" />
+                    <span asp-validation-for="@Model.LocalImages" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.ImageUrl"></label>
+                    <input asp-for="@Model.ImageUrl" class="form-control" />
+                    <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <button type="submit" class="btn btn-primary">Create</button>
                 </div>
             </form>
         </section>
     </div>
+</div>

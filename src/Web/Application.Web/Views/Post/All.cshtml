@@ -4,6 +4,8 @@
     this.ViewData["Title"] = "Posts";
 }
 
+<link href="~/css/postView.css" rel="stylesheet" />
+
 <h1 class="col-lg-6 offset-md-3 text-sm-center card-header">@this.ViewData["Title"]</h1>
 <hr />
 
@@ -37,7 +39,10 @@
             <div class="row">
                 <div class="col-md-8 offset-2">
                     <div class="post-content">
-                        @*<img src="https://via.placeholder.com/400x150/FFB6C1/000000" alt="post-image" class="img-responsive post-image">*@
+                        @if(post.ImagePath != null)
+                        {
+                            <img src="@post.ImagePath" alt="post-image" class="img-responsive post-image">
+                        }
                         <div class="post-container">
                             <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-md pull-left">
                             <div class="post-detail">
@@ -73,30 +78,5 @@
 
 <hr />
 
-<nav aria-label="...">
-    <ul class="pagination justify-content-center">
-        <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text> }">
-            <a class="page-link" asp-action="All" asp-route-id="@Model.PreviousPageNumber" tabindex="-1">Previous</a>
-        </li>
-        @if (Model.HasPreviousPage)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-action="All" asp-route-id="@Model.PreviousPageNumber">@Model.PreviousPageNumber</a>
-            </li>
-        }
-        <li class="page-item active">
-            <a class="page-link" href="#">@Model.CurrentPage <span class="sr-only">(current)</span></a>
-        </li>
-        @if (Model.HasNextPage)
-        {
-            <li class="page-item ">
-                <a class="page-link" asp-action="All" asp-route-id="@Model.NextPageNumber">@Model.NextPageNumber</a>
-            </li>
-        }
-        <li class="page-item  @if (!Model.HasNextPage) { <text>disabled</text> }">
-            <a class="page-link" asp-action="All" asp-route-id="@Model.NextPageNumber">Next</a>
-        </li>
-    </ul>
-</nav>
+<partial name="_PagingPartialView" model="@Model" />
 
-<link href="~/css/postView.css" rel="stylesheet" />

@@ -7,6 +7,7 @@
     using Application.Services.Contracts;
     using Application.Web.ViewModels.UserRelated;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -16,16 +17,23 @@
         private readonly IPostsService postsService;
         private readonly IUsersService usersService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IWebHostEnvironment environment;
 
-        public PostController(IPostsService postsService, IUsersService usersService, UserManager<ApplicationUser> userManager)
+        public PostController(IPostsService postsService, IUsersService usersService, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
         {
             this.postsService = postsService;
             this.usersService = usersService;
             this.userManager = userManager;
+            this.environment = environment;
         }
 
         public IActionResult All(int id = 1)
         {
+            if (id < 0)
+            {
+                return this.NotFound();
+            }
+
             int postsPerPage = 5;
 
             var allLatestPosts = this.postsService.GetAllLatestPosts(id, postsPerPage);
@@ -57,8 +65,10 @@
                 return this.View(postInputModel);
             }
 
+            var imagePath = $"{this.environment.WebRootPath}/images/posts";
+
             input.FromUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            await this.postsService.CreatePostAsync(input);
+            await this.postsService.CreatePostAsync(input, imagePath);
 
             return this.RedirectToAction("All");
         }
