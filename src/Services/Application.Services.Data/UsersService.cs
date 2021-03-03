@@ -6,11 +6,15 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using Application.Services.Mapping;
     using Application.Data.Common.Repositories;
     using Application.Data.Models;
     using Application.Models.Main;
     using Application.Services.Contracts;
     using Application.Web.ViewModels.Account;
+    using Microsoft.AspNetCore.Http;
+    using System.IO;
+    using Application.Data.Common;
 
     public class UsersService : IUsersService
     {
@@ -82,6 +86,68 @@
         public string GetUserUsernameById(string id)
         {
             return this.usersRepo.AllAsNoTracking().FirstOrDefault(x => x.Id == id).UserName;
+        }
+
+        public UserImagesViewModel GetUserImages(string userId)
+        {
+            var userImageId = this.usersRepo.AllAsNoTracking()
+                .FirstOrDefault(x => x.Id == userId).ProfileImageId;
+
+            var userImages = this.usersRepo.AllAsNoTracking()
+                .Where(x => x.Id == userId)
+                .To<UserImagesViewModel>()
+                .FirstOrDefault();
+
+            if (userImageId == null)
+            {
+                userImages.ProfileImagePath = null;
+            }
+
+            return userImages;
+        }
+
+        public async Task UploadUserImagesAsync(string userId, IEnumerable<IFormFile> localImages, string imageUrl, string userimagesPath)
+        {
+            var user = this.usersRepo.All().Where(x => x.Id == userId);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            if (imageUrl != null)
+            {
+                user.FirstOrDefault().OtherImages.Add(new Image { ImageUrl = imageUrl });
+            }
+
+            Directory.CreateDirectory(userimagesPath);
+            foreach (var localImage in localImages)
+            {
+                var imageExtension = Path.GetExtension(localImage.FileName).TrimStart('.');
+
+                // TODO: throw exseption if extension is not valid
+                if (!GlobalConstants.AllowedImageExtensions.Contains(imageExtension))
+                {
+                    continue;
+                }
+
+                // Create image in post
+                var image = new Image
+                {
+                    Extension = imageExtension,
+                };
+
+                user.FirstOrDefault().OtherImages.Add(image);
+
+                // Save physically
+                var fileDirectoty = $"{userimagesPath}/{image.Id}.{image.Extension}";
+                using (Stream fileStream = new FileStream(fileDirectoty, FileMode.Create))
+                {
+                    await localImage.CopyToAsync(fileStream);
+                }
+            }
+
+            await this.usersRepo.SaveChangesAsync();
         }
 
         private static string Hash(string input)

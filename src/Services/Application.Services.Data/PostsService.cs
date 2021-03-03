@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Application.Data.Common;
     using Application.Data.Common.Repositories;
     using Application.Data.Models;
     using Application.Models.Main;
@@ -15,7 +15,6 @@
 
     public class PostsService : IPostsService
     {
-        private readonly string[] allowedImageExtensions = new[] { "jpg", "png", "gif" };
         private readonly IDeletableEntityRepository<Post> postsRepo;
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepo;
 
@@ -52,7 +51,7 @@
                     var imageExtension = Path.GetExtension(localImages.FileName).TrimStart('.');
 
                     // TODO: throw exseption if extension is not valid
-                    if (!this.allowedImageExtensions.Contains(imageExtension))
+                    if (!GlobalConstants.AllowedImageExtensions.Contains(imageExtension))
                     {
                         continue;
                     }

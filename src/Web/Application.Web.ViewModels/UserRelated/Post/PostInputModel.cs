@@ -1,12 +1,18 @@
 ﻿namespace Application.Web.ViewModels.UserRelated
 {
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Http;
+
     using Application.Models.Main;
     using Application.Services.Mapping;
-    using Microsoft.AspNetCore.Http;
-    using System.Collections.Generic;
 
     public class PostInputModel : IMapTo<Post>
     {
+        public PostInputModel()
+        {
+            this.LocalImages = new List<IFormFile>();
+        }
+
         public string Content { get; set; }
 
         public string ImageUrl { get; set; }

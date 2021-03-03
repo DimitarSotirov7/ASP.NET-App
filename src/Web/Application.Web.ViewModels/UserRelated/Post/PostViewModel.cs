@@ -2,9 +2,10 @@
 {
     using System;
     using System.Linq;
+    using AutoMapper;
+
     using Application.Models.Main;
     using Application.Services.Mapping;
-    using AutoMapper;
 
     public class PostViewModel : IMapFrom<Post>, IHaveCustomMappings
     {
@@ -12,21 +13,21 @@
 
         public string ImagePath { get; set; }
 
-        public string FromUserName { get; set; }
+        public string FromUserUserName { get; set; }
+
+        public string FromUserProfileImagePath { get; set; }
+
+        public string FromUserProfileImageId { get; set; }
 
         public string ToUserName { get; set; }
 
-        public TimeSpan Time { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Post, PostViewModel>()
-                .ForMember(x => x.Time, opt => opt.MapFrom(x => DateTime.UtcNow - x.CreatedOn));
-
-            configuration.CreateMap<Post, PostViewModel>()
-                .ForMember(x => x.FromUserName, opt => opt.MapFrom(x => x.FromUser.UserName));
-
-            configuration.CreateMap<Post, PostViewModel>()
+                .ForMember(x => x.FromUserProfileImagePath, opt => 
+                opt.MapFrom(x => "/images/users/" + x.FromUser.ProfileImageId + "." + x.FromUser.ProfileImage.Extension))
                 .ForMember(x => x.ImagePath, opt => opt.MapFrom(x => !x.Images.Any() ? null :
                 x.Images.FirstOrDefault().ImageUrl != null
                 ? x.Images.FirstOrDefault().ImageUrl

@@ -3,6 +3,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using Application.Data.Common;
     using Application.Data.Models;
     using Application.Services.Contracts;
     using Application.Web.ViewModels.UserRelated;
@@ -37,6 +38,7 @@
             int postsPerPage = 5;
 
             var allLatestPosts = this.postsService.GetAllLatestPosts(id, postsPerPage);
+
             var posts = new AllLatestPostsViewModel()
             {
                 Posts = allLatestPosts,

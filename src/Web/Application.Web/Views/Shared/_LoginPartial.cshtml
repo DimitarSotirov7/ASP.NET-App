@@ -1,15 +1,31 @@
 ﻿@using Application.Common
 @using Application.Data.Models
 @using Microsoft.AspNetCore.Identity
+@using Application.Services.Contracts
+@using System.Security.Claims;
+@inject IUsersService usersService
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @this.User.Identity.Name!</a>
-        </li>
+    <li class="nav-item">
+        @{
+            var profileImagePath = usersService.GetUserImages(this.User.FindFirst(ClaimTypes.NameIdentifier).Value).ProfileImagePath;
+
+            if (profileImagePath == null)
+            {
+                <img src="~/images/DefaultProfileImage.png" alt="user" class="profile-photo-md float-left">
+            }
+            else
+            {
+                <img src="@profileImagePath" alt="user" class="profile-photo-md float-left">
+            }
+        }
+
+        <a class="nav-link text-dark float-right" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @this.User.Identity.Name!</a>
+    </li>
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <li class="nav-item">
