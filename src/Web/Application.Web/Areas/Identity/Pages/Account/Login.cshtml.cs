@@ -44,7 +44,7 @@
         {
             if (!string.IsNullOrEmpty(this.ErrorMessage))
             {
-                this.ModelState.AddModelError(string.Empty, ErrorMessage);
+                this.ModelState.AddModelError(string.Empty, this.ErrorMessage);
             }
 
             returnUrl ??= this.Url.Content("~/");

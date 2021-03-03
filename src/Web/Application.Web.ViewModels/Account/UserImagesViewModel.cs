@@ -5,12 +5,13 @@
     using Application.Services.Mapping;
     using AutoMapper;
     using System.Collections.Generic;
+    using Application.Web.ViewModels;
 
     public class UserImagesViewModel : IMapFrom<ApplicationUser>, IHaveCustomMappings
     {
         public string ProfileImagePath { get; set; }
 
-        public ICollection<Image> OtherImages { get; set; }
+        public ICollection<ImagesViewModel> OtherImages { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
