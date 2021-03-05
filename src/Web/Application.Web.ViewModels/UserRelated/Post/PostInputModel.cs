@@ -6,7 +6,7 @@
     using Application.Models.Main;
     using Application.Services.Mapping;
 
-    public class PostInputModel : IMapTo<Post>
+    public class PostInputModel
     {
         public PostInputModel()
         {

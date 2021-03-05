@@ -5,12 +5,14 @@
 
     using Application.Data.Common.Models;
     using Application.Data.Models;
+    using Application.Data.Models.Main;
 
     public class Message : BaseDeletableModel<int>
     {
         public Message()
         {
             this.Likes = new HashSet<Like>();
+            this.Dislikes = new HashSet<Dislike>();
         }
 
         [MaxLength(250)]
@@ -31,5 +33,7 @@
         public bool Seen { get; set; }
 
         public virtual ICollection<Like> Likes { get; set; }
+
+        public virtual ICollection<Dislike> Dislikes { get; set; }
     }
 }

@@ -6,12 +6,14 @@
 
     using Application.Data.Common.Models;
     using Application.Data.Models;
+    using Application.Data.Models.Main;
 
     public class Post : BaseDeletableModel<int>
     {
         public Post()
         {
             this.Likes = new HashSet<Like>();
+            this.Dislikes = new HashSet<Dislike>();
             this.Comments = new HashSet<Comment>();
             this.Images = new HashSet<Image>();
         }
@@ -31,6 +33,8 @@
         public virtual ApplicationUser ToUser { get; set; }
 
         public virtual ICollection<Like> Likes { get; set; }
+
+        public virtual ICollection<Dislike> Dislikes { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
     }

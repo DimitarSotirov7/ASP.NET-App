@@ -81,6 +81,11 @@
 
             services.AddSingleton(this.configuration);
 
+            services.AddAntiforgery(option =>
+            {
+                option.HeaderName = "X-CSRF-TOKEN";
+            });
+
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));

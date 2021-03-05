@@ -21,6 +21,7 @@ namespace Application.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
 
             this.OwnLikes = new HashSet<Like>();
+            this.OwnDislikes = new HashSet<Dislike>();
 
             this.OwnComments = new HashSet<Comment>();
             this.CommentsReceived = new HashSet<Comment>();
@@ -88,6 +89,9 @@ namespace Application.Data.Models
 
         [InverseProperty("FromUser")]
         public virtual ICollection<Like> OwnLikes { get; set; }
+
+        [InverseProperty("FromUser")]
+        public virtual ICollection<Dislike> OwnDislikes { get; set; }
 
         [InverseProperty("FromUser")]
         public virtual ICollection<Comment> OwnComments { get; set; }

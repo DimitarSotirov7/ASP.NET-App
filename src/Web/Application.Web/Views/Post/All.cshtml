@@ -42,48 +42,50 @@
             time = timeFrom.Seconds > 1 ? $"{timeFrom.Seconds} seconds ago" : $"a second ago";
         }
 
+        <div id="postId" accesskey="@post.Id"></div>
+
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 offset-2">
                     <div class="post-content">
-                        @if(post.ImagePath != null)
+                        @if (post.ImagePath != null)
                         {
                             <img src="@post.ImagePath" alt="post-image" class="img-responsive post-image">
                         }
-                    <div class="post-container">
-                        @if (post.FromUserProfileImageId == null)
-                        {
-                            <img src="~/images/DefaultProfileImage.png" alt="user" class="profile-photo-md pull-left">
-                        }
-                        else
-                        {
-                            <img src="@post.FromUserProfileImagePath" alt="user" class="profile-photo-md pull-left">
-                        }
-                        <div class="post-detail">
-                            <div class="user-info">
-                                <h5><a href="timeline.html" class="profile-link">@post.FromUserUserName</a> <span class="following">following</span></h5>
-                                <p class="text-muted">Published @time</p>
-                            </div>
-                            <div class="reaction">
-                                <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 13</a>
-                                <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
-                            </div>
-                            <div class="line-divider"></div>
-                            <div class="post-text">
-                                <p>@post.Content<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                            </div>
-                            <div class="line-divider"></div>
-                            <div class="post-comment">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="profile-photo-sm">
-                                <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i>Comment</p>
-                            </div>
-                            <div class="post-comment">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
-                                <input type="text" class="form-control" placeholder="Post a comment">
+                        <div class="post-container">
+                            @if (post.FromUserProfileImageId == null)
+                            {
+                                <img src="~/images/DefaultProfileImage.png" alt="user" class="profile-photo-md pull-left">
+                            }
+                            else
+                            {
+                                <img src="@post.FromUserProfileImagePath" alt="user" class="profile-photo-md pull-left">
+                            }
+                            <div class="post-detail">
+                                <div class="user-info">
+                                    <h5><a href="timeline.html" class="profile-link">@post.FromUserUserName</a> <span class="following">following</span></h5>
+                                    <p class="text-muted">Published @time</p>
+                                </div>
+                                <div class="reaction" id="@post.Id">
+                                    <a class="btn text-green" id="likeBtn"><i class="fa fa-thumbs-up"></i></a><span id="likeCount">@post.LikesCount</span>
+                                    <a class="btn text-red" id="dislikeBtn"><i class="fa fa-thumbs-down"></i></a><span id="dislikeCount">@post.DislikesCount</span>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-text">
+                                    <p>@post.Content<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-comment">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="profile-photo-sm">
+                                    <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i>Comment</p>
+                                </div>
+                                <div class="post-comment">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
+                                    <input type="text" class="form-control" placeholder="Post a comment">
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -93,5 +95,11 @@
 
 <hr />
 
+<form method="post" id="antiForgeryForm"></form>
+
 <partial name="_PagingPartial" model="@Model" />
+
+@section Scripts{
+    <script src="~/js/likesDislikesAjax.js"></script>
+}
 

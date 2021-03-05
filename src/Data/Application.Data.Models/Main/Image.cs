@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using Application.Data.Common.Models;
+    using Application.Data.Models.Main;
 
     public class Image : BaseDeletableModel<string>
     {
@@ -12,6 +13,7 @@
             this.Id = Guid.NewGuid().ToString();
 
             this.Likes = new HashSet<Like>();
+            this.Dislikes = new HashSet<Dislike>();
             this.Comments = new HashSet<Comment>();
         }
 
@@ -20,6 +22,8 @@
         public string Extension { get; set; }
 
         public virtual ICollection<Like> Likes { get; set; }
+
+        public virtual ICollection<Dislike> Dislikes { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
     }
