@@ -1,4 +1,4 @@
-﻿namespace Application.Web.ViewModels.UserRelated.Post
+﻿namespace Application.Web.ViewModels.UserRelated.Posts
 {
     public class ThumbUpDownInputModel
     {

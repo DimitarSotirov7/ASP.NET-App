@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Application.Data.Common;
     using Application.Data.Common.Repositories;
     using Application.Data.Models;
@@ -12,8 +13,8 @@
     using Application.Models.Main;
     using Application.Services.Contracts;
     using Application.Services.Mapping;
-    using Application.Web.ViewModels.UserRelated;
-    using Application.Web.ViewModels.UserRelated.Post;
+    using Application.Web.ViewModels.UserRelated.Comments;
+    using Application.Web.ViewModels.UserRelated.Posts;
 
     public class PostsService : IPostsService
     {
@@ -119,15 +120,6 @@
                 return;
             }
 
-            var dislike = this.dislikesRepo.All()
-                .Where(x => x.FromUserId == userId && x.ToPostId == postId);
-
-            // remove dislike
-            if (dislike != null)
-            {
-                // this.dislikesRepo.Delete(dislike);
-            }
-
             var like = new Like
             {
                 FromUserId = userId,
@@ -156,15 +148,6 @@
                 return;
             }
 
-            var like = this.likesRepo.All()
-                .Where(x => x.FromUserId == userId && x.ToPostId == postId);
-
-            // remove like
-            if (like != null)
-            {
-                // this.likesRepo.Delete(like);
-            }
-
             var dislike = new Dislike
             {
                 FromUserId = userId,
@@ -180,6 +163,89 @@
         {
             return this.postsRepo.AllAsNoTracking().Where(x => x.Id == postId)
                 .To<ThumbUpDownCountsViewModel>()
+                .FirstOrDefault();
+        }
+
+        public async Task DeleteLikeDislikeFromPostByUser(int postId, string userId, bool isLike)
+        {
+            if (isLike)
+            {
+                var like = this.likesRepo.All().Where(x => x.ToPostId == postId && x.FromUserId == userId);
+                this.likesRepo.Delete((Like)like);
+                await this.likesRepo.SaveChangesAsync();
+            }
+            else
+            {
+                var dislike = this.dislikesRepo.All().Where(x => x.ToPostId == postId && x.FromUserId == userId);
+                this.dislikesRepo.Delete((Dislike)dislike);
+                await this.dislikesRepo.SaveChangesAsync();
+            }
+        }
+
+        public bool HasUserLikesInPost(string userId, int postId)
+        {
+            return this.usersRepo.AllAsNoTracking()
+                .Where(x => x.Id == userId)
+                .Select(x => new
+                {
+                    Likes = x.OwnLikes.Select(l => new
+                    {
+                        ToPostId = l.ToPostId,
+                    }),
+                })
+                .Any(x => x.Likes.Any(l => l.ToPostId == postId));
+        }
+
+        public bool HasUserDislikesInPost(string userId, int postId)
+        {
+            return this.usersRepo.AllAsNoTracking()
+                .Where(x => x.Id == userId)
+                .Select(x => new
+                {
+                    Dislikes = x.OwnDislikes.Select(l => new
+                    {
+                        ToPostId = l.ToPostId,
+                    }),
+                })
+                .Any(x => x.Dislikes.Any(l => l.ToPostId == postId));
+        }
+
+        public async Task AddCommentAsync(CommentInputModel input)
+        {
+            var userExist = this.usersRepo.AllAsNoTracking()
+                .Any(x => x.Id == input.FromUserId);
+
+            if (!userExist)
+            {
+                return;
+            }
+
+            var post = this.postsRepo.All().FirstOrDefault(x => x.Id == input.ToPostId);
+
+            if (post == null)
+            {
+                return;
+            }
+
+            var comment = new Comment
+            {
+                Content = input.Content,
+                FromUserId = input.FromUserId,
+                ToPostId = input.ToPostId,
+            };
+            post.Comments.Add(comment);
+
+            await this.postsRepo.SaveChangesAsync();
+        }
+
+        public CommentViewModel GetLastComment(CommentInputModel input)
+        {
+            return this.postsRepo.AllAsNoTracking()
+                .Where(x => x.Id == input.ToPostId)
+                .To<AllCommentsInPostViewModel>()
+                .FirstOrDefault()
+                .Comments
+                .OrderByDescending(x => x.CreatedOn)
                 .FirstOrDefault();
         }
     }

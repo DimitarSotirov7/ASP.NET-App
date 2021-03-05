@@ -1,4 +1,4 @@
-﻿@using Application.Web.ViewModels.UserRelated
+﻿@using Application.Web.ViewModels.UserRelated.Posts
 @model AllLatestPostsViewModel
 @{
     this.ViewData["Title"] = "Posts";
@@ -76,12 +76,23 @@
                                     <p>@post.Content<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                                 </div>
                                 <div class="line-divider"></div>
-                                <div class="post-comment">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="profile-photo-sm">
-                                    <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i>Comment</p>
+                                <hr />
+                                <div id="commentsContainer">
+                                    @foreach (var comment in post.Comments)
+                                    {
+                                    <div class="post-comment addedComments">
+                                        <img src="@comment.FromUserProfileImagePath" alt="" class="profile-photo-sm">
+                                        <p><a href="timeline.html" class="profile-link">@comment.FromUsername </a><i class="em em-laughing"></i>@comment.Content</p>
+                                        <div class="reaction" id="@post.Id">
+                                            @*<a class="btn text-green" id="commentLikeBtn"><i class="fa fa-thumbs-up"></i></a><span id="commentLikeCount">@comment.LikesCount</span>
+                                            <a class="btn text-red" id="commentDislikeBtn"><i class="fa fa-thumbs-down"></i></a><span id="commentDislikeCount">@comment.DislikesCount</span>*@
+                                        </div>
+                                    </div>
+                                    }
                                 </div>
-                                <div class="post-comment">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
+
+                                <div class="post-comment" id="addNewComment" accesskey="@post.Id">
+                                    <img src="@Model.LoggedUserProfileImagePath" alt="" class="profile-photo-sm">
                                     <input type="text" class="form-control" placeholder="Post a comment">
                                 </div>
                             </div>
@@ -101,5 +112,6 @@
 
 @section Scripts{
     <script src="~/js/likesDislikesAjax.js"></script>
+    <script src="~/js/comments.js"></script>
 }
 

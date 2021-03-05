@@ -1,13 +1,11 @@
 ﻿namespace Application.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Application.Data.Common.Repositories;
     using Application.Models.Main;
     using Application.Services.Contracts;
-    using Application.Web.ViewModels.UserRelated;
+    using Application.Web.ViewModels.UserRelated.Comments;
 
     public class CommentsService : ICommentsService
     {
@@ -28,23 +26,11 @@
         {
             var comment = new Comment()
             {
-                Content = input.Content,
-                FromUserId = input.FromUserId,
-                ToUserId = input.ToUserId,
+                
             };
 
             await this.commentsRepo.AddAsync(comment);
             await this.commentsRepo.SaveChangesAsync();
-        }
-
-        public ICollection<Comment> GetCommentsByImageId(string imageId)
-        {
-            return this.imagesRepo.AllAsNoTracking().FirstOrDefault(x => x.Id == imageId).Comments;
-        }
-
-        public ICollection<Comment> GetCommentsByPostId(int postId)
-        {
-            return this.postsRepo.AllAsNoTracking().FirstOrDefault(x => x.Id == postId).Comments;
         }
     }
 }

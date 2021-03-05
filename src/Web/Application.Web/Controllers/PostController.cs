@@ -6,7 +6,7 @@
     using Application.Data.Common;
     using Application.Data.Models;
     using Application.Services.Contracts;
-    using Application.Web.ViewModels.UserRelated;
+    using Application.Web.ViewModels.UserRelated.Posts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -39,12 +39,19 @@
 
             var allLatestPosts = this.postsService.GetAllLatestPosts(id, postsPerPage);
 
+            var profileImagePath = this.usersService.GetUserImages(this.User.FindFirst(ClaimTypes.NameIdentifier).Value).ProfileImagePath;
+            if (profileImagePath == null)
+            {
+                profileImagePath = "/images/" + GlobalConstants.DefaultProfileImageName;
+            }
+
             var posts = new AllLatestPostsViewModel()
             {
                 Posts = allLatestPosts,
                 CurrentPage = id,
                 PostsPerPage = postsPerPage,
                 PostsCount = this.postsService.GetCount(),
+                LoggedUserProfileImagePath = profileImagePath,
             };
 
             return this.View(posts);

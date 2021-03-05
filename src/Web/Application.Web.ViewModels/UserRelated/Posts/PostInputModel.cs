@@ -1,4 +1,4 @@
-﻿namespace Application.Web.ViewModels.UserRelated
+﻿namespace Application.Web.ViewModels.UserRelated.Posts
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Http;

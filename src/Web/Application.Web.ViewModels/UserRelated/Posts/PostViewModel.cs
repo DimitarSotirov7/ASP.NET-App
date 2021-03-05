@@ -1,13 +1,15 @@
-﻿namespace Application.Web.ViewModels.UserRelated
+﻿namespace Application.Web.ViewModels.UserRelated.Posts
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
-    using AutoMapper;
-
+    using Application.Data.Common;
     using Application.Models.Main;
     using Application.Services.Mapping;
+    using Application.Web.ViewModels.UserRelated.Comments;
+    using AutoMapper;
 
-    public class PostViewModel : IMapFrom<Application.Models.Main.Post>, IHaveCustomMappings
+    public class PostViewModel : IMapFrom<Post>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -29,11 +31,15 @@
 
         public int DislikesCount { get; set; }
 
+        public ICollection<CommentViewModel> Comments { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Application.Models.Main.Post, PostViewModel>()
-                .ForMember(x => x.FromUserProfileImagePath, opt => 
-                opt.MapFrom(x => "/images/users/" + x.FromUser.ProfileImageId + "." + x.FromUser.ProfileImage.Extension))
+            configuration.CreateMap<Post, PostViewModel>()
+                .ForMember(x => x.FromUserProfileImagePath, opt =>
+                opt.MapFrom(x => x.FromUser.ProfileImage == null
+                    ? "/images/" + GlobalConstants.DefaultProfileImageName
+                    : "/images/users/" + x.FromUser.ProfileImageId + "." + x.FromUser.ProfileImage.Extension))
                 .ForMember(x => x.ImagePath, opt => opt.MapFrom(x => !x.Images.Any() ? null :
                 x.Images.FirstOrDefault().ImageUrl != null
                 ? x.Images.FirstOrDefault().ImageUrl

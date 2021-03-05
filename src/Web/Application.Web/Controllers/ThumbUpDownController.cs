@@ -3,7 +3,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Application.Services.Contracts;
-    using Application.Web.ViewModels.UserRelated.Post;
+    using Application.Web.ViewModels.UserRelated.Posts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

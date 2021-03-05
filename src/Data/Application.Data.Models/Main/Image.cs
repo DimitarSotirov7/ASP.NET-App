@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using Application.Data.Common.Models;
     using Application.Data.Models.Main;
 
@@ -14,7 +14,8 @@
 
             this.Likes = new HashSet<Like>();
             this.Dislikes = new HashSet<Dislike>();
-            this.Comments = new HashSet<Comment>();
+            this.ToImageComments = new HashSet<Comment>();
+            this.ImageComments = new HashSet<Comment>();
         }
 
         public string ImageUrl { get; set; }
@@ -25,6 +26,10 @@
 
         public virtual ICollection<Dislike> Dislikes { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
+        [InverseProperty("ToImage")]
+        public virtual ICollection<Comment> ToImageComments { get; set; }
+
+        [InverseProperty("Image")]
+        public virtual ICollection<Comment> ImageComments { get; set; }
     }
 }

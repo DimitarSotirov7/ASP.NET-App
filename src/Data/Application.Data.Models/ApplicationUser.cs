@@ -24,7 +24,6 @@ namespace Application.Data.Models
             this.OwnDislikes = new HashSet<Dislike>();
 
             this.OwnComments = new HashSet<Comment>();
-            this.CommentsReceived = new HashSet<Comment>();
 
             this.OwnMessages = new HashSet<Message>();
             this.MessagesReceived = new HashSet<Message>();
@@ -95,9 +94,6 @@ namespace Application.Data.Models
 
         [InverseProperty("FromUser")]
         public virtual ICollection<Comment> OwnComments { get; set; }
-
-        [InverseProperty("ToUser")]
-        public virtual ICollection<Comment> CommentsReceived { get; set; }
 
         [InverseProperty("Requester")]
         public virtual ICollection<Friendship> FriendshipRequests { get; set; }

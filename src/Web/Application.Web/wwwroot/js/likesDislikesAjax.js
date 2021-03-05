@@ -19,8 +19,7 @@
         postId = x.target.parentNode.parentNode.id;
         isLike = x.target.className.includes('up');
 
-        var data =
-        {
+        var data = {
             isLike: isLike,
             postId: postId
         };

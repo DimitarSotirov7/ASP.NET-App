@@ -1,6 +1,5 @@
 ﻿namespace Application.Models.Main
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -19,17 +18,21 @@
         [MaxLength(250)]
         public string Content { get; set; }
 
+        public string ImageId { get; set; }
+
+        public virtual Image Image { get; set; }
+
         public string FromUserId { get; set; }
 
         public virtual ApplicationUser FromUser { get; set; }
 
-        public string ToUserId { get; set; }
+        public int? ToPostId { get; set; }
 
-        public virtual ApplicationUser ToUser { get; set; }
+        public virtual Post ToPost { get; set; }
 
-        public string ImageId { get; set; }
+        public string ToImageId { get; set; }
 
-        public virtual Image Image { get; set; }
+        public virtual Image ToImage { get; set; }
 
         public virtual ICollection<Like> Likes { get; set; }
 

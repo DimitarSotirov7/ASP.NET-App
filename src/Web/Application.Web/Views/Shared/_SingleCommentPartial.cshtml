@@ -1,0 +1,10 @@
+﻿@using Application.Web.ViewModels.UserRelated.Comments
+@model CommentViewModel
+<div class="post-comment">
+    <img src="@Model.FromUserProfileImagePath" alt="" class="profile-photo-sm">
+    <p><a href="timeline.html" class="profile-link">@Model.FromUsername </a><i class="em em-laughing"></i>@Model.Content</p>
+    <div class="reaction">
+        <a class="btn text-green" id="commentLikeBtn"><i class="fa fa-thumbs-up"></i></a><span id="commentLikeCount">@Model.LikesCount</span>
+        <a class="btn text-red" id="commentDislikeBtn"><i class="fa fa-thumbs-down"></i></a><span id="commentDislikeCount">@Model.DislikesCount</span>
+    </div>
+</div>
