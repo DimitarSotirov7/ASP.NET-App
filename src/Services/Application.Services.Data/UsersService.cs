@@ -42,6 +42,14 @@
             await this.usersRepo.SaveChangesAsync();
         }
 
+        public ProfileViewModel GetUserInformation(string userId)
+        {
+            return this.usersRepo.AllAsNoTracking()
+                .Where(x => x.Id == userId)
+                .To<ProfileViewModel>()
+                .FirstOrDefault();
+        }
+
         public string GetUserIdByUsernameAndPassword(string username, string password = null)
         {
             if (password == null)

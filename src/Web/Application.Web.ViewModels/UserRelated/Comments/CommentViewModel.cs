@@ -12,6 +12,8 @@
 
         public string FromUsername { get; set; }
 
+        public string FromUserId { get; set; }
+
         public string FromUserProfileImagePath { get; set; }
 
         public int? ToPostId { get; set; }

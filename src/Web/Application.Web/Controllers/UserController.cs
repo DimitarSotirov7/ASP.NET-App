@@ -20,7 +20,7 @@
 
         public IActionResult Profile(string id)
         {
-            var profileViewModel = new ProfileViewModel{ UserId = id };
+            var profileViewModel = this.usersService.GetUserInformation(id);
 
             return this.View(profileViewModel);
         }

@@ -82,7 +82,7 @@
                                     {
                                     <div class="post-comment addedComments">
                                         <img src="@comment.FromUserProfileImagePath" alt="" class="profile-photo-sm">
-                                        <p><a asp-controller="User" asp-action="Profile" asp-route-id="@post.UserId" class="profile-link">@comment.FromUsername </a><i class="em em-laughing"></i>@comment.Content</p>
+                                        <p><a asp-controller="User" asp-action="Profile" asp-route-id="@comment.FromUserId" class="profile-link">@comment.FromUsername </a><i class="em em-laughing"></i>@comment.Content</p>
                                         <div class="reaction" id="@post.Id">
                                             @*<a class="btn text-green" id="commentLikeBtn"><i class="fa fa-thumbs-up"></i></a><span id="commentLikeCount">@comment.LikesCount</span>
                                             <a class="btn text-red" id="commentDislikeBtn"><i class="fa fa-thumbs-down"></i></a><span id="commentDislikeCount">@comment.DislikesCount</span>*@

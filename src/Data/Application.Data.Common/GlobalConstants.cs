@@ -17,5 +17,10 @@
         public static string GetsLocalImagePath => "/{0}/{1}.{2}";
 
         public static string DefaultCoverImageName => "DefaultCoverImage.jpg";
+
+        /// <summary>
+        /// use String.Format to put folder directory.
+        /// </summary>
+        public static string GetsDefaultCoverImagePath => "/{0}/DefaultCoverImage.jpg";
     }
 }

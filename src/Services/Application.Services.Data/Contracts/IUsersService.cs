@@ -10,6 +10,8 @@
     {
         public Task CreateUserAsync(RegisterInputModel input);
 
+        public ProfileViewModel GetUserInformation(string userId);
+
         public int GetUsersCount();
 
         public UserImagesViewModel GetUserImages(string userId);
