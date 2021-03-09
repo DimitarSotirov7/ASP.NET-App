@@ -1,10 +1,9 @@
 ﻿namespace Application.Services
 {
     using Application.Data.Common.Repositories;
-    using Application.Models.Main;
+    using Application.Data.Models.Main;
     using Application.Services.Contracts;
     using Application.Web.ViewModels.UserRelated;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class FollowsService : IFollowsService

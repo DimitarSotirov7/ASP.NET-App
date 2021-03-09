@@ -9,12 +9,12 @@
     using Application.Services.Mapping;
     using Application.Data.Common.Repositories;
     using Application.Data.Models;
-    using Application.Models.Main;
     using Application.Services.Contracts;
     using Application.Web.ViewModels.Account;
     using Microsoft.AspNetCore.Http;
     using System.IO;
     using Application.Data.Common;
+    using Application.Data.Models.Main;
 
     public class UsersService : IUsersService
     {

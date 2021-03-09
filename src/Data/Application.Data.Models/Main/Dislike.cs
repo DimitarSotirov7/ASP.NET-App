@@ -1,7 +1,6 @@
 ﻿namespace Application.Data.Models.Main
 {
     using Application.Data.Common.Models;
-    using Application.Models.Main;
 
     public class Dislike : BaseModel<int>
     {

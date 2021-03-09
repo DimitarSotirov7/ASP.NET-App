@@ -8,7 +8,6 @@ namespace Application.Data.Models
 
     using Application.Data.Common.Models;
     using Application.Data.Models.Main;
-    using Application.Models.Main;
     using Microsoft.AspNetCore.Identity;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity

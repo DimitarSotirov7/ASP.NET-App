@@ -1,4 +1,4 @@
-﻿namespace Application.Models.Main
+﻿namespace Application.Data.Models.Main
 {
     using Application.Data.Common.Models;
     using Application.Data.Models;

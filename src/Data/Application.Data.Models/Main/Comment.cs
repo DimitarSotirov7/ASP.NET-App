@@ -1,4 +1,4 @@
-﻿namespace Application.Models.Main
+﻿namespace Application.Data.Models.Main
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

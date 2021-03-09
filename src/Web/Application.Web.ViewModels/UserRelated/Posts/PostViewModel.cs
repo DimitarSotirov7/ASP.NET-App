@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Application.Data.Common;
-    using Application.Models.Main;
+    using Application.Data.Models.Main;
     using Application.Services.Mapping;
     using Application.Web.ViewModels.UserRelated.Comments;
     using AutoMapper;
@@ -18,6 +18,8 @@
         public string ImagePath { get; set; }
 
         public string FromUserUserName { get; set; }
+
+        public string UserId { get; set; }
 
         public string FromUserProfileImagePath { get; set; }
 
@@ -38,12 +40,12 @@
             configuration.CreateMap<Post, PostViewModel>()
                 .ForMember(x => x.FromUserProfileImagePath, opt =>
                 opt.MapFrom(x => x.FromUser.ProfileImage == null
-                    ? "/images/" + GlobalConstants.DefaultProfileImageName
-                    : "/images/users/" + x.FromUser.ProfileImageId + "." + x.FromUser.ProfileImage.Extension))
-                .ForMember(x => x.ImagePath, opt => opt.MapFrom(x => !x.Images.Any() ? null :
-                x.Images.FirstOrDefault().ImageUrl != null
-                ? x.Images.FirstOrDefault().ImageUrl
-                : "/images/posts/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension));
+                    ? string.Format(GlobalConstants.GetsDefaultProfileImagePath, "images")
+                    : string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.FromUser.ProfileImageId, x.FromUser.ProfileImage.Extension)))
+                .ForMember(x => x.ImagePath, opt => opt.MapFrom(x => !x.Images.Any() ? null
+                : x.Images.FirstOrDefault().ImageUrl ??
+                string.Format(GlobalConstants.GetsLocalImagePath, "images/posts", x.Images.FirstOrDefault().Id, x.Images.FirstOrDefault().Extension)))
+                .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.FromUserId));
         }
     }
 }

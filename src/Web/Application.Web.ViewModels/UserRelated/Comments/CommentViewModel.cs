@@ -1,7 +1,7 @@
 ﻿namespace Application.Web.ViewModels.UserRelated.Comments
 {
     using Application.Data.Common;
-    using Application.Models.Main;
+    using Application.Data.Models.Main;
     using Application.Services.Mapping;
     using AutoMapper;
     using System;

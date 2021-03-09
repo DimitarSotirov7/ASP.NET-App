@@ -1,6 +1,6 @@
 ﻿namespace Application.Web.ViewModels
 {
-    using Application.Models.Main;
+    using Application.Data.Models.Main;
     using Application.Services.Mapping;
 
     public class ImagesViewModel : IMapFrom<Image>

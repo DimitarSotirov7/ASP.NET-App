@@ -1,10 +1,7 @@
-﻿namespace Application.Web.Controllers.Identity
+﻿namespace Application.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Application.Services.Contracts;
+    using Application.Web.ViewModels.Account;
     using Microsoft.AspNetCore.Mvc;
 
     public class UserController : Controller
@@ -19,6 +16,13 @@
         public IActionResult Images()
         {
             return this.View();
+        }
+
+        public IActionResult Profile(string id)
+        {
+            var profileViewModel = new ProfileViewModel{ UserId = id };
+
+            return this.View(profileViewModel);
         }
     }
 }

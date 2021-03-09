@@ -47,7 +47,7 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
         <div class="container">
             <div class="row">
-                <div class="col-md-8 offset-2">
+                <div class="col-md-10 offset-1">
                     <div class="post-content">
                         @if (post.ImagePath != null)
                         {
@@ -64,7 +64,7 @@
                             }
                             <div class="post-detail">
                                 <div class="user-info">
-                                    <h5><a href="timeline.html" class="profile-link">@post.FromUserUserName</a> <span class="following">following</span></h5>
+                                    <h5><a asp-controller="User" asp-action="Profile" asp-route-id="@post.UserId" class="profile-link">@post.FromUserUserName</a> <span class="following">following</span></h5>
                                     <p class="text-muted">Published @time</p>
                                 </div>
                                 <div class="reaction" id="@post.Id">
@@ -82,7 +82,7 @@
                                     {
                                     <div class="post-comment addedComments">
                                         <img src="@comment.FromUserProfileImagePath" alt="" class="profile-photo-sm">
-                                        <p><a href="timeline.html" class="profile-link">@comment.FromUsername </a><i class="em em-laughing"></i>@comment.Content</p>
+                                        <p><a asp-controller="User" asp-action="Profile" asp-route-id="@post.UserId" class="profile-link">@comment.FromUsername </a><i class="em em-laughing"></i>@comment.Content</p>
                                         <div class="reaction" id="@post.Id">
                                             @*<a class="btn text-green" id="commentLikeBtn"><i class="fa fa-thumbs-up"></i></a><span id="commentLikeCount">@comment.LikesCount</span>
                                             <a class="btn text-red" id="commentDislikeBtn"><i class="fa fa-thumbs-down"></i></a><span id="commentDislikeCount">@comment.DislikesCount</span>*@

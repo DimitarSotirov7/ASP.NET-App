@@ -4,7 +4,7 @@
 
     using Application.Data.Common.Repositories;
     using Application.Data.Models;
-    using Application.Models.Main;
+    using Application.Data.Models.Main;
     using Application.Services.Contracts;
     using Application.Web.ViewModels.UserRelated;
 

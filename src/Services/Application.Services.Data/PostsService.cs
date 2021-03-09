@@ -10,7 +10,6 @@
     using Application.Data.Common.Repositories;
     using Application.Data.Models;
     using Application.Data.Models.Main;
-    using Application.Models.Main;
     using Application.Services.Contracts;
     using Application.Services.Mapping;
     using Application.Web.ViewModels.UserRelated.Comments;
@@ -115,7 +114,10 @@
             var likeExist = this.likesRepo.AllAsNoTracking()
                 .Any(x => x.FromUserId == userId && x.ToPostId == postId);
 
-            if (likeExist)
+            var dislikeExist = this.dislikesRepo.AllAsNoTracking()
+                .Any(x => x.FromUserId == userId && x.ToPostId == postId);
+
+            if (likeExist || dislikeExist)
             {
                 return;
             }
@@ -143,7 +145,10 @@
             var dislikeExist = this.dislikesRepo.AllAsNoTracking()
                 .Any(x => x.FromUserId == userId && x.ToPostId == postId);
 
-            if (dislikeExist)
+            var likeExist = this.likesRepo.AllAsNoTracking()
+                .Any(x => x.FromUserId == userId && x.ToPostId == postId);
+
+            if (likeExist || dislikeExist)
             {
                 return;
             }

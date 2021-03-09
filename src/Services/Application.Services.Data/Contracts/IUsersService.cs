@@ -2,8 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
-    using Application.Models.Main;
+    using Application.Data.Models.Main;
     using Application.Web.ViewModels.Account;
     using Microsoft.AspNetCore.Http;
 

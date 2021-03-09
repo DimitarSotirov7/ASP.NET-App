@@ -3,9 +3,6 @@
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Http;
 
-    using Application.Models.Main;
-    using Application.Services.Mapping;
-
     public class PostInputModel
     {
         public PostInputModel()

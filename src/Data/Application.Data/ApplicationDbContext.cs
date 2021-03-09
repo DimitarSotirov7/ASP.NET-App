@@ -9,7 +9,6 @@
     using Application.Data.Common.Models;
     using Application.Data.Models;
     using Application.Data.Models.Main;
-    using Application.Models.Main;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 

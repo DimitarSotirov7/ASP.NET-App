@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    using Application.Models.Main;
+    using Application.Data.Models.Main;
     using Application.Services.Mapping;
 
     public class AllCommentsInPostViewModel : IMapFrom<Post>
