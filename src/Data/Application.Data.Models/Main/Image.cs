@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using Application.Data.Common.Models;
-    using Application.Data.Models.Main;
 
     public class Image : BaseDeletableModel<string>
     {

@@ -10,6 +10,8 @@
 
     public class ProfileViewModel : IMapFrom<ApplicationUser>, IHaveCustomMappings
     {
+        public string CurrentLoggedUser { get; set; }
+
         public string UserId { get; set; }
 
         public string ProfileImagePath { get; set; }
@@ -26,6 +28,8 @@
 
         public string FollowingsCount { get; set; }
 
+        public int Friends { get; set; }
+
         public ICollection<ImagesViewModel> OtherImages { get; set; }
 
         public ICollection<PostViewModel> OwnPosts { get; set; }
@@ -38,10 +42,11 @@
                     ? string.Format(GlobalConstants.GetsDefaultProfileImagePath, "images")
                     : string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.ProfileImageId, x.ProfileImage.Extension)))
                 .ForMember(x => x.CoverImagePath, opt =>
-                opt.MapFrom(x => x.ProfileImage == null
+                opt.MapFrom(x => x.CoverImage == null
                     ? string.Format(GlobalConstants.GetsDefaultCoverImagePath, "images")
-                    : string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.ProfileImageId, x.ProfileImage.Extension)))
-                .ForMember(x => x.UserFullName, opt => opt.MapFrom(x => x.FirstName + " " + x.LastName));
+                    : string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.CoverImageId, x.ProfileImage.Extension)))
+                .ForMember(x => x.UserFullName, opt => opt.MapFrom(x => x.FirstName + " " + x.LastName))
+                .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.Id));
         }
     }
 }

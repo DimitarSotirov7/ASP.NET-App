@@ -1,19 +1,9 @@
-﻿/*
-*
-* ==========================================
-* CUSTOM UTIL CLASSES
-* ==========================================
-*
-*/
-.profile-header {
+﻿.profile-header {
     transform: translateY(5rem);
 }
 
 
-/*
-*
-* ==========================================
-* FOR DEMO PURPOSE
-* ==========================================
-*
-*/
+#coverImage {
+    max-width: 100%;
+    height: auto;
+}

@@ -3,6 +3,7 @@
     using Application.Services.Contracts;
     using Application.Web.ViewModels.Account;
     using Microsoft.AspNetCore.Mvc;
+    using System.Security.Claims;
 
     public class UserController : Controller
     {
@@ -21,6 +22,7 @@
         public IActionResult Profile(string id)
         {
             var profileViewModel = this.usersService.GetUserInformation(id);
+            profileViewModel.CurrentLoggedUser = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             return this.View(profileViewModel);
         }

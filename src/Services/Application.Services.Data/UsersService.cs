@@ -19,10 +19,12 @@
     public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepo;
+        private readonly IRepository<Friendship> friendshipsRepo;
 
-        public UsersService(IDeletableEntityRepository<ApplicationUser> usersRepo)
+        public UsersService(IDeletableEntityRepository<ApplicationUser> usersRepo, IRepository<Friendship> friendshipsRepo)
         {
             this.usersRepo = usersRepo;
+            this.friendshipsRepo = friendshipsRepo;
         }
 
         public async Task CreateUserAsync(RegisterInputModel input)
@@ -44,10 +46,15 @@
 
         public ProfileViewModel GetUserInformation(string userId)
         {
-            return this.usersRepo.AllAsNoTracking()
+            var userInfo = this.usersRepo.AllAsNoTracking()
                 .Where(x => x.Id == userId)
                 .To<ProfileViewModel>()
                 .FirstOrDefault();
+
+            userInfo.Friends = this.friendshipsRepo.AllAsNoTracking()
+                .Where(x => x.IsAccepted).Count();
+
+            return userInfo;
         }
 
         public string GetUserIdByUsernameAndPassword(string username, string password = null)
@@ -125,11 +132,16 @@
 
             if (imageUrl != null)
             {
-                user.FirstOrDefault().OtherImages.Add(new Image { ImageUrl = imageUrl });
+                var imageExtension = Path.GetExtension(imageUrl).TrimStart('.');
+
+                if (GlobalConstants.AllowedImageExtensions.Contains(imageExtension))
+                {
+                    user.FirstOrDefault().OtherImages.Add(new Image { ImageUrl = imageUrl });
+                }
             }
 
             Directory.CreateDirectory(userimagesPath);
-            foreach (var localImage in localImages)
+            foreach (var localImage in localImages ?? Enumerable.Empty<IFormFile>())
             {
                 var imageExtension = Path.GetExtension(localImage.FileName).TrimStart('.');
 

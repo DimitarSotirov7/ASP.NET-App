@@ -12,8 +12,19 @@
         <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-0 pb-4 bg-dark">
+            @*<img id="coverImage" src="@Model.CoverImagePath" alt="..." class="img-fluid" />*@
                 <div class="media align-items-end profile-header">
-                    <div class="profile mr-3"><img src="@Model.ProfileImagePath" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="#" class="btn btn-dark btn-sm btn-block">Add to friends</a></div>
+                    <div class="profile mr-3">
+                        <img src="@Model.ProfileImagePath" alt="..." width="130" class="rounded mb-2 img-thumbnail">
+                        @if (Model.CurrentLoggedUser == Model.UserId)
+                        {
+                            <a href="#" class="btn btn-dark btn-sm btn-block">Edit</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-dark btn-sm btn-block">Add to friends</a>
+                        }
+                    </div>
                     <div class="media-body mb-5 text-white">
                         <h4 class="mt-0 mb-0">@Model.UserFullName</h4>
                         <p class="small mb-4"> <i class="fa fa-map-marker mr-2"></i>@Model.AddressCity</p>
@@ -25,6 +36,9 @@
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
                         <h5 class="font-weight-bold mb-0 d-block">@Model.OtherImagesCount</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Photos</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">@Model.Friends</h5><small class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Friends</small>
                     </li>
                     <li class="list-inline-item">
                         <h5 class="font-weight-bold mb-0 d-block">@Model.FollowersCount</h5><small class="text-muted"> <i class="fa fa-user-circle-o mr-1"></i>Followers</small>
@@ -42,13 +56,22 @@
                 <div class="row">
                     @if (int.Parse(Model.OtherImagesCount) == 0)
                     {
-                        <div class="col-lg-6 mb-2 pr-lg-1">No Photoes yet</div>
+                        <div class="col-lg-6 mb-2 pr-lg-1">No Photos yet</div>
                     }
                     else
                     {
-                        @foreach (var image in Model.OtherImages)
+                        var imagesShown = 4;
+
+                        @foreach (var image in Model.OtherImages.OrderByDescending(x => x.CreatedOn))
                         {
-                            <div class="col-lg-6 mb-2 pr-lg-1"><img src="@image.ImagePath" alt="" class="img-fluid rounded shadow-sm"></div>
+                            imagesShown--;
+
+                            <div class="col-lg-6 mb-2 pr-lg-1"><img src="@image.ImagePath" alt="" class="img-thumbnail"></div>
+
+                            if (imagesShown == 0)
+                            {
+                                break;
+                            }
                         }
                     }
                 </div>
