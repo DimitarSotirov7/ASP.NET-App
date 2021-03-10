@@ -1,11 +1,13 @@
 ﻿namespace Application.Services
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Application.Data.Common.Repositories;
     using Application.Data.Models;
     using Application.Data.Models.Main;
     using Application.Services.Contracts;
+    using Application.Services.Mapping;
     using Application.Web.ViewModels.UserRelated;
 
     public class FriendshipsService : IFriendshipsService
@@ -21,14 +23,19 @@
 
         public async Task CreateFriendshipAsync(FriendshipInputModel input)
         {
-            // TODO: Check if friendship exists
-            // TODO: Get requester
-            // TODO: Get responder
-            // TODO: Check if both exist
+            if (this.FriendshipExist(input))
+            {
+                return;
+            }
+
+            if (!this.BothUsersExist(input))
+            {
+                return;
+            }
 
             Friendship friendship = new Friendship
             {
-                RequesterId = input.FomId,
+                RequesterId = input.FromId,
                 ResponderId = input.ToId,
             };
 
@@ -38,44 +45,111 @@
 
         public async Task AcceptFriendshipAsync(FriendshipInputModel input)
         {
-            // TODO: Get requester
-            // TODO: Get responder
-            // TODO: Check if both exist
-            // TODO: Get friendship
-            // TODO: Check if friendship exists
-            // TODO: Accept friendship and save changes
+            if (!this.BothUsersExist(input))
+            {
+                return;
+            }
+
+            var friendship = this.friendshipsRepo.AllAsNoTracking()
+                .FirstOrDefault(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
+
+            if (friendship == null)
+            {
+                return;
+            }
+
+            friendship.IsAccepted = true;
+            await this.friendshipsRepo.SaveChangesAsync();
         }
 
         public async Task BlockFriendshipAsync(FriendshipInputModel input)
         {
-            // TODO: Get requester
-            // TODO: Get responder
-            // TODO: Check if both exist
-            // TODO: Get friendship
-            // TODO: Check if friendship exists
-            // TODO: Set accept as false, block friendship, set blockedById and save changes
-        }
+            if (!this.BothUsersExist(input))
+            {
+                return;
+            }
 
+            var friendship = this.friendshipsRepo.AllAsNoTracking()
+                .FirstOrDefault(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
+
+            if (friendship == null)
+            {
+                return;
+            }
+
+            friendship.IsAccepted = false;
+            friendship.IsBlocked = true;
+            friendship.BlockedById = input.FromId;
+            await this.friendshipsRepo.SaveChangesAsync();
+        }
 
         public async Task RemoveFriendshipAsync(FriendshipInputModel input)
         {
-            // TODO: Get requester
-            // TODO: Get responder
-            // TODO: Check if both exist
-            // TODO: Get friendship
-            // TODO: Check if friendship exists
-            // TODO: Remove friendship and save changes
+            if (!this.BothUsersExist(input))
+            {
+                return;
+            }
+
+            var friendship = this.friendshipsRepo.AllAsNoTracking()
+                .FirstOrDefault(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
+
+            if (friendship == null)
+            {
+                return;
+            }
+
+            // friendship.IsAccepted = false;
+            // friendship.IsBlocked = false;
+            // friendship.BlockedById = null;
+            this.friendshipsRepo.Delete(friendship);
+            await this.friendshipsRepo.SaveChangesAsync();
         }
 
         public async Task UnBlockFriendshipAsync(FriendshipInputModel input)
         {
-            // TODO: Get requester
-            // TODO: Get responder
-            // TODO: Check if both exist
-            // TODO: Get friendship
-            // TODO: Check if friendship exists and is blocked
-            // TODO: Check if blockedById = input.FromId
-            // TODO: Set block as false, set blockedById as null and save changes
+            if (!this.BothUsersExist(input))
+            {
+                return;
+            }
+
+            var friendship = this.friendshipsRepo.AllAsNoTracking()
+                .FirstOrDefault(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
+
+            if (friendship == null && friendship.BlockedById != input.FromId)
+            {
+                return;
+            }
+
+            friendship.IsAccepted = false;
+            friendship.IsBlocked = false;
+            friendship.BlockedById = null;
+            await this.friendshipsRepo.SaveChangesAsync();
+        }
+
+        public bool FriendshipExist(FriendshipInputModel input)
+        {
+            return this.friendshipsRepo.AllAsNoTracking()
+                .Any(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
+        }
+
+        public FriendshipViewModel GetFriendship(FriendshipInputModel input)
+        {
+            return this.friendshipsRepo.AllAsNoTracking()
+                .Where(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId)
+                .To<FriendshipViewModel>()
+                .FirstOrDefault();
+        }
+
+        private bool BothUsersExist(FriendshipInputModel input)
+        {
+            var requesterExist = this.usersRepo.AllAsNoTracking().Any(x => x.Id == input.FromId);
+            var responderExist = this.usersRepo.AllAsNoTracking().Any(x => x.Id == input.ToId);
+            if (requesterExist && responderExist)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -11,8 +11,8 @@
 
         <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
-            <div class="px-4 pt-0 pb-4 bg-dark">
             @*<img id="coverImage" src="@Model.CoverImagePath" alt="..." class="img-fluid" />*@
+            <div class="px-4 pt-0 pb-4 bg-dark" @*style="position: absolute; top: 10px;"*@>
                 <div class="media align-items-end profile-header">
                     <div class="profile mr-3">
                         <img src="@Model.ProfileImagePath" alt="..." width="130" class="rounded mb-2 img-thumbnail">
@@ -22,7 +22,21 @@
                         }
                         else
                         {
-                            <a href="#" class="btn btn-dark btn-sm btn-block">Add to friends</a>
+                            if (@Model.FriendShip != null)
+                            {
+                                if (!@Model.FriendShip.IsAccepted)
+                                {
+                                    <a class="btn btn-primary btn-sm btn-block" id="cancelTheRequest" accesskey="@Model.UserId">Cancel the request</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-info btn-sm btn-block" id="alreadyFriends" accesskey="@Model.UserId">Friends</a>
+                                }
+                            }
+                            else
+                            {
+                                <a class="btn btn-success btn-sm btn-block" id="addToFriends" accesskey="@Model.UserId">Add to friends</a>
+                            }
                         }
                     </div>
                     <div class="media-body mb-5 text-white">
@@ -104,3 +118,9 @@
 
     </div>
 </div>
+
+<form method="post" id="antiForgeryForm"></form>
+
+@section Scripts{
+    <script src="~/js/friendships.js"></script>
+}

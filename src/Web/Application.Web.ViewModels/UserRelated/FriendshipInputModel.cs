@@ -1,9 +1,12 @@
-﻿namespace Application.Web.ViewModels.UserRelated
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Application.Web.ViewModels.UserRelated
 {
     public class FriendshipInputModel
     {
-        public string FomId { get; set; }
+        public string FromId { get; set; }
 
+        [Required]
         public string ToId { get; set; }
     }
 }

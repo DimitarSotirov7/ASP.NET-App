@@ -5,6 +5,7 @@
     using Application.Data.Common;
     using Application.Data.Models;
     using Application.Services.Mapping;
+    using Application.Web.ViewModels.UserRelated;
     using Application.Web.ViewModels.UserRelated.Posts;
     using AutoMapper;
 
@@ -30,6 +31,8 @@
 
         public int Friends { get; set; }
 
+        public FriendshipViewModel FriendShip { get; set; }
+
         public ICollection<ImagesViewModel> OtherImages { get; set; }
 
         public ICollection<PostViewModel> OwnPosts { get; set; }
@@ -40,11 +43,13 @@
                 .ForMember(x => x.ProfileImagePath, opt =>
                 opt.MapFrom(x => x.ProfileImage == null
                     ? string.Format(GlobalConstants.GetsDefaultProfileImagePath, "images")
-                    : string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.ProfileImageId, x.ProfileImage.Extension)))
+                    : x.ProfileImage.ImageUrl ??
+                    string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.ProfileImageId, x.ProfileImage.Extension)))
                 .ForMember(x => x.CoverImagePath, opt =>
                 opt.MapFrom(x => x.CoverImage == null
                     ? string.Format(GlobalConstants.GetsDefaultCoverImagePath, "images")
-                    : string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.CoverImageId, x.ProfileImage.Extension)))
+                    : x.CoverImage.ImageUrl ??
+                    string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.CoverImageId, x.ProfileImage.Extension)))
                 .ForMember(x => x.UserFullName, opt => opt.MapFrom(x => x.FirstName + " " + x.LastName))
                 .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.Id));
         }
