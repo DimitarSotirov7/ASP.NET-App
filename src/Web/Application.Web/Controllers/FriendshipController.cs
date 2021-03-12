@@ -34,6 +34,21 @@
             return null;
         }
 
+        [HttpPut]
+        public async Task<ActionResult<FriendshipViewModel>> OnPut(FriendshipInputModel input)
+        {
+            input.FromId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            await this.friendshipsService.AcceptFriendshipAsync(input);
+
+            if (this.friendshipsService.GetFriendship(input).IsAccepted)
+            {
+                var view = new FriendshipViewModel { RequesterId = input.FromId, ResponderId = input.ToId };
+                return view;
+            }
+
+            return null;
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<FriendshipViewModel>> OnDelete(FriendshipInputModel input)
         {

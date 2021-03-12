@@ -79,6 +79,8 @@
             input.FromUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             await this.postsService.CreatePostAsync(input, imagePath);
 
+            this.TempData["Message"] = "Post added successfully.";
+
             return this.RedirectToAction("All");
         }
     }

@@ -4,6 +4,11 @@
     this.ViewData["Title"] = "Posts";
 }
 
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
 <section class="pt-5 pb-5 badge-secondary inner-header">
     <div class="container">
         <div class="row">

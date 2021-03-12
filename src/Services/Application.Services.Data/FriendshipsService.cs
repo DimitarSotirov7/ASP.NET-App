@@ -135,7 +135,8 @@
         public FriendshipViewModel GetFriendship(FriendshipInputModel input)
         {
             return this.friendshipsRepo.AllAsNoTracking()
-                .Where(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId)
+                .Where(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId ||
+                x.RequesterId == input.ToId && x.ResponderId == input.FromId)
                 .To<FriendshipViewModel>()
                 .FirstOrDefault();
         }

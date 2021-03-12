@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Application.Data.Models.Main.Post>
+
+@{
+    ViewData["Title"] = "All Posts";
+}
+
+<h1>All Posts</h1>
+
+<p class="btn btn-success">
+    <a asp-action="Create" class="text-white">Create New</a>
+</p>
+<table class="table table-dark table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedOn)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FromUser.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToUser.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeletedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedOn)
+            </td>
+            <td>
+                <div><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a></div>
+                <div><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a> </div>
+                <div><a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a></div>
+</td>
+        </tr>
+}
+    </tbody>
+</table>

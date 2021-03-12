@@ -24,9 +24,13 @@
                         {
                             if (@Model.FriendShip != null)
                             {
-                                if (!@Model.FriendShip.IsAccepted)
+                                if (!@Model.FriendShip.IsAccepted && Model.FriendShip.RequesterId == Model.CurrentLoggedUser)
                                 {
                                     <a class="btn btn-primary btn-sm btn-block" id="cancelTheRequest" accesskey="@Model.UserId">Cancel the request</a>
+                                }
+                                else if (!@Model.FriendShip.IsAccepted && Model.FriendShip.ResponderId == Model.CurrentLoggedUser)
+                                {
+                                    <a class="btn btn-primary btn-sm btn-block" id="acceptTheRequest" accesskey="@Model.UserId">Accept the request</a>
                                 }
                                 else
                                 {
@@ -80,7 +84,7 @@
                         {
                             imagesShown--;
 
-                            <div class="col-lg-6 mb-2 pr-lg-1"><img src="@image.ImagePath" alt="" class="img-thumbnail"></div>
+                            <div class="col-lg-6 mb-2 pr-lg-1"><img src="@image.ImagePath" class="img-thumbnail"></div>
 
                             if (imagesShown == 0)
                             {
