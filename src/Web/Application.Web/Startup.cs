@@ -12,6 +12,7 @@
     using Application.Services.Contracts;
     using Application.Services.Mapping;
     using Application.Services.Messaging;
+    using Application.Web.Infrastructure;
     using Application.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -92,10 +93,11 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IFriendshipsService, FriendshipsService>();
+            services.AddTransient<IViewRenderService, ViewRenderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

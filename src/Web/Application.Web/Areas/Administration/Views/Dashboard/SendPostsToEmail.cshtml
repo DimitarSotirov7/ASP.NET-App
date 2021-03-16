@@ -1,0 +1,32 @@
+﻿@using Application.Web.ViewModels.UserRelated.Posts
+@model AllLatestPostsViewModel
+
+<div class="row">
+    @foreach (var post in Model.Posts)
+    {
+        <h2><a class="profile-link">From User: @post.FromUserUserName</a></h2>
+
+        <h3><a class="profile-link">Content: @post.Content</a></h3>
+
+        @if (post.ImagePath != null)
+        {
+            <img src="@post.ImagePath" alt="post-image" class="img-responsive post-image">
+        }
+
+        <h4><a class="profile-link">Likes: @post.LikesCount</a></h4>
+        <h4><a class="profile-link">Dislikes: @post.DislikesCount</a></h4>
+
+        @if (post.Comments.Count() > 0)
+        {
+            <h2>Coments</h2>
+        }
+
+        @foreach (var comment in post.Comments)
+        {
+            <h3><a class="profile-link">From User: @comment.FromUsername</a></h3>
+            <h4><a class="profile-link">Content: @comment.Content</a></h4>
+        }
+
+        <hr />
+    }
+</div>
