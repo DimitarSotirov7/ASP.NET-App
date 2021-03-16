@@ -1,7 +1,7 @@
 ﻿namespace Application.Web
 {
     using System.Reflection;
-
+    using Application.Common;
     using Application.Data;
     using Application.Data.Common;
     using Application.Data.Common.Repositories;
@@ -39,12 +39,12 @@
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<ApplicationUser>(option => 
+            services.AddDefaultIdentity<ApplicationUser>(option =>
             {
                 option.SignIn.RequireConfirmedAccount = false;
                 option.User.RequireUniqueEmail = true;
-                // option.User.AllowedUserNameCharacters = true;
 
+                // option.User.AllowedUserNameCharacters = true;
                 option.Password.RequireDigit = false;
                 option.Password.RequireUppercase = false;
                 option.Password.RequireLowercase = false;
@@ -110,7 +110,13 @@
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 dbContext.Database.Migrate();
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+                var adminCredentials = new AdminCredentials
+                {
+                    Email = this.configuration["Admin:Email"],
+                    Username = this.configuration["Admin:Username"],
+                    Password = this.configuration["Admin:Password"],
+                };
+                new ApplicationDbContextSeeder(adminCredentials).SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }
 
             if (env.IsDevelopment())

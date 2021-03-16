@@ -3,12 +3,19 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using Application.Common;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
     public class ApplicationDbContextSeeder : ISeeder
     {
+        private readonly AdminCredentials adminCredentials;
+
+        public ApplicationDbContextSeeder(AdminCredentials adminCredentials)
+        {
+            this.adminCredentials = adminCredentials;
+        }
+
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
             if (dbContext == null)
@@ -26,6 +33,8 @@
             var seeders = new List<ISeeder>
                           {
                               new RolesSeeder(),
+                              new AdminAccountSeeder(this.adminCredentials),
+                              new DummyUsersSeeder(),
                           };
 
             foreach (var seeder in seeders)

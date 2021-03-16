@@ -74,11 +74,6 @@
                 };
                 var result = await this._userManager.CreateAsync(user, this.Input.Password);
 
-                if (user.Email == "dimitarsotirov7@gmail.com")
-                {
-                    await this._userManager.AddToRoleAsync(user, "Administrator");
-                }
-
                 if (result.Succeeded)
                 {
                     this._logger.LogInformation("User created a new account with password.");

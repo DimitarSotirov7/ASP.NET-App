@@ -34,24 +34,24 @@
         [HttpPost]
         public async Task<IActionResult> EmailSender()
         {
-            // gets the posts from last 7 days
-            var viewModel = new AllLatestPostsViewModel()
-            {
-                Posts = this.postsService.GetAllLatestPosts(1, this.postsService.GetCount())
-                .Where(x => x.CreatedOn.AddDays(7) >= DateTime.UtcNow).ToList(),
-            };
-
-            if (viewModel.Posts.Count == 0)
+            if (this.postsService.GetCount() == 0)
             {
                 this.TempData["statusCode"] = "There are no posts in the last 7 days";
             }
             else
             {
+                // gets the posts from last 7 days
+                var viewModel = new AllLatestPostsViewModel()
+                {
+                    Posts = this.postsService.GetAllLatestPosts(1, this.postsService.GetCount())
+                    .Where(x => x.CreatedOn.AddDays(7) >= DateTime.UtcNow).ToList(),
+                };
+
                 string viewPath = "~/Areas/Administration/Views/Dashboard/SendPostsToEmail.cshtml";
                 string body = await this.viewRenderService.RenderToStringAsync(viewPath, viewModel);
 
                 this.TempData["statusCode"] = await this.emailSender
-                    .SendEmailAsync(this.configuration["Admin:Email"], "ASP.NET-App", this.configuration["SendGrid:ToEmail"], "Posts from the last 7 days", body);
+                    .SendEmailAsync(this.configuration["SendGrid:FromEmail"], "ASP.NET-App", this.configuration["SendGrid:ToEmail"], "Posts from the last 7 days", body);
             }
 
             return this.Redirect("/Administration/Posts");
