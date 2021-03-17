@@ -14,7 +14,7 @@
         /// <summary>
         /// set folder directory, image Id and image extension.
         /// </summary>
-        public static string GetsLocalImagePath => "/{0}/{1}.{2}";
+        public static string GetsLocalImagePath => "{0}{1}.{2}";
 
         public static string DefaultCoverImageName => "DefaultCoverImage.jpg";
 

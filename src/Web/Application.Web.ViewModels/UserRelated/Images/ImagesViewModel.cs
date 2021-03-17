@@ -20,7 +20,7 @@
         {
             configuration.CreateMap<Image, ImagesViewModel>()
                 .ForMember(x => x.ImagePath, opt => opt.MapFrom(x => x.ImageUrl ??
-                string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.Id, x.Extension)));
+                string.Format(GlobalConstants.GetsLocalImagePath, "/images/users/", x.Id, x.Extension)));
         }
     }
 }

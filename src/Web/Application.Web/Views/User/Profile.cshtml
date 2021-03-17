@@ -18,7 +18,7 @@
                         <img src="@Model.ProfileImagePath" alt="..." width="130" class="rounded mb-2 img-thumbnail">
                         @if (Model.CurrentLoggedUser == Model.UserId)
                         {
-                            <a href="#" class="btn btn-dark btn-sm btn-block">Edit</a>
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-dark btn-sm btn-block">Edit</a>
                         }
                         else
                         {

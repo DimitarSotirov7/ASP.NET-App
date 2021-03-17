@@ -21,6 +21,10 @@
 
         public string Extension { get; set; }
 
+        public int PostId { get; set; }
+
+        public virtual Post Post { get; set; }
+
         public virtual ICollection<Like> Likes { get; set; }
 
         public virtual ICollection<Dislike> Dislikes { get; set; }

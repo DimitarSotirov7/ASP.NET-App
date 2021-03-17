@@ -7,6 +7,8 @@
     using Application.Data.Common.Repositories;
     using Application.Data.Models;
     using Application.Data.Models.Main;
+    using Application.Services.Data.Contracts;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
@@ -15,11 +17,18 @@
     {
         private readonly IDeletableEntityRepository<Post> postsRepo;
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepo;
+        private readonly IImagesService imagesService;
+        private readonly IWebHostEnvironment environment;
 
-        public PostsController(IDeletableEntityRepository<Post> postsRepo, IDeletableEntityRepository<ApplicationUser> usersRepo)
+        public PostsController(IDeletableEntityRepository<Post> postsRepo,
+            IDeletableEntityRepository<ApplicationUser> usersRepo,
+            IImagesService imagesService,
+            IWebHostEnvironment environment)
         {
             this.postsRepo = postsRepo;
             this.usersRepo = usersRepo;
+            this.imagesService = imagesService;
+            this.environment = environment;
         }
 
         // GET: Administration/Posts
@@ -37,7 +46,7 @@
                 return this.NotFound();
             }
 
-            var post = await this.postsRepo.All()
+            var post = await this.postsRepo.AllWithDeleted()
                 .Include(p => p.FromUser)
                 .Include(p => p.ToUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -84,7 +93,7 @@
                 return this.NotFound();
             }
 
-            var post = this.postsRepo.All().FirstOrDefault(x => x.Id == id);
+            var post = this.postsRepo.AllWithDeleted().FirstOrDefault(x => x.Id == id);
             if (post == null)
             {
                 return this.NotFound();
@@ -142,7 +151,7 @@
                 return this.NotFound();
             }
 
-            var post = await this.postsRepo.All()
+            var post = await this.postsRepo.AllWithDeleted()
                 .Include(p => p.FromUser)
                 .Include(p => p.ToUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -162,6 +171,25 @@
         {
             var post = this.postsRepo.All().FirstOrDefault(x => x.Id == id);
             this.postsRepo.Delete(post);
+            await this.postsRepo.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        [HttpPost]
+        [ActionName("HardDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> HardDeleteConfirmed(int id)
+        {
+            var post = this.postsRepo.All().FirstOrDefault(x => x.Id == id);
+
+            // first delete image relations
+            var imageIds = this.imagesService.GetImageIdsByPostId(post.Id);
+            foreach (var imageId in imageIds)
+            {
+                await this.imagesService.HardDelete(imageId, $"{this.environment.WebRootPath}/images/posts/");
+            }
+
+            this.postsRepo.HardDelete(post);
             await this.postsRepo.SaveChangesAsync();
             return this.RedirectToAction(nameof(this.Index));
         }

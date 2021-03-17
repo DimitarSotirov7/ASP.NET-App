@@ -40,11 +40,11 @@
             configuration.CreateMap<Post, PostViewModel>()
                 .ForMember(x => x.FromUserProfileImagePath, opt =>
                 opt.MapFrom(x => x.FromUser.ProfileImage == null
-                    ? string.Format(GlobalConstants.GetsDefaultProfileImagePath, "images")
-                    : string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.FromUser.ProfileImageId, x.FromUser.ProfileImage.Extension)))
+                    ? string.Format(GlobalConstants.GetsDefaultProfileImagePath, @"\images\")
+                    : string.Format(GlobalConstants.GetsLocalImagePath, @"\images\users\", x.FromUser.ProfileImageId, x.FromUser.ProfileImage.Extension)))
                 .ForMember(x => x.ImagePath, opt => opt.MapFrom(x => !x.Images.Any() ? null
                 : x.Images.FirstOrDefault().ImageUrl ??
-                string.Format(GlobalConstants.GetsLocalImagePath, "images/posts", x.Images.FirstOrDefault().Id, x.Images.FirstOrDefault().Extension)))
+                string.Format(GlobalConstants.GetsLocalImagePath, @"\images\posts\", x.Images.FirstOrDefault().Id, x.Images.FirstOrDefault().Extension)))
                 .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.FromUserId));
         }
     }

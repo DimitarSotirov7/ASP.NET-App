@@ -24,7 +24,7 @@
                 }
             }
 
-            <a class="nav-link text-dark float-right" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @this.User.Identity.Name!</a>
+            <a class="nav-link text-dark float-right" asp-controller="User" asp-action="Profile" asp-route-id="@this.User.FindFirst(ClaimTypes.NameIdentifier).Value" title="Manage">Hello @this.User.Identity.Name!</a>
         </li>
         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {

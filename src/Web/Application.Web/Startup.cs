@@ -10,6 +10,8 @@
     using Application.Data.Seeding;
     using Application.Services;
     using Application.Services.Contracts;
+    using Application.Services.Data;
+    using Application.Services.Data.Contracts;
     using Application.Services.Mapping;
     using Application.Services.Messaging;
     using Application.Web.Infrastructure;
@@ -97,6 +99,7 @@
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IFriendshipsService, FriendshipsService>();
+            services.AddTransient<IImagesService, ImagesService>();
             services.AddTransient<IViewRenderService, ViewRenderService>();
         }
 
