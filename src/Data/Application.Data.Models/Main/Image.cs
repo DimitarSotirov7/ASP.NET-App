@@ -21,7 +21,7 @@
 
         public string Extension { get; set; }
 
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
 
         public virtual Post Post { get; set; }
 
