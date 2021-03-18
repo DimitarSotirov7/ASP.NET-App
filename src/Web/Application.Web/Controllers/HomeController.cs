@@ -25,6 +25,11 @@
             return this.View(homeViewModel);
         }
 
+        public IActionResult About()
+        {
+            return this.View();
+        }
+
         public IActionResult Privacy()
         {
             return this.View();

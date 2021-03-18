@@ -1,65 +1,179 @@
 ﻿@using Application.Common
+@using Application.Common
+@using Application.Data.Models
+@using Microsoft.AspNetCore.Identity
+@using Application.Services.Contracts
+@using System.Security.Claims;
+@inject IUsersService usersService
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" asp-append-version="true"/>
+
+    <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/postView.css" rel="stylesheet" />
-    <link href="~/lib/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" asp-append-version="true"/>
+    <link href="~/lib/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" asp-append-version="true" />
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="~/css/theme/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/theme/font-awesome.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/theme/owl.carousel.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/theme/slicknav.min.css" asp-append-version="true" />
+
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" href="~/css/theme/style.css" asp-append-version="true" />
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="All">Posts</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="Create">Create post</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <div id="wrapper">
+        <!-- Page Preloder -->
+        <div id="preloder">
+            <div class="loader"></div>
+        </div>
 
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
+        <!-- Header section -->
+        <header class="header-section clearfix">
+            <a href="index.html" class="site-logo">
+                <img src="img/logo.png" alt="">
+            </a>
+            <div class="header-right">
+                @*<partial name="_LoginPartial" />*@
+                @if (!this.SignInManager.IsSignedIn(this.User))
+                {
+                    <div class="user-panel">
+                        <a asp-area="Identity" asp-page="/Account/Login" class="login">Login</a>
+                        <a asp-area="Identity" asp-page="/Account/Register" class="register">Create an account</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="user-panel">
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
+                            <button type="submit" class="btn btn-warning">Logout</button>
+                        </form>
+                    </div>
+                }
+            </div>
+            <ul class="main-menu">
+                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                <li><a asp-area="" asp-controller="Post" asp-action="All">Posts</a></li>
+                <li><a asp-area="" asp-controller="Post" asp-action="Create">Create Post</a></li>
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <li>
+                        <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                        <ul class="sub-menu">
+                            <li><a asp-area="Administration" asp-controller="Posts" asp-action="Index">Posts</a></li>
+                        </ul>
+                    </li>
+                }
+
+            </ul>
+        </header>
+        <!-- Header section end -->
+
+        <main>
+            <partial name="_CookieConsentPartial" />
             @this.RenderBody()
         </main>
+
+        <footer>
+            <!-- Footer Start-->
+            <div class="footer-section">
+                <div class="container">
+                    <div class="footer-top footer-padding">
+                        <div class="row justify-content-between">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="single-footer-caption mb-30">
+                                        <!-- logo -->
+                                        <div class="footer-logo">
+                                            <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="footer-tittle">
+                                        <h4>Services</h4>
+                                        <ul>
+                                            <li><a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>
+                                            <li><a asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="footer-tittle">
+                                        <h4>Customer Care</h4>
+                                        <ul>
+                                            <li><a asp-area="" asp-controller="Home" asp-action="News">News</a></li>
+                                            <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="footer-tittle">
+                                        <h4><span>+564</span> 7885 3222</h4>
+                                        <ul>
+                                            <li>
+                                                &copy; @DateTime.Now.ToShortDateString() - @GlobalConstants.SystemName
+                                            </li>
+                                        </ul>
+                                        <p>Dianabad, Sofia, Bulgaria</p>
+                                    </div>
+                                    <!-- footer social -->
+                                    <div class="footer-social">
+                                        <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+                                        <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="row">
+                            <div class="col-xl-12 ">
+                                <div class="footer-copy-right">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer End-->
+        </footer>
+
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/theme/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/theme/jplayerInit.js" asp-append-version="true"></script>
+        <script src="~/js/theme/jquery-3.2.1.min.js" asp-append-version="true"></script>
+        <script src="~/js/theme/jquery.jplayer.min.js" asp-append-version="true"></script>
+        <script src="~/js/theme/jquery.slicknav.min.js" asp-append-version="true"></script>
+        <script src="~/js/theme/main.js" asp-append-version="true"></script>
+        <script src="~/js/theme/mixitup.min.js" asp-append-version="true"></script>
+        <script src="~/js/theme/owl.carousel.min.js" asp-append-version="true"></script>
+        <script src="~/js/theme/wavesurfer.min.js" asp-append-version="true"></script>
+        <script src="~/js/theme/WaveSurferInit.js" asp-append-version="true"></script>
+        <script src="~/lib/datatables/media/js/jquery.dataTables.min.js" asp-append-version="true"></script>
+        <script src="~/js/preloader.js" asp-append-version="true"></script>
+        @await this.RenderSectionAsync("Scripts", required: false)
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.ToShortDateString() - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-    <script src="~/lib/datatables/media/js/jquery.dataTables.min.js" asp-append-version="true"></script>
-    @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

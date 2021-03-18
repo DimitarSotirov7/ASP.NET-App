@@ -4,18 +4,23 @@
 @{
     this.ViewData["Title"] = "Home Page";
 }
-@if (this.User.Identity.IsAuthenticated)
-{
-    <div class="text-center">
-        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-        <p>There are @Model.UsersCount users in the app.</p>
-    </div>
-}
-else
-{
-    <div class="text-center">
-        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-        <p>Join us.</p>
-    </div>
-}
 
+<!-- Intro section -->
+<section class="intro-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="section-title">
+                    <h2>Welcome to Application</h2>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div>
+                    <p>There are @Model.UsersCount users in the app.</p>
+                </div>
+                <a asp-area="Identity" asp-page="/Account/Register" class="site-btn">Join us now</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Intro section end -->
