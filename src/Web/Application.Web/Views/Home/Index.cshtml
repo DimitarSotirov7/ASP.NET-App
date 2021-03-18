@@ -1,5 +1,8 @@
 ﻿@using Application.Common
+@using Microsoft.AspNetCore.Identity
+@using Application.Data.Models
 @using Application.Web.ViewModels.Home
+@inject SignInManager<ApplicationUser> SignInManager
 @model HomeViewModel
 @{
     this.ViewData["Title"] = "Home Page";
@@ -18,7 +21,14 @@
                 <div>
                     <p>There are @Model.UsersCount users in the app.</p>
                 </div>
-                <a asp-area="Identity" asp-page="/Account/Register" class="site-btn">Join us now</a>
+                @if (this.SignInManager.IsSignedIn(this.User))
+                {
+                    <a asp-area="Identity" asp-page="/Account/Register" class="site-btn">Join us now</a>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Register" class="site-btn">Join us now</a>
+                }
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
 ﻿@using Application.Common
-@using Application.Common
 @using Application.Data.Models
 @using Microsoft.AspNetCore.Identity
 @using Application.Services.Contracts
@@ -44,7 +43,6 @@
                 <img src="img/logo.png" alt="">
             </a>
             <div class="header-right">
-                @*<partial name="_LoginPartial" />*@
                 @if (!this.SignInManager.IsSignedIn(this.User))
                 {
                     <div class="user-panel">
@@ -106,8 +104,8 @@
                                     <div class="footer-tittle">
                                         <h4>Services</h4>
                                         <ul>
-                                            <li><a asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>
-                                            <li><a asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a></li>
+                                            <li class="text-white"><a asp-area="" asp-controller="Home" asp-action="Contact">Contact us</a></li>
+                                            <li class="text-white"><a asp-area="" asp-controller="Home" asp-action="About">About us</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -117,8 +115,8 @@
                                     <div class="footer-tittle">
                                         <h4>Customer Care</h4>
                                         <ul>
-                                            <li><a asp-area="" asp-controller="Home" asp-action="News">News</a></li>
-                                            <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
+                                            <li class="text-white"><a asp-area="" asp-controller="Post" asp-action="All">Posts</a></li>
+                                            <li class="text-white"><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -132,7 +130,7 @@
                                                 &copy; @DateTime.Now.ToShortDateString() - @GlobalConstants.SystemName
                                             </li>
                                         </ul>
-                                        <p>Dianabad, Sofia, Bulgaria</p>
+                                        <p class="text-white">Dianabad, Sofia, Bulgaria</p>
                                     </div>
                                     <!-- footer social -->
                                     <div class="footer-social">

@@ -562,11 +562,16 @@ footer {
 	list-style: none;
 }
 
-.footer-widget ul li a {
+.footer-widget ul li {
 	display: inline-block;
 	color: #6a7080;
 	font-size: 14px;
 	margin-bottom: 10px;
+	list-style: none;
+}
+
+.footer-tittle ul li {
+	list-style: none;
 }
 
 .copyright {
