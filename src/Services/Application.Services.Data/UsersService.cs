@@ -170,6 +170,14 @@
             await this.usersRepo.SaveChangesAsync();
         }
 
+        public T GetEmailUserInfo<T>(string userId)
+        {
+            return this.usersRepo.AllAsNoTracking()
+                .Where(x => x.Id == userId)
+                .To<T>()
+                .FirstOrDefault();
+        }
+
         private static string Hash(string input)
         {
             var bytes = Encoding.UTF8.GetBytes(input);

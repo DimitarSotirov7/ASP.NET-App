@@ -51,7 +51,7 @@
                 string body = await this.viewRenderService.RenderToStringAsync(viewPath, viewModel);
 
                 this.TempData["statusCode"] = await this.emailSender
-                    .SendEmailAsync(this.configuration["SendGrid:FromEmail"], "ASP.NET-App", this.configuration["SendGrid:ToEmail"], "Posts from the last 7 days", body);
+                    .SendEmailAsync(this.configuration["SendGrid:FromEmail"], this.configuration["App:Name"], this.configuration["SendGrid:ToEmail"], "Posts from the last 7 days", body);
             }
 
             return this.Redirect("/Administration/Posts");

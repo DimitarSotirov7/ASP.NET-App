@@ -98,6 +98,13 @@ ol {
 Helper CSS
  -----------------------*/
 
+
+
+.required:after {
+	content: " *";
+	color: red;
+}
+
 .section-title {
 	margin-bottom: 60px;
 }
@@ -1764,4 +1771,10 @@ Responsive
 		position: relative;
 		margin-top: 20px;
 	}
+}
+
+/* Personal */
+
+div .ui-validate {
+ color: darkred;
 }

@@ -1,6 +1,8 @@
 ﻿namespace Application.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Security.Claims;
+
     using Application.Services.Contracts;
     using Application.Web.ViewModels;
     using Application.Web.ViewModels.Home;
@@ -32,7 +34,10 @@
 
         public IActionResult Contact()
         {
-            return this.View();
+            var viewModel = this.usersService
+                .GetEmailUserInfo<EmailInputModel>(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

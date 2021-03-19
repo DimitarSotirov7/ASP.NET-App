@@ -25,5 +25,7 @@
         public ICollection<Friendship> GetAllFriendshipRequestsByUserId(string userId);
 
         public ICollection<Friendship> GetAllFriendshipResponsesByUserId(string userId);
+
+        public T GetEmailUserInfo<T>(string userId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿@using Application.Common
+@model EmailInputModel
 @{
-    this.ViewData["Title"] = "About us";
+    this.ViewData["Title"] = "Contact us";
 }
 
 <section class="contact-section">
@@ -21,17 +22,18 @@
                         <li>phone number</li>
                         <li>application@email.com</li>
                     </ul>
-                    <form class="contact-from">
+                    <form class="contact-from" method="post" asp-controller="Email" asp-action="Send">
+                        <div asp-validation-summary="All" class="ui-validate"></div>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" placeholder="Your name">
+                                <input type="text" placeholder="Your name" value="@Model.FromName" name="fromName">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" placeholder="Your e-mail">
+                                <input type="text" placeholder="Your e-mail" value="@Model.FromEmail" name="fromEmail">
                             </div>
                             <div class="col-md-12">
-                                <input type="text" placeholder="Subject">
-                                <textarea placeholder="Message"></textarea>
+                                <input type="text" placeholder="Subject" name="subject">
+                                <textarea placeholder="Message" name="message"></textarea>
                                 <button class="site-btn">send message</button>
                             </div>
                         </div>
@@ -41,3 +43,7 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
