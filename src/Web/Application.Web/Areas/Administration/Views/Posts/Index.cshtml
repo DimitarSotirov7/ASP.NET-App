@@ -34,9 +34,6 @@
                 @Html.DisplayNameFor(model => model.FromUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ToUser)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.IsDeleted)
             </th>
             <th>
@@ -57,9 +54,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FromUser.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ToUser.Id)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DeletedOn)

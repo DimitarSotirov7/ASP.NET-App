@@ -40,16 +40,10 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<ApplicationUser, ProfileViewModel>()
-                .ForMember(x => x.ProfileImagePath, opt =>
-                opt.MapFrom(x => x.ProfileImage == null
-                    ? string.Format(GlobalConstants.GetsDefaultProfileImagePath, "images")
-                    : x.ProfileImage.ImageUrl ??
-                    string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.ProfileImageId, x.ProfileImage.Extension)))
-                .ForMember(x => x.CoverImagePath, opt =>
-                opt.MapFrom(x => x.CoverImage == null
-                    ? string.Format(GlobalConstants.GetsDefaultCoverImagePath, "images")
-                    : x.CoverImage.ImageUrl ??
-                    string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.CoverImageId, x.ProfileImage.Extension)))
+                .ForMember(x => x.ProfileImagePath, opt => opt.MapFrom(x => 
+                GlobalConstants.GetProfileImagePath(x.ProfileImageId, x.ProfileImage.Extension, x.ProfileImage.ImageUrl)))
+                .ForMember(x => x.CoverImagePath, opt => opt.MapFrom(x =>
+                GlobalConstants.GetProfileImagePath(x.CoverImageId, x.CoverImage.Extension, x.CoverImage.ImageUrl)))
                 .ForMember(x => x.UserFullName, opt => opt.MapFrom(x => x.FirstName + " " + x.LastName))
                 .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.Id));
         }

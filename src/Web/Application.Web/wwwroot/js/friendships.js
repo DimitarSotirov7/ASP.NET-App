@@ -74,16 +74,16 @@
 
         fetch("/api/friendship",
             {
-                method: "PUT",
+                method: "PATCH",
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector("#antiForgeryForm").querySelector("input").value,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
             })
-            //.then(res => res.json())
+            .then(res => res.json())
             .then(data => {
-                if (data.ok) {
+                if (data.isAccepted) {
                     x.target.textContent = "Friends";
                     x.target.className = "btn btn-info btn-sm btn-block";
                     x.target.id = "alreadyFriends";

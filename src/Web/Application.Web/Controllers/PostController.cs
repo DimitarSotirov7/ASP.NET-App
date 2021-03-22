@@ -3,7 +3,6 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using Application.Data.Common;
     using Application.Data.Models;
     using Application.Services.Contracts;
     using Application.Web.ViewModels.UserRelated.Posts;
@@ -37,13 +36,12 @@
 
             int postsPerPage = 5;
 
-            var allLatestPosts = this.postsService.GetAllLatestPosts(id, postsPerPage);
+            var allLatestPosts = this.postsService
+                .GetAllLatestPosts<PostViewModel>(id, postsPerPage);
 
-            var profileImagePath = this.usersService.GetUserImages(this.User.FindFirst(ClaimTypes.NameIdentifier).Value).ProfileImagePath;
-            if (profileImagePath == null)
-            {
-                profileImagePath = "/images/" + GlobalConstants.DefaultProfileImageName;
-            }
+            var loggedUserProfileImagePath = this.usersService
+                .GetUserImages(this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                .ProfileImagePath;
 
             var posts = new AllLatestPostsViewModel()
             {
@@ -51,7 +49,7 @@
                 CurrentPage = id,
                 PostsPerPage = postsPerPage,
                 PostsCount = this.postsService.GetCount(),
-                LoggedUserProfileImagePath = profileImagePath,
+                LoggedUserProfileImagePath = loggedUserProfileImagePath,
             };
 
             return this.View(posts);

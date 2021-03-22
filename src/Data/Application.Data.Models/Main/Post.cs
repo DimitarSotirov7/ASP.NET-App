@@ -28,10 +28,6 @@
 
         public virtual ApplicationUser FromUser { get; set; }
 
-        public string ToUserId { get; set; }
-
-        public virtual ApplicationUser ToUser { get; set; }
-
         public virtual ICollection<Like> Likes { get; set; }
 
         public virtual ICollection<Dislike> Dislikes { get; set; }

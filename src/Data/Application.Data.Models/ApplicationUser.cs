@@ -31,7 +31,6 @@ namespace Application.Data.Models
             this.Followers = new HashSet<Follow>();
 
             this.OwnPosts = new HashSet<Post>();
-            this.PostsReceived = new HashSet<Post>();
 
             this.FriendshipRequests = new HashSet<Friendship>();
             this.FriendshipResponses = new HashSet<Friendship>();
@@ -81,9 +80,6 @@ namespace Application.Data.Models
 
         [InverseProperty("FromUser")]
         public virtual ICollection<Post> OwnPosts { get; set; }
-
-        [InverseProperty("ToUser")]
-        public virtual ICollection<Post> PostsReceived { get; set; }
 
         [InverseProperty("FromUser")]
         public virtual ICollection<Like> OwnLikes { get; set; }

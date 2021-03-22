@@ -9,7 +9,7 @@
     {
         public Task CreatePostAsync(PostInputModel input, string imagePath);
 
-        public ICollection<PostViewModel> GetAllLatestPosts(int countInPage, int currentPage);
+        public ICollection<Т> GetAllLatestPosts<Т>(int countInPage, int currentPage);
 
         public ThumbUpDownCountsViewModel GetLikesAndDislikes(int postId);
 

@@ -50,8 +50,9 @@
                 return;
             }
 
-            var friendship = this.friendshipsRepo.AllAsNoTracking()
-                .FirstOrDefault(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
+            var friendship = this.friendshipsRepo.All()
+                .FirstOrDefault(x => (x.RequesterId == input.FromId && x.ResponderId == input.ToId) ||
+                (x.RequesterId == input.ToId && x.ResponderId == input.FromId));
 
             if (friendship == null)
             {
@@ -69,7 +70,7 @@
                 return;
             }
 
-            var friendship = this.friendshipsRepo.AllAsNoTracking()
+            var friendship = this.friendshipsRepo.All()
                 .FirstOrDefault(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
 
             if (friendship == null)
@@ -90,7 +91,7 @@
                 return;
             }
 
-            var friendship = this.friendshipsRepo.AllAsNoTracking()
+            var friendship = this.friendshipsRepo.All()
                 .FirstOrDefault(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
 
             if (friendship == null)
@@ -112,7 +113,7 @@
                 return;
             }
 
-            var friendship = this.friendshipsRepo.AllAsNoTracking()
+            var friendship = this.friendshipsRepo.All()
                 .FirstOrDefault(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
 
             if (friendship == null && friendship.BlockedById != input.FromId)
@@ -129,14 +130,15 @@
         public bool FriendshipExist(FriendshipInputModel input)
         {
             return this.friendshipsRepo.AllAsNoTracking()
-                .Any(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
+                .Any(x => (x.RequesterId == input.FromId && x.ResponderId == input.ToId) ||
+                (x.RequesterId == input.ToId && x.ResponderId == input.FromId));
         }
 
         public FriendshipViewModel GetFriendship(FriendshipInputModel input)
         {
             return this.friendshipsRepo.AllAsNoTracking()
-                .Where(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId ||
-                x.RequesterId == input.ToId && x.ResponderId == input.FromId)
+                .Where(x => (x.RequesterId == input.FromId && x.ResponderId == input.ToId) ||
+                (x.RequesterId == input.ToId && x.ResponderId == input.FromId))
                 .To<FriendshipViewModel>()
                 .FirstOrDefault();
         }

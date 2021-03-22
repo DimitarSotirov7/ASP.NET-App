@@ -34,7 +34,7 @@
         // GET: Administration/Posts
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = this.postsRepo.AllWithDeleted().Include(p => p.FromUser).Include(p => p.ToUser);
+            var applicationDbContext = this.postsRepo.AllWithDeleted().Include(p => p.FromUser);
             return this.View(await applicationDbContext.ToListAsync());
         }
 
@@ -48,7 +48,6 @@
 
             var post = await this.postsRepo.AllWithDeleted()
                 .Include(p => p.FromUser)
-                .Include(p => p.ToUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {
@@ -81,7 +80,6 @@
             }
 
             this.ViewData["FromUserId"] = new SelectList(this.usersRepo.All(), "Id", "Id", post.FromUserId);
-            this.ViewData["ToUserId"] = new SelectList(this.usersRepo.All(), "Id", "Id", post.ToUserId);
             return this.View(post);
         }
 
@@ -100,7 +98,6 @@
             }
 
             this.ViewData["FromUserId"] = new SelectList(this.usersRepo.All(), "Id", "Id", post.FromUserId);
-            this.ViewData["ToUserId"] = new SelectList(this.usersRepo.All(), "Id", "Id", post.ToUserId);
             return this.View(post);
         }
 
@@ -139,7 +136,6 @@
             }
 
             this.ViewData["FromUserId"] = new SelectList(this.usersRepo.All(), "Id", "Id", post.FromUserId);
-            this.ViewData["ToUserId"] = new SelectList(this.usersRepo.All(), "Id", "Id", post.ToUserId);
             return this.View(post);
         }
 
@@ -153,7 +149,6 @@
 
             var post = await this.postsRepo.AllWithDeleted()
                 .Include(p => p.FromUser)
-                .Include(p => p.ToUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {

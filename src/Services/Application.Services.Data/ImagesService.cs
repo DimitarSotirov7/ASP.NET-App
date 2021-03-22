@@ -37,7 +37,7 @@
             }
 
             // delete image physically
-            string path = string.Format(GlobalConstants.GetsLocalImagePath, folderPath, image.Id, image.Extension);
+            string path = GlobalConstants.GetImagePath(imageId, image.Extension, folderPath, image.Extension);
             if (File.Exists(path))
             {
                 File.Delete(path);

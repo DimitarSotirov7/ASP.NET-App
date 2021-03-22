@@ -44,17 +44,19 @@
             await this.usersRepo.SaveChangesAsync();
         }
 
-        public ProfileViewModel GetUserInformation(string userId)
+        public T GetUser<T>(string userId)
         {
-            var userInfo = this.usersRepo.AllAsNoTracking()
+            return this.usersRepo.AllAsNoTracking()
                 .Where(x => x.Id == userId)
-                .To<ProfileViewModel>()
+                .To<T>()
                 .FirstOrDefault();
+        }
 
-            userInfo.Friends = this.friendshipsRepo.AllAsNoTracking()
-                .Where(x => x.IsAccepted).Count();
-
-            return userInfo;
+        public ICollection<T> GetAllUsers<T>()
+        {
+            return this.usersRepo.AllAsNoTracking()
+               .To<T>()
+               .ToList<T>();
         }
 
         public string GetUserIdByUsernameAndPassword(string username, string password = null)
@@ -105,18 +107,10 @@
 
         public UserImagesViewModel GetUserImages(string userId)
         {
-            var userImageId = this.usersRepo.AllAsNoTracking()
-                .FirstOrDefault(x => x.Id == userId).ProfileImageId;
-
             var userImages = this.usersRepo.AllAsNoTracking()
                 .Where(x => x.Id == userId)
                 .To<UserImagesViewModel>()
                 .FirstOrDefault();
-
-            if (userImageId == null)
-            {
-                userImages.ProfileImagePath = null;
-            }
 
             return userImages;
         }

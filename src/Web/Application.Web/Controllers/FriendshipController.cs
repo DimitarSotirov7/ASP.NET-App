@@ -23,6 +23,7 @@
         public async Task<ActionResult<FriendshipViewModel>> OnPost(FriendshipInputModel input)
         {
             input.FromId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             await this.friendshipsService.CreateFriendshipAsync(input);
 
             if (this.friendshipsService.FriendshipExist(input))
@@ -34,16 +35,20 @@
             return null;
         }
 
-        [HttpPut]
-        public async Task<ActionResult<FriendshipViewModel>> OnPut(FriendshipInputModel input)
+        [HttpPatch]
+        public async Task<ActionResult<FriendshipViewModel>> OnPatch(FriendshipInputModel input)
         {
             input.FromId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            await this.friendshipsService.AcceptFriendshipAsync(input);
 
-            if (this.friendshipsService.GetFriendship(input).IsAccepted)
+            if (this.friendshipsService.FriendshipExist(input))
             {
-                var view = new FriendshipViewModel { RequesterId = input.FromId, ResponderId = input.ToId };
-                return view;
+                await this.friendshipsService.AcceptFriendshipAsync(input);
+
+                if (this.friendshipsService.GetFriendship(input).IsAccepted)
+                {
+                    var view = new FriendshipViewModel { IsAccepted = true };
+                    return view;
+                }
             }
 
             return null;

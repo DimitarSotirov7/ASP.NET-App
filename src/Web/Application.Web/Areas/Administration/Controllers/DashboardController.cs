@@ -43,7 +43,7 @@
                 // gets the posts from last 7 days
                 var viewModel = new AllLatestPostsViewModel()
                 {
-                    Posts = this.postsService.GetAllLatestPosts(1, this.postsService.GetCount())
+                    Posts = this.postsService.GetAllLatestPosts<PostViewModel>(1, this.postsService.GetCount())
                     .Where(x => x.CreatedOn.AddDays(7) >= DateTime.UtcNow).ToList(),
                 };
 

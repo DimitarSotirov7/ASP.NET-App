@@ -6,21 +6,58 @@
 
         public static string DefaultProfileImageName => "DefaultProfileImage.png";
 
-        /// <summary>
-        /// use String.Format to put folder directory.
-        /// </summary>
-        public static string GetsDefaultProfileImagePath => "/{0}/DefaultProfileImage.png";
-
-        /// <summary>
-        /// set folder directory, image Id and image extension.
-        /// </summary>
-        public static string GetsLocalImagePath => "{0}{1}.{2}";
-
         public static string DefaultCoverImageName => "DefaultCoverImage.jpg";
 
-        /// <summary>
-        /// use String.Format to put folder directory.
-        /// </summary>
-        public static string GetsDefaultCoverImagePath => "/{0}/DefaultCoverImage.jpg";
+        public static string GetProfileImagePath(string imageId, string imageExtension, string imageUrl)
+        {
+            if (imageUrl != null)
+            {
+                return imageUrl;
+            }
+
+            string localPath = string.Empty;
+
+            if (imageId == null)
+            {
+                localPath = $"/images/{DefaultProfileImageName}";
+            }
+            else
+            {
+                localPath = "/images/users/" + imageId + "." + imageExtension;
+            }
+
+            return localPath;
+        }
+
+        public static string GetCoverPath(string imageId, string imageExtension, string imageUrl)
+        {
+            if (imageUrl != null)
+            {
+                return imageUrl;
+            }
+
+            string localPath = string.Empty;
+
+            if (imageId == null)
+            {
+                localPath = $"/images/{DefaultCoverImageName}";
+            }
+            else
+            {
+                localPath = "/images/users/" + imageId + "." + imageExtension;
+            }
+
+            return localPath;
+        }
+
+        public static string GetImagePath(string imageId, string imageExtension, string folder, string imageUrl)
+        {
+            if (imageUrl != null)
+            {
+                return imageUrl;
+            }
+
+            return $"{folder}/{imageId}.{imageExtension}";
+        }
     }
 }

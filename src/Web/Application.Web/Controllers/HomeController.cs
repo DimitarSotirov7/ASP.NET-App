@@ -1,27 +1,42 @@
 ﻿namespace Application.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Linq;
     using System.Security.Claims;
 
+    using Application.Data.Models;
     using Application.Services.Contracts;
     using Application.Web.ViewModels;
     using Application.Web.ViewModels.Home;
+    using Application.Web.ViewModels.UserRelated.Chats;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
         private readonly IUsersService usersService;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
-        public HomeController(IUsersService usersService)
+        public HomeController(IUsersService usersService, SignInManager<ApplicationUser> signInManager)
         {
             this.usersService = usersService;
+            this.signInManager = signInManager;
         }
 
         public IActionResult Index()
         {
+            var chatsViewModel = new ChatsViewModel();
+
+            if (this.signInManager.IsSignedIn(this.User))
+            {
+                chatsViewModel.Users = this.usersService.GetAllUsers<ChatUserViewModel>()
+                    .Where(x => x.Id != this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                    .ToList();
+            }
+
             var homeViewModel = new HomeViewModel()
             {
-                UsersCount = this.usersService.GetUsersCount(),
+                ChatsViewModel = chatsViewModel,
             };
 
             return this.View(homeViewModel);

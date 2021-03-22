@@ -24,7 +24,7 @@
 
         public IActionResult Profile(string id)
         {
-            var profileViewModel = this.usersService.GetUserInformation(id);
+            var profileViewModel = this.usersService.GetUser<ProfileViewModel>(id);
             profileViewModel.CurrentLoggedUser = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var friendshipInputModel = new FriendshipInputModel

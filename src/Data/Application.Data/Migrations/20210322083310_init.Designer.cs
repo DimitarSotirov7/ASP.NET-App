@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210305064941_CommentNewProperties")]
-    partial class CommentNewProperties
+    [Migration("20210322083310_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,50 +203,7 @@ namespace Application.Data.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("Application.Data.Models.Main.Dislike", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FromUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ToCommentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ToImageId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("ToMessageId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ToPostId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FromUserId");
-
-                    b.HasIndex("ToCommentId");
-
-                    b.HasIndex("ToImageId");
-
-                    b.HasIndex("ToMessageId");
-
-                    b.HasIndex("ToPostId");
-
-                    b.ToTable("Dislikes");
-                });
-
-            modelBuilder.Entity("Application.Models.Main.Comment", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -296,7 +253,50 @@ namespace Application.Data.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Follow", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Dislike", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FromUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ToCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ToImageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("ToMessageId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ToPostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromUserId");
+
+                    b.HasIndex("ToCommentId");
+
+                    b.HasIndex("ToImageId");
+
+                    b.HasIndex("ToMessageId");
+
+                    b.HasIndex("ToPostId");
+
+                    b.ToTable("Dislikes");
+                });
+
+            modelBuilder.Entity("Application.Data.Models.Main.Follow", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -332,7 +332,7 @@ namespace Application.Data.Migrations
                     b.ToTable("Follows");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Friendship", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Friendship", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -371,7 +371,7 @@ namespace Application.Data.Migrations
                     b.ToTable("Friendships");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Image", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Image", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -411,7 +411,7 @@ namespace Application.Data.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Like", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Like", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -454,7 +454,7 @@ namespace Application.Data.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Message", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -502,7 +502,7 @@ namespace Application.Data.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Post", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -529,16 +529,11 @@ namespace Application.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ToUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FromUserId");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("ToUserId");
 
                     b.ToTable("Posts");
                 });
@@ -655,11 +650,11 @@ namespace Application.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Application.Models.Main.Image", "CoverImage")
+                    b.HasOne("Application.Data.Models.Main.Image", "CoverImage")
                         .WithMany()
                         .HasForeignKey("CoverImageId");
 
-                    b.HasOne("Application.Models.Main.Image", "ProfileImage")
+                    b.HasOne("Application.Data.Models.Main.Image", "ProfileImage")
                         .WithMany()
                         .HasForeignKey("ProfileImageId");
 
@@ -670,25 +665,52 @@ namespace Application.Data.Migrations
                     b.Navigation("ProfileImage");
                 });
 
+            modelBuilder.Entity("Application.Data.Models.Main.Comment", b =>
+                {
+                    b.HasOne("Application.Data.Models.ApplicationUser", "FromUser")
+                        .WithMany("OwnComments")
+                        .HasForeignKey("FromUserId");
+
+                    b.HasOne("Application.Data.Models.Main.Image", "Image")
+                        .WithMany("ImageComments")
+                        .HasForeignKey("ImageId");
+
+                    b.HasOne("Application.Data.Models.Main.Image", "ToImage")
+                        .WithMany("ToImageComments")
+                        .HasForeignKey("ToImageId");
+
+                    b.HasOne("Application.Data.Models.Main.Post", "ToPost")
+                        .WithMany("Comments")
+                        .HasForeignKey("ToPostId");
+
+                    b.Navigation("FromUser");
+
+                    b.Navigation("Image");
+
+                    b.Navigation("ToImage");
+
+                    b.Navigation("ToPost");
+                });
+
             modelBuilder.Entity("Application.Data.Models.Main.Dislike", b =>
                 {
                     b.HasOne("Application.Data.Models.ApplicationUser", "FromUser")
                         .WithMany("OwnDislikes")
                         .HasForeignKey("FromUserId");
 
-                    b.HasOne("Application.Models.Main.Comment", "ToComment")
+                    b.HasOne("Application.Data.Models.Main.Comment", "ToComment")
                         .WithMany("Dislikes")
                         .HasForeignKey("ToCommentId");
 
-                    b.HasOne("Application.Models.Main.Image", "ToImage")
+                    b.HasOne("Application.Data.Models.Main.Image", "ToImage")
                         .WithMany("Dislikes")
                         .HasForeignKey("ToImageId");
 
-                    b.HasOne("Application.Models.Main.Message", "ToMessage")
+                    b.HasOne("Application.Data.Models.Main.Message", "ToMessage")
                         .WithMany("Dislikes")
                         .HasForeignKey("ToMessageId");
 
-                    b.HasOne("Application.Models.Main.Post", "ToPost")
+                    b.HasOne("Application.Data.Models.Main.Post", "ToPost")
                         .WithMany("Dislikes")
                         .HasForeignKey("ToPostId");
 
@@ -703,34 +725,7 @@ namespace Application.Data.Migrations
                     b.Navigation("ToPost");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Comment", b =>
-                {
-                    b.HasOne("Application.Data.Models.ApplicationUser", "FromUser")
-                        .WithMany("OwnComments")
-                        .HasForeignKey("FromUserId");
-
-                    b.HasOne("Application.Models.Main.Image", "Image")
-                        .WithMany("ImageComments")
-                        .HasForeignKey("ImageId");
-
-                    b.HasOne("Application.Models.Main.Image", "ToImage")
-                        .WithMany("ToImageComments")
-                        .HasForeignKey("ToImageId");
-
-                    b.HasOne("Application.Models.Main.Post", "ToPost")
-                        .WithMany("Comments")
-                        .HasForeignKey("ToPostId");
-
-                    b.Navigation("FromUser");
-
-                    b.Navigation("Image");
-
-                    b.Navigation("ToImage");
-
-                    b.Navigation("ToPost");
-                });
-
-            modelBuilder.Entity("Application.Models.Main.Follow", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Follow", b =>
                 {
                     b.HasOne("Application.Data.Models.ApplicationUser", "FromUser")
                         .WithMany("Followings")
@@ -745,7 +740,7 @@ namespace Application.Data.Migrations
                     b.Navigation("ToUser");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Friendship", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Friendship", b =>
                 {
                     b.HasOne("Application.Data.Models.ApplicationUser", "BlockedBy")
                         .WithMany()
@@ -766,36 +761,38 @@ namespace Application.Data.Migrations
                     b.Navigation("Responder");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Image", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Image", b =>
                 {
                     b.HasOne("Application.Data.Models.ApplicationUser", null)
                         .WithMany("OtherImages")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("Application.Models.Main.Post", null)
+                    b.HasOne("Application.Data.Models.Main.Post", "Post")
                         .WithMany("Images")
                         .HasForeignKey("PostId");
+
+                    b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Like", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Like", b =>
                 {
                     b.HasOne("Application.Data.Models.ApplicationUser", "FromUser")
                         .WithMany("OwnLikes")
                         .HasForeignKey("FromUserId");
 
-                    b.HasOne("Application.Models.Main.Comment", "ToComment")
+                    b.HasOne("Application.Data.Models.Main.Comment", "ToComment")
                         .WithMany("Likes")
                         .HasForeignKey("ToCommentId");
 
-                    b.HasOne("Application.Models.Main.Image", "ToImage")
+                    b.HasOne("Application.Data.Models.Main.Image", "ToImage")
                         .WithMany("Likes")
                         .HasForeignKey("ToImageId");
 
-                    b.HasOne("Application.Models.Main.Message", "ToMessage")
+                    b.HasOne("Application.Data.Models.Main.Message", "ToMessage")
                         .WithMany("Likes")
                         .HasForeignKey("ToMessageId");
 
-                    b.HasOne("Application.Models.Main.Post", "ToPost")
+                    b.HasOne("Application.Data.Models.Main.Post", "ToPost")
                         .WithMany("Likes")
                         .HasForeignKey("ToPostId");
 
@@ -810,13 +807,13 @@ namespace Application.Data.Migrations
                     b.Navigation("ToPost");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Message", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Message", b =>
                 {
                     b.HasOne("Application.Data.Models.ApplicationUser", "FromUser")
                         .WithMany("OwnMessages")
                         .HasForeignKey("FromUserId");
 
-                    b.HasOne("Application.Models.Main.Image", "Image")
+                    b.HasOne("Application.Data.Models.Main.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId");
 
@@ -831,19 +828,13 @@ namespace Application.Data.Migrations
                     b.Navigation("ToUser");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Post", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Post", b =>
                 {
                     b.HasOne("Application.Data.Models.ApplicationUser", "FromUser")
                         .WithMany("OwnPosts")
                         .HasForeignKey("FromUserId");
 
-                    b.HasOne("Application.Data.Models.ApplicationUser", "ToUser")
-                        .WithMany("PostsReceived")
-                        .HasForeignKey("ToUserId");
-
                     b.Navigation("FromUser");
-
-                    b.Navigation("ToUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -925,8 +916,6 @@ namespace Application.Data.Migrations
 
                     b.Navigation("OwnPosts");
 
-                    b.Navigation("PostsReceived");
-
                     b.Navigation("Roles");
                 });
 
@@ -935,14 +924,14 @@ namespace Application.Data.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Comment", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Comment", b =>
                 {
                     b.Navigation("Dislikes");
 
                     b.Navigation("Likes");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Image", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Image", b =>
                 {
                     b.Navigation("Dislikes");
 
@@ -953,14 +942,14 @@ namespace Application.Data.Migrations
                     b.Navigation("ToImageComments");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Message", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Message", b =>
                 {
                     b.Navigation("Dislikes");
 
                     b.Navigation("Likes");
                 });
 
-            modelBuilder.Entity("Application.Models.Main.Post", b =>
+            modelBuilder.Entity("Application.Data.Models.Main.Post", b =>
                 {
                     b.Navigation("Comments");
 

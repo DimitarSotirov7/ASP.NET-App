@@ -1,11 +1,12 @@
 ﻿namespace Application.Web.ViewModels.Account
 {
+    using System.Collections.Generic;
+
+    using Application.Data.Common;
     using Application.Data.Models;
     using Application.Services.Mapping;
-    using AutoMapper;
-    using System.Collections.Generic;
     using Application.Web.ViewModels;
-    using Application.Data.Common;
+    using AutoMapper;
 
     public class UserImagesViewModel : IMapFrom<ApplicationUser>, IHaveCustomMappings
     {
@@ -16,8 +17,8 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<ApplicationUser, UserImagesViewModel>()
-                .ForMember(x => x.ProfileImagePath, opt => opt.MapFrom(x =>
-                string.Format(GlobalConstants.GetsLocalImagePath, "images/users", x.ProfileImageId, x.ProfileImage.Extension)));
+                .ForMember(x => x.ProfileImagePath, opt => opt.MapFrom(x => 
+                GlobalConstants.GetProfileImagePath(x.ProfileImageId, x.ProfileImage.Extension, x.ProfileImage.ImageUrl)));
         }
     }
 }

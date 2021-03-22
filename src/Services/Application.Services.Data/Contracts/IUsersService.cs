@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using Application.Data.Models.Main;
     using Application.Web.ViewModels.Account;
     using Microsoft.AspNetCore.Http;
@@ -10,7 +11,9 @@
     {
         public Task CreateUserAsync(RegisterInputModel input);
 
-        public ProfileViewModel GetUserInformation(string userId);
+        public T GetUser<T>(string userId);
+
+        public ICollection<T> GetAllUsers<T>();
 
         public int GetUsersCount();
 

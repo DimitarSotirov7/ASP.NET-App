@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Application.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -259,10 +259,37 @@ namespace Application.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    FromUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_AspNetUsers_FromUserId",
+                        column: x => x.FromUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Extension = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostId = table.Column<int>(type: "int", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -276,6 +303,57 @@ namespace Application.Data.Migrations
                         name: "FK_Images_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Images_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    ImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FromUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ToPostId = table.Column<int>(type: "int", nullable: true),
+                    ToImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_FromUserId",
+                        column: x => x.FromUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comments_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comments_Images_ToImageId",
+                        column: x => x.ToImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comments_Posts_ToPostId",
+                        column: x => x.ToPostId,
+                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -320,83 +398,49 @@ namespace Application.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
+                name: "Dislikes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    ImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     FromUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ToUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ToCommentId = table.Column<int>(type: "int", nullable: true),
+                    ToImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ToMessageId = table.Column<int>(type: "int", nullable: true),
+                    ToPostId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.PrimaryKey("PK_Dislikes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_AspNetUsers_FromUserId",
+                        name: "FK_Dislikes_AspNetUsers_FromUserId",
                         column: x => x.FromUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Posts_AspNetUsers_ToUserId",
-                        column: x => x.ToUserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_Dislikes_Comments_ToCommentId",
+                        column: x => x.ToCommentId,
+                        principalTable: "Comments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Posts_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    FromUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ToUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ImageId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PostId = table.Column<int>(type: "int", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comments_AspNetUsers_FromUserId",
-                        column: x => x.FromUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Comments_AspNetUsers_ToUserId",
-                        column: x => x.ToUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Comments_Images_ImageId",
-                        column: x => x.ImageId,
+                        name: "FK_Dislikes_Images_ToImageId",
+                        column: x => x.ToImageId,
                         principalTable: "Images",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comments_Posts_PostId",
-                        column: x => x.PostId,
+                        name: "FK_Dislikes_Messages_ToMessageId",
+                        column: x => x.ToMessageId,
+                        principalTable: "Messages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Dislikes_Posts_ToPostId",
+                        column: x => x.ToPostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -536,14 +580,39 @@ namespace Application.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_PostId",
+                name: "IX_Comments_ToImageId",
                 table: "Comments",
-                column: "PostId");
+                column: "ToImageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ToUserId",
+                name: "IX_Comments_ToPostId",
                 table: "Comments",
-                column: "ToUserId");
+                column: "ToPostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dislikes_FromUserId",
+                table: "Dislikes",
+                column: "FromUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dislikes_ToCommentId",
+                table: "Dislikes",
+                column: "ToCommentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dislikes_ToImageId",
+                table: "Dislikes",
+                column: "ToImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dislikes_ToMessageId",
+                table: "Dislikes",
+                column: "ToMessageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dislikes_ToPostId",
+                table: "Dislikes",
+                column: "ToPostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Follows_FromUserId",
@@ -584,6 +653,11 @@ namespace Application.Data.Migrations
                 name: "IX_Images_IsDeleted",
                 table: "Images",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_PostId",
+                table: "Images",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Likes_FromUserId",
@@ -636,19 +710,9 @@ namespace Application.Data.Migrations
                 column: "FromUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_ImageId",
-                table: "Posts",
-                column: "ImageId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Posts_IsDeleted",
                 table: "Posts",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_ToUserId",
-                table: "Posts",
-                column: "ToUserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUsers_Images_CoverImageId",
@@ -673,6 +737,10 @@ namespace Application.Data.Migrations
                 name: "FK_Images_AspNetUsers_ApplicationUserId",
                 table: "Images");
 
+            migrationBuilder.DropForeignKey(
+                name: "FK_Posts_AspNetUsers_FromUserId",
+                table: "Posts");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -687,6 +755,9 @@ namespace Application.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Dislikes");
 
             migrationBuilder.DropTable(
                 name: "Follows");
@@ -707,9 +778,6 @@ namespace Application.Data.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "Posts");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
@@ -717,6 +785,9 @@ namespace Application.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Images");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
         }
     }
 }

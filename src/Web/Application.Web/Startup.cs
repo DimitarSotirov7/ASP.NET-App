@@ -112,6 +112,7 @@
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                dbContext.Database.SetCommandTimeout(1800);
                 dbContext.Database.Migrate();
                 var adminCredentials = new AdminCredentials
                 {

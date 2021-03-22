@@ -39,7 +39,6 @@
             {
                 Content = input.Content,
                 FromUserId = input.FromUserId,
-                ToUserId = null,
             };
 
             if (input.ImageUrl != null)
@@ -85,15 +84,14 @@
             await this.postsRepo.SaveChangesAsync();
         }
 
-        public ICollection<PostViewModel> GetAllLatestPosts(int currentPage, int countInPage = 10)
+        public ICollection<Т> GetAllLatestPosts<Т>(int currentPage, int countInPage = 10)
         {
             var countsToSkip = (currentPage - 1) * countInPage;
 
             return this.postsRepo.AllAsNoTracking()
-                .Where(x => x.ToUserId == null)
                 .OrderByDescending(x => x.CreatedOn)
                 .Skip(countsToSkip).Take(countInPage)
-                .To<PostViewModel>()
+                .To<Т>()
                 .ToList();
         }
 
