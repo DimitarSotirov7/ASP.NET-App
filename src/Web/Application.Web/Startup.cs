@@ -1,5 +1,6 @@
 ﻿namespace Application.Web
 {
+    using System;
     using System.Reflection;
     using Application.Common;
     using Application.Data;
@@ -74,6 +75,8 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
+            services.AddHttpContextAccessor();
+
             services.AddControllersWithViews(
                 options =>
                     {
@@ -133,6 +136,12 @@
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseWebSockets(new WebSocketOptions
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+                ReceiveBufferSize = 4 * 1024,
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

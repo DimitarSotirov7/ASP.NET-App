@@ -49,10 +49,15 @@
 
         public IActionResult Contact()
         {
-            var viewModel = this.usersService
+            if (this.signInManager.IsSignedIn(this.User))
+            {
+                var viewModel = this.usersService
                 .GetEmailUserInfo<EmailInputModel>(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            return this.View(viewModel);
+                return this.View(viewModel);
+            }
+
+            return this.View(new EmailInputModel());
         }
 
         public IActionResult Privacy()

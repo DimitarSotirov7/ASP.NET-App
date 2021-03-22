@@ -33,8 +33,13 @@
             string subject = input.Subject;
             string content = input.Message;
 
-            await this.emailSender
+            string statusCode = await this.emailSender
                     .SendEmailAsync(fromEmail, fromName, toEmail, subject, content);
+
+            if (statusCode.ToLower().Contains("accepted"))
+            {
+                this.TempData["emailMessage"] = "Your message has been sent successfully";
+            }
 
             return this.Redirect("/");
         }

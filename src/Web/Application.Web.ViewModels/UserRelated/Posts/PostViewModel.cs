@@ -42,7 +42,7 @@
                 .ForMember(x => x.FromUserProfileImagePath, opt => opt.MapFrom(x =>
                 GlobalConstants.GetProfileImagePath(x.FromUser.ProfileImageId, x.FromUser.ProfileImage.Extension, x.FromUser.ProfileImage.ImageUrl)))
                 .ForMember(x => x.ImagePath, opt => opt.MapFrom(x =>
-                GlobalConstants.GetImagePath(x.Images.FirstOrDefault().Id, x.Images.FirstOrDefault().Extension, "~/images/posts", x.Images.FirstOrDefault().ImageUrl)))
+                GlobalConstants.GetImagePath(x.Images.FirstOrDefault().Id, x.Images.FirstOrDefault().Extension, "/images/posts", x.Images.FirstOrDefault().ImageUrl)))
                 .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.FromUserId));
         }
     }

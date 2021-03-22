@@ -92,16 +92,14 @@
             }
 
             var friendship = this.friendshipsRepo.All()
-                .FirstOrDefault(x => x.RequesterId == input.FromId && x.ResponderId == input.ToId);
+                .FirstOrDefault(x => (x.RequesterId == input.FromId && x.ResponderId == input.ToId) ||
+                (x.RequesterId == input.ToId && x.ResponderId == input.FromId));
 
             if (friendship == null)
             {
                 return;
             }
 
-            // friendship.IsAccepted = false;
-            // friendship.IsBlocked = false;
-            // friendship.BlockedById = null;
             this.friendshipsRepo.Delete(friendship);
             await this.friendshipsRepo.SaveChangesAsync();
         }

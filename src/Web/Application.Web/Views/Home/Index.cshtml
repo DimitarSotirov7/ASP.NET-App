@@ -10,6 +10,10 @@
 }
 
 <!-- Intro section -->
+@if (this.TempData.ContainsKey("emailMessage"))
+{
+    <div class="alert alert-success">@this.TempData["emailMessage"]</div>
+}
 <section class="intro-section spad">
     <div class="container">
         <div class="row">

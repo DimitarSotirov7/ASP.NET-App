@@ -3,6 +3,7 @@
     var addToFriendsbtn = document.querySelector("#addToFriends");
     var cancelTheRequestBtn = document.querySelector("#cancelTheRequest");
     var acceptTheRequestBtn = document.querySelector("#acceptTheRequest");
+    var removeFromFriendsBtn = document.querySelector("#removeFromFriends");
 
     if (addToFriendsbtn) {
         addToFriendsbtn.addEventListener("click", addToFriendsHandler);
@@ -12,6 +13,9 @@
     }
     if (acceptTheRequestBtn) {
         acceptTheRequestBtn.addEventListener("click", acceptTheRequestBtnHandler);
+    }
+    if (removeFromFriendsBtn) {
+        removeFromFriendsBtn.addEventListener("click", cancelTheRequestHandler);
     }
 
     function addToFriendsHandler(x) {
@@ -84,9 +88,9 @@
             .then(res => res.json())
             .then(data => {
                 if (data.isAccepted) {
-                    x.target.textContent = "Friends";
+                    x.target.textContent = "Remove from friends";
                     x.target.className = "btn btn-info btn-sm btn-block";
-                    x.target.id = "alreadyFriends";
+                    x.target.id = "removeFromFriends";
                 }
             })
             .catch(x => console.log(x))

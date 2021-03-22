@@ -1,11 +1,12 @@
 ﻿namespace Application.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     using Application.Services.Contracts;
     using Application.Web.ViewModels.UserRelated;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
 
     [Authorize]
     [ApiController]

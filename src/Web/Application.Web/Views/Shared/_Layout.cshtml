@@ -36,7 +36,7 @@
     <div id="wrapper">
         <!-- Page Preloder -->
         <div id="preloder">
-            <div class="loader"></div>
+            <div class="loader text-white">@this.configuration["App:Name"]</div>
         </div>
 
         <!-- Header section -->
@@ -55,7 +55,7 @@
                 else
                 {
                     <div class="user-panel row">
-                        <a class="text-white" asp-controller="User" asp-action="Profile" asp-route-id="@this.User.FindFirst(ClaimTypes.NameIdentifier).Value" title="Manage">Hello @this.User.Identity.Name!</a>
+                        <a class="text-white" asp-area="" asp-controller="User" asp-action="Profile" asp-route-id="@this.User.FindFirst(ClaimTypes.NameIdentifier).Value" title="Manage">Hello @this.User.Identity.Name!</a>
                         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
                             <button type="submit" class="btn btn-warning">Logout</button>
                         </form>
