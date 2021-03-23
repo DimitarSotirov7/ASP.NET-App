@@ -3,7 +3,7 @@
 @using Application.Web.ViewModels.Home
 @using Microsoft.Extensions.Configuration;
 @inject SignInManager<ApplicationUser> SignInManager
-@inject IConfiguration configuration 
+@inject IConfiguration configuration
 @model HomeViewModel
 @{
     this.ViewData["Title"] = "Home Page";
@@ -30,7 +30,7 @@
             }
             else
             {
-               <partial name="_ChatPartial"  model="@Model.ChatsViewModel"/>
+                <partial name="_ChatPartial" model="@Model.ChatsViewModel" />
             }
         </div>
     </div>

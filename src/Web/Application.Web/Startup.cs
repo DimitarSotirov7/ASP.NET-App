@@ -15,6 +15,7 @@
     using Application.Services.Data.Contracts;
     using Application.Services.Mapping;
     using Application.Services.Messaging;
+    using Application.Web.Hubs;
     using Application.Web.Infrastructure;
     using Application.Web.ViewModels;
 
@@ -75,7 +76,7 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
-            services.AddHttpContextAccessor();
+            services.AddSignalR();
 
             services.AddControllersWithViews(
                 options =>
@@ -103,6 +104,7 @@
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IFriendshipsService, FriendshipsService>();
             services.AddTransient<IImagesService, ImagesService>();
+            services.AddTransient<IMessagesService, MessagesService>();
             services.AddTransient<IViewRenderService, ViewRenderService>();
         }
 
@@ -137,12 +139,6 @@
                 app.UseHsts();
             }
 
-            app.UseWebSockets(new WebSocketOptions
-            {
-                KeepAliveInterval = TimeSpan.FromSeconds(120),
-                ReceiveBufferSize = 4 * 1024,
-            });
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -155,6 +151,7 @@
             app.UseEndpoints(
                 endpoints =>
                     {
+                        endpoints.MapHub<ChatHub>("/chat");
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();

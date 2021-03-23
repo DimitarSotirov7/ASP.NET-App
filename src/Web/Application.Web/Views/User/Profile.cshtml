@@ -5,6 +5,7 @@
 }
 
 <link href="~/css/profileView.css" rel="stylesheet" />
+<link  href="~/css/chat.css" rel="stylesheet">
 
 <div class="row py-5 px-4">
     <div class="col-xl-10 col-md-6 col-sm-10 mx-auto">
@@ -120,6 +121,9 @@
             </div>
         </div><!-- End profile widget -->
 
+        <div>
+            <partial name="_ChatsPartial" />
+        </div>
     </div>
 </div>
 
@@ -127,4 +131,5 @@
 
 @section Scripts{
     <script src="~/js/friendships.js"></script>
+    <script src="~/js/chatView.js"></script>
 }

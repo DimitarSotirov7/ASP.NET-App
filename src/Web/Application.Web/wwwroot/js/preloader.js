@@ -1,5 +1,5 @@
 ﻿(function is_loaded() {
-    if (document.getElementById) {
+    if (document.getElementById('preloader')) {
         document.getElementById('preloader').style.visibility = 'hidden';
     } else {
         if (document.layers) {
