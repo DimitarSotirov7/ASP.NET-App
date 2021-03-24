@@ -7,6 +7,7 @@
     using Application.Data.Common.Repositories;
     using Application.Data.Models.Main;
     using Application.Services.Contracts;
+    using Application.Services.Mapping;
     using Application.Web.ViewModels.UserRelated;
 
     public class MessagesService : IMessagesService
@@ -31,12 +32,33 @@
             await this.messagesRepo.SaveChangesAsync();
         }
 
-        public ICollection<Message> GetMessagesByUserIds(string firstUserId, string secondUserId, int messagesCount)
+        public T GetLastMessage<T>(string firstUserId, string secondUserId)
         {
             return this.messagesRepo.AllAsNoTracking()
-                .Where(x => (x.FromUserId == firstUserId || x.FromUserId == secondUserId) &&
-                 (x.ToUserId == firstUserId || x.ToUserId == secondUserId))
-                .Take(messagesCount)
+                 .Where(x => (x.FromUserId == firstUserId && x.ToUserId == secondUserId) ||
+                     (x.FromUserId == secondUserId && x.ToUserId == firstUserId))
+                 .OrderByDescending(x => x.CreatedOn)
+                 .To<T>()
+                 .FirstOrDefault();
+        }
+
+        public ICollection<T> GetMessagesByUserIds<T>(string firstUserId, string secondUserId, int messagesCount = 0)
+        {
+            int messages = 0;
+            if (messagesCount == 0)
+            {
+                messages = this.messagesRepo.AllAsNoTracking()
+                    .Where(x => (x.FromUserId == firstUserId && x.ToUserId == secondUserId) ||
+                    (x.FromUserId == secondUserId && x.ToUserId == firstUserId))
+                    .Count();
+            }
+
+            return this.messagesRepo.AllAsNoTracking()
+                .Where(x => (x.FromUserId == firstUserId && x.ToUserId == secondUserId) ||
+                 (x.FromUserId == secondUserId && x.ToUserId == firstUserId))
+                .OrderBy(x => x.CreatedOn)
+                .Take(messagesCount > 0 ? messagesCount : messages)
+                .To<T>()
                 .ToList();
         }
 

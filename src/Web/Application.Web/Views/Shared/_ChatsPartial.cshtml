@@ -1,11 +1,17 @@
-﻿<button type="button" class="btn open-button" onclick="openForm()">Chat</button>
+﻿@using Application.Web.ViewModels.UserRelated.Chats 
+@model AllMessagesViewModel
+
+@{ 
+}
+
+<button type="button" class="btn open-button" onclick="openForm()">Chat</button>
 <div class="chat-popup" id="myForm">
-    <form action="/action_page.php" class="form-container">
+    <form class="form-container">
         <div class="card-header">
             <h4 class="card-title"><strong>Chat</strong></h4>
         </div>
         <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
-            <div class="media media-chat">
+            @*<div class="media media-chat">
                 <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
                 <div class="media-body">
                     <p>Hi</p>
@@ -38,33 +44,29 @@
                     <p>Is that okay?</p>
                     <p class="meta"><time datetime="2018">00:09</time></p>
                 </div>
-            </div>
-            <div class="media media-chat">
-                <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                <div class="media-body">
-                    <p>Okay i will meet you on Sandon Square </p>
-                    <p class="meta"><time datetime="2018">00:10</time></p>
-                </div>
-            </div>
-            <div class="media media-chat media-chat-reverse">
-                <div class="media-body">
-                    <p>Do you have pictures of Matley Marriage?</p>
-                    <p class="meta"><time datetime="2018">00:10</time></p>
-                </div>
-            </div>
-            <div class="media media-chat">
-                <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                <div class="media-body">
-                    <p>Sorry I don't have. i changed my phone.</p>
-                    <p class="meta"><time datetime="2018">00:12</time></p>
-                </div>
-            </div>
-            <div class="media media-chat media-chat-reverse">
-                <div class="media-body">
-                    <p>Okay then see you on sunday!!</p>
-                    <p class="meta"><time datetime="2018">00:12</time></p>
-                </div>
-            </div>
+            </div>*@
+            @foreach (var message in Model.Messages)
+            {
+                if (message.FromUserId == Model.LoggedUserId)
+                {
+                    <div class="media media-chat media-chat-reverse">
+                        <div class="media-body">
+                            <p>@message.Content</p>
+                            <p class="meta"><time datetime="@message.CreatedOn.Year">@message.CreatedOn.ToShortTimeString()</time></p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="media media-chat">
+                        <img class="avatar" src="@message.FromUserProfileImagePath" alt="">
+                        <div class="media-body">
+                            <p>@message.Content</p>
+                            <p class="meta"><time datetime="@message.CreatedOn.Year">@message.CreatedOn.ToShortTimeString()</time></p>
+                        </div>
+                    </div>
+                }
+            }
             <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
                 <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
             </div>
@@ -73,8 +75,19 @@
             </div>
         </div>
         <div class="publisher bt-1 border-light">
-            <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..."> <input class="publisher-input" type="text" placeholder="Write something"> <span class="publisher-btn file-group"> <i class="fa fa-paperclip file-browser"></i> <input type="file"> </span> <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a> <a class="publisher-btn text-info" href="#" data-abc="true"><i class="fa fa-paper-plane"></i></a>
+            <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..."> 
+            <input id="messageInput" class="publisher-input" type="text" placeholder="Write something"> 
+            <span class="publisher-btn file-group"><i class="fa fa-paperclip file-browser"></i><input type="file"></span> 
+            <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a> 
+            <a id="sendBtn" class="publisher-btn text-info" data-abc="true"><i class="fa fa-paper-plane"></i></a>
         </div>
         <button type="button" class="btn" onclick="closeForm()">Close</button>
     </form>
 </div>
+
+<div id="fromUserId" accesskey="@Model.LastMessage.FromUserId"></div>
+<div id="toUserId" accesskey="@Model.LastMessage.ToUserId"></div>
+
+@section Scripts {
+    
+}  

@@ -6,6 +6,7 @@
     using Application.Data.Models;
     using Application.Services.Mapping;
     using Application.Web.ViewModels.UserRelated;
+    using Application.Web.ViewModels.UserRelated.Chats;
     using Application.Web.ViewModels.UserRelated.Posts;
     using AutoMapper;
 
@@ -32,6 +33,8 @@
         public int Friends { get; set; }
 
         public FriendshipViewModel FriendShip { get; set; }
+
+        public AllMessagesViewModel Chat { get; set; }
 
         public ICollection<ImagesViewModel> OtherImages { get; set; }
 

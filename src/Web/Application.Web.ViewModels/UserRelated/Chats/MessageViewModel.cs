@@ -19,13 +19,15 @@
 
         public string ToUserProfileImagePath { get; set; }
 
+        public string LoggedUser { get; set; }
+
         public string ImageId { get; set; }
 
         public bool Seen { get; set; }
 
-        public int Likes { get; set; }
+        public int LikesCount { get; set; }
 
-        public int Dislikes { get; set; }
+        public int DislikesCount { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

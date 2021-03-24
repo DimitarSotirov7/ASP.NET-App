@@ -1,29 +1,34 @@
-﻿using Application.Data.Models.Main;
-using Application.Services.Contracts;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-using System.Threading.Tasks;
-
-namespace Application.Web.Hubs
+﻿namespace Application.Web.Hubs
 {
+    using System.Threading.Tasks;
+
+    using Application.Services.Contracts;
+    using Application.Web.ViewModels.UserRelated;
+    using Application.Web.ViewModels.UserRelated.Chats;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.SignalR;
+
     [Authorize]
     public class ChatHub : Hub
     {
         private readonly IMessagesService messagesService;
-        private readonly IUsersService usersService;
 
-        public ChatHub(IMessagesService messagesService, IUsersService usersService)
+        public ChatHub(IMessagesService messagesService)
         {
             this.messagesService = messagesService;
-            this.usersService = usersService;
         }
 
-        public async Task Send(string message)
+        public async Task Send(MessageInputModel input)
         {
-            await this.Clients.All.SendAsync("NewMessage", new Message
-            {
-                Content = message,
-            });
+            input.FromUserId = this.Context.UserIdentifier;
+            await this.messagesService.CreateMessageAsync(input);
+            var lastMessage = this.messagesService
+                .GetLastMessage<MessageViewModel>(input.FromUserId, input.ToUserId);
+            lastMessage.LoggedUser = input.FromUserId;
+
+            string[] users = { input.FromUserId, input.ToUserId };
+
+            await this.Clients.Users(users).SendAsync("NewMessage", lastMessage);
         }
     }
 }

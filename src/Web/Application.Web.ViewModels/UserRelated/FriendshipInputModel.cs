@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Application.Web.ViewModels.UserRelated
+﻿namespace Application.Web.ViewModels.UserRelated
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class FriendshipInputModel
     {
         public string FromId { get; set; }

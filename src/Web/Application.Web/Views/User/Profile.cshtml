@@ -122,14 +122,16 @@
         </div><!-- End profile widget -->
 
         <div>
-            <partial name="_ChatsPartial" />
+            <partial name="_ChatsPartial" model="@Model.Chat"/>
         </div>
     </div>
 </div>
 
 <form method="post" id="antiForgeryForm"></form>
+<div id="currentProfileUserId" accesskey="@Model.UserId"></div>
 
 @section Scripts{
     <script src="~/js/friendships.js"></script>
     <script src="~/js/chatView.js"></script>
+    <script src="~/js/chat.js"></script>
 }

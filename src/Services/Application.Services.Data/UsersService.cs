@@ -1,20 +1,20 @@
 ﻿namespace Application.Services
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading.Tasks;
 
-    using Application.Services.Mapping;
+    using Application.Data.Common;
     using Application.Data.Common.Repositories;
     using Application.Data.Models;
+    using Application.Data.Models.Main;
     using Application.Services.Contracts;
+    using Application.Services.Mapping;
     using Application.Web.ViewModels.Account;
     using Microsoft.AspNetCore.Http;
-    using System.IO;
-    using Application.Data.Common;
-    using Application.Data.Models.Main;
 
     public class UsersService : IUsersService
     {

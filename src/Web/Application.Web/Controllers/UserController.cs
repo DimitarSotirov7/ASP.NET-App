@@ -1,20 +1,26 @@
 ﻿namespace Application.Web.Controllers
 {
+    using System.Security.Claims;
+
     using Application.Services.Contracts;
     using Application.Web.ViewModels.Account;
     using Application.Web.ViewModels.UserRelated;
+    using Application.Web.ViewModels.UserRelated.Chats;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
 
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUsersService usersService;
         private readonly IFriendshipsService friendshipsService;
+        private readonly IMessagesService messagesService;
 
-        public UserController(IUsersService usersService, IFriendshipsService friendshipsService)
+        public UserController(IUsersService usersService, IFriendshipsService friendshipsService, IMessagesService messagesService)
         {
             this.usersService = usersService;
             this.friendshipsService = friendshipsService;
+            this.messagesService = messagesService;
         }
 
         public IActionResult Images()
@@ -38,6 +44,13 @@
             {
                 this.Redirect("/post/all");
             }
+
+            profileViewModel.Chat = new AllMessagesViewModel
+            {
+                Messages = this.messagesService
+                    .GetMessagesByUserIds<MessageViewModel>(this.User.FindFirst(ClaimTypes.NameIdentifier).Value, id),
+                LoggedUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value,
+            };
 
             return this.View(profileViewModel);
         }
