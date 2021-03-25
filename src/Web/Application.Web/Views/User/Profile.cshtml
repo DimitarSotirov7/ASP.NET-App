@@ -85,7 +85,9 @@
                         {
                             imagesShown--;
 
-                            <div class="col-lg-6 mb-2 pr-lg-1"><img src="@image.ImagePath" class="img-thumbnail"></div>
+                            <div class="col-lg-6 mb-2 pr-lg-1">
+                                <img src="@image.ImagePath" class="img-thumbnail" data-toggle="modal" data-target="#modalId" accesskey="@image.Id">
+                            </div>
 
                             if (imagesShown == 0)
                             {
@@ -121,9 +123,27 @@
             </div>
         </div><!-- End profile widget -->
 
-        <div>
-            <partial name="_ChatsPartial" model="@Model.Chat"/>
-        </div>
+        @{ 
+            var chatAllowed = false;
+            var friendship = Model.FriendShip;
+
+            if (friendship != null)
+            {
+                chatAllowed = friendship.IsAccepted;
+            }
+
+            if (Model.CurrentLoggedUser == Model.UserId)
+            {
+                chatAllowed = true;
+            }
+        }
+
+        @if (chatAllowed)
+        {
+            <div>
+                <partial name="_ChatsPartial" model="@Model.Chat" />
+            </div>
+        }
     </div>
 </div>
 
@@ -131,8 +151,16 @@
 <div id="currentProfileUserId" accesskey="@Model.UserId"></div>
 <div id="currentLoggedUserId" accesskey="@Model.CurrentLoggedUser"></div>
 
+<partial name="_ModalPartial" model="@Model" />
+
 @section Scripts{
     <script src="~/js/friendships.js"></script>
     <script src="~/js/chatView.js"></script>
     <script src="~/js/chat.js"></script>
+    <script>
+        $(".img-thumbnail").on("click", function (e) {
+            var imageId = e.target.accessKey;
+            $("#imageId").val(imageId);
+        });
+    </script>
 }

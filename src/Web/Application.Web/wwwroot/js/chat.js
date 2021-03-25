@@ -14,6 +14,15 @@
     connection.start().catch(err => console.error(err.toString()));
 
     document.querySelector("#sendBtn").addEventListener("click", sendBtnHandler);
+    document.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+
+            if (document.querySelector("#messageInput") != "") {
+                document.querySelector("#sendBtn").addEventListener("click", sendBtnHandler(e));
+            }
+        }
+    });
+
 
     // send to server
     function sendBtnHandler(e) {

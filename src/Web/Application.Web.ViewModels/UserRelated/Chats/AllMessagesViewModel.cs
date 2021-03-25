@@ -9,6 +9,8 @@
 
         public string LoggedUserId { get; set; }
 
+        public string LoggedUserProfileImagePath { get; set; }
+
         public MessageViewModel LastMessage =>
             this.Messages.OrderByDescending(x => x.CreatedOn).FirstOrDefault();
     }

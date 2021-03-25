@@ -172,6 +172,24 @@
                 .FirstOrDefault();
         }
 
+        public async Task SetProfilePicture(string userId, string imageId)
+        {
+            var user = this.usersRepo.All().FirstOrDefault(x => x.Id == userId);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            if (user.OtherImages.Any(x => x.Id != imageId))
+            {
+                return;
+            }
+
+            user.ProfileImageId = imageId;
+            await this.usersRepo.SaveChangesAsync();
+        }
+
         private static string Hash(string input)
         {
             var bytes = Encoding.UTF8.GetBytes(input);

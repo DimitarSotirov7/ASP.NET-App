@@ -1,7 +1,7 @@
 ﻿namespace Application.Web.Controllers
 {
     using System.Security.Claims;
-
+    using System.Threading.Tasks;
     using Application.Services.Contracts;
     using Application.Web.ViewModels.Account;
     using Application.Web.ViewModels.UserRelated;
@@ -28,6 +28,15 @@
             return this.View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangeProfileImage(string imageId)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            await this.usersService.SetProfilePicture(userId, imageId);
+
+            return this.Redirect("/User/Profile/" + userId);
+        }
+
         public IActionResult Profile(string id)
         {
             var profileViewModel = this.usersService.GetUser<ProfileViewModel>(id);
@@ -50,6 +59,9 @@
                 Messages = this.messagesService
                     .GetMessagesByUserIds<MessageViewModel>(this.User.FindFirst(ClaimTypes.NameIdentifier).Value, id),
                 LoggedUserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value,
+                LoggedUserProfileImagePath = this.usersService
+                    .GetUserImages(this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                    .ProfileImagePath,
             };
 
             return this.View(profileViewModel);

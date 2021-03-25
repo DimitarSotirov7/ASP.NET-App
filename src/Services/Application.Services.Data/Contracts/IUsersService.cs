@@ -19,6 +19,8 @@
 
         public UserImagesViewModel GetUserImages(string userId);
 
+        public Task SetProfilePicture(string userId, string imageId);
+
         public Task UploadUserImagesAsync(string userId, IEnumerable<IFormFile> localImages, string imageUrl, string userimagesPath);
 
         public string GetUserIdByUsernameAndPassword(string username, string password = null);
