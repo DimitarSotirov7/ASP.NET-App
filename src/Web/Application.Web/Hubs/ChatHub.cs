@@ -20,14 +20,15 @@
 
         public async Task Send(MessageInputModel input)
         {
-            input.FromUserId = this.Context.UserIdentifier;
+            // save message in Db
             await this.messagesService.CreateMessageAsync(input);
+
             var lastMessage = this.messagesService
                 .GetLastMessage<MessageViewModel>(input.FromUserId, input.ToUserId);
-            lastMessage.LoggedUser = input.FromUserId;
 
             string[] users = { input.FromUserId, input.ToUserId };
 
+            // send message to users
             await this.Clients.Users(users).SendAsync("NewMessage", lastMessage);
         }
     }

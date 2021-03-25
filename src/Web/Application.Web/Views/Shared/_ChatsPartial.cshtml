@@ -1,7 +1,7 @@
-﻿@using Application.Web.ViewModels.UserRelated.Chats 
+﻿@using Application.Web.ViewModels.UserRelated.Chats
 @model AllMessagesViewModel
 
-@{ 
+@{
 }
 
 <button type="button" class="btn open-button" onclick="openForm()">Chat</button>
@@ -12,39 +12,39 @@
         </div>
         <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
             @*<div class="media media-chat">
-                <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                <div class="media-body">
-                    <p>Hi</p>
-                    <p>How are you ...???</p>
-                    <p>What are you doing tomorrow?<br> Can we come up a bar?</p>
-                    <p class="meta"><time datetime="2018">23:58</time></p>
+                    <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                    <div class="media-body">
+                        <p>Hi</p>
+                        <p>How are you ...???</p>
+                        <p>What are you doing tomorrow?<br> Can we come up a bar?</p>
+                        <p class="meta"><time datetime="2018">23:58</time></p>
+                    </div>
                 </div>
-            </div>
-            <div class="media media-meta-day">Today</div>
-            <div class="media media-chat media-chat-reverse">
-                <div class="media-body">
-                    <p>Hiii, I'm good.</p>
-                    <p>How are you doing?</p>
-                    <p>Long time no see! Tomorrow office. will be free on sunday.</p>
-                    <p class="meta"><time datetime="2018">00:06</time></p>
+                <div class="media media-meta-day">Today</div>
+                <div class="media media-chat media-chat-reverse">
+                    <div class="media-body">
+                        <p>Hiii, I'm good.</p>
+                        <p>How are you doing?</p>
+                        <p>Long time no see! Tomorrow office. will be free on sunday.</p>
+                        <p class="meta"><time datetime="2018">00:06</time></p>
+                    </div>
                 </div>
-            </div>
-            <div class="media media-chat">
-                <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                <div class="media-body">
-                    <p>Okay</p>
-                    <p>We will go on sunday? </p>
-                    <p class="meta"><time datetime="2018">00:07</time></p>
+                <div class="media media-chat">
+                    <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                    <div class="media-body">
+                        <p>Okay</p>
+                        <p>We will go on sunday? </p>
+                        <p class="meta"><time datetime="2018">00:07</time></p>
+                    </div>
                 </div>
-            </div>
-            <div class="media media-chat media-chat-reverse">
-                <div class="media-body">
-                    <p>That's awesome!</p>
-                    <p>I will meet you Sandon Square sharp at 10 AM</p>
-                    <p>Is that okay?</p>
-                    <p class="meta"><time datetime="2018">00:09</time></p>
-                </div>
-            </div>*@
+                <div class="media media-chat media-chat-reverse">
+                    <div class="media-body">
+                        <p>That's awesome!</p>
+                        <p>I will meet you Sandon Square sharp at 10 AM</p>
+                        <p>Is that okay?</p>
+                        <p class="meta"><time datetime="2018">00:09</time></p>
+                    </div>
+                </div>*@
             @foreach (var message in Model.Messages)
             {
                 if (message.FromUserId == Model.LoggedUserId)
@@ -75,19 +75,12 @@
             </div>
         </div>
         <div class="publisher bt-1 border-light">
-            <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..."> 
-            <input id="messageInput" class="publisher-input" type="text" placeholder="Write something"> 
-            <span class="publisher-btn file-group"><i class="fa fa-paperclip file-browser"></i><input type="file"></span> 
-            <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a> 
+            <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+            <input id="messageInput" class="publisher-input" type="text" placeholder="Write something">
+            <span class="publisher-btn file-group"><i class="fa fa-paperclip file-browser"></i><input type="file"></span>
+            <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a>
             <a id="sendBtn" class="publisher-btn text-info" data-abc="true"><i class="fa fa-paper-plane"></i></a>
         </div>
         <button type="button" class="btn" onclick="closeForm()">Close</button>
     </form>
 </div>
-
-<div id="fromUserId" accesskey="@Model.LastMessage.FromUserId"></div>
-<div id="toUserId" accesskey="@Model.LastMessage.ToUserId"></div>
-
-@section Scripts {
-    
-}  
