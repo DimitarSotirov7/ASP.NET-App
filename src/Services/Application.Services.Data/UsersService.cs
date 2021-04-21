@@ -54,9 +54,11 @@
 
         public ICollection<T> GetAllUsers<T>()
         {
-            return this.usersRepo.AllAsNoTracking()
-               .To<T>()
-               .ToList<T>();
+            var listOfUsers = this.usersRepo.AllAsNoTracking()
+                .To<T>()
+                .ToList();
+
+            return listOfUsers;
         }
 
         public string GetUserIdByUsernameAndPassword(string username, string password = null)

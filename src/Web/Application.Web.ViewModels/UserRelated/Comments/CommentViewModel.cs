@@ -32,9 +32,7 @@
                 .ForMember(x => x.FromUsername, opt =>
                 opt.MapFrom(x => x.FromUser.UserName))
                 .ForMember(x => x.FromUserProfileImagePath, opt =>
-                opt.MapFrom(x => x.FromUser.ProfileImage == null
-                    ? "/images/" + GlobalConstants.DefaultProfileImageName
-                    : "/images/users/" + x.FromUser.ProfileImageId + "." + x.FromUser.ProfileImage.Extension));
+                opt.MapFrom(x => GlobalConstants.GetProfileImagePath(x.FromUser.ProfileImageId, x.FromUser.ProfileImage.Extension, x.FromUser.ProfileImage.ImageUrl)));
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace Application.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Security.Claims;
@@ -8,7 +10,7 @@
     using Application.Services.Contracts;
     using Application.Web.ViewModels;
     using Application.Web.ViewModels.Home;
-    using Application.Web.ViewModels.UserRelated.Chats;
+    using Application.Web.ViewModels.UserRelated;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -25,18 +27,16 @@
 
         public IActionResult Index()
         {
-            var chatsViewModel = new ChatsViewModel();
-
-            if (this.signInManager.IsSignedIn(this.User))
+            if (!this.signInManager.IsSignedIn(this.User))
             {
-                chatsViewModel.Users = this.usersService.GetAllUsers<ChatUserViewModel>()
-                    .Where(x => x.Id != this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
-                    .ToList();
+                return this.View();
             }
 
             var homeViewModel = new HomeViewModel()
             {
-                ChatsViewModel = chatsViewModel,
+                AllUsers = this.RandomList(this.usersService.GetAllUsers<UsersViewModel>()
+                    .Where(x => x.Id != this.User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                    .ToList()),
             };
 
             return this.View(homeViewModel);
@@ -70,6 +70,22 @@
         {
             return this.View(
                 new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+        }
+
+        private ICollection<UsersViewModel> RandomList(List<UsersViewModel> list)
+        {
+            var rand = new Random();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                var currUser = list[i];
+
+                var index = rand.Next(0, list.Count - 1);
+                list.Remove(list[i]);
+                list.Insert(index, currUser);
+            }
+
+            return list;
         }
     }
 }

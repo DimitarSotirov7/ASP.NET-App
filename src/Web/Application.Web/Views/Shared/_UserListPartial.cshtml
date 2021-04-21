@@ -1,0 +1,67 @@
+﻿@using Application.Web.ViewModels.UserRelated
+@using System.Security.Claims;
+@model ICollection<UsersViewModel>
+
+@{ 
+    var showing = Model.Count < 9 ? Model.Count : 9;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h6 class="mb-0">Showing @showing of <span class="text-primary">@Model.Count People</span></h6>
+                </div>
+            </div>
+            @*<div class="widget border-0 row">
+                <div class="search col-3">
+                    <input class="form-control" type="text" placeholder="Find a new friend">
+                </div>
+            </div>*@
+
+            <hr />
+            @if (Model.Count == 0)
+            {
+		        <div>There are no users yet...</div>
+            }
+            else
+            {
+            <div class="row">
+                @foreach (var user in Model.Take(9))
+                {
+                    <div class="col-sm-6 col-lg-4 mb-4">
+                        <div class="candidate-list candidate-grid">
+                            <div class="candidate-list-image">
+                                <img class="img-fluid border" src="@user.ProfileImagePath" alt="">
+                            </div>
+                            <div class="candidate-list-details">
+                                <div class="candidate-list-info">
+                                    <div class="candidate-list-title">
+                                        <h5><a asp-controller="User" asp-action="Profile" asp-route-id="@user.Id">@user.FullName</a></h5>
+                                    </div>
+                                    <div class="candidate-list-option">
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-map-marker-alt pr-1"></i>@user.City</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                @if (user.Age != 0)
+                                {
+                                    <div class="candidate-list-favourite-time">
+                                        <span class="candidate-list-time order-1">@user.Age years old</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/usersView.css" rel="stylesheet" />
+}

@@ -1,9 +1,11 @@
 ﻿namespace Application.Web.ViewModels.Home
 {
-    using Application.Web.ViewModels.UserRelated.Chats;
+    using System.Collections.Generic;
+
+    using Application.Web.ViewModels.UserRelated;
 
     public class HomeViewModel
     {
-        public ChatsViewModel ChatsViewModel { get; set; }
+        public ICollection<UsersViewModel> AllUsers { get; set; }
     }
 }
